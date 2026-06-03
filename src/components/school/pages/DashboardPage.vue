@@ -1,13 +1,19 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Good Morning, Admin 👋</div>
-        <div class="page-sub">Here's what's happening at your school today.</div>
+        <div class="page-title">{{ t('dashboard.title') }}</div>
+        <div class="page-sub">{{ t('dashboard.subtitle') }}</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-ghost" type="button">📥 Export</button>
-        <button class="btn btn-primary" type="button">+ Add Student</button>
+        <button class="btn btn-ghost" type="button">📥 {{ t('dashboard.export') }}</button>
+        <button class="btn btn-primary" type="button">+ {{ t('dashboard.addStudent') }}</button>
       </div>
     </div>
 
@@ -15,25 +21,25 @@
       <div class="stat-card blue">
         <div class="stat-icon blue">👨‍🎓</div>
         <div class="stat-value">1,248</div>
-        <div class="stat-label">Total Students</div>
+        <div class="stat-label">{{ t('dashboard.totalStudents') }}</div>
         <div class="stat-change up">↑ 12% this month</div>
       </div>
       <div class="stat-card purple">
         <div class="stat-icon purple">👨‍🏫</div>
         <div class="stat-value">86</div>
-        <div class="stat-label">Total Teachers</div>
+        <div class="stat-label">{{ t('dashboard.totalTeachers') }}</div>
         <div class="stat-change up">↑ 3 new this week</div>
       </div>
       <div class="stat-card green">
         <div class="stat-icon green">📅</div>
         <div class="stat-value">94.2%</div>
-        <div class="stat-label">Attendance Today</div>
+        <div class="stat-label">{{ t('dashboard.attendanceToday') }}</div>
         <div class="stat-change down">↓ 2.1% vs yesterday</div>
       </div>
       <div class="stat-card orange">
         <div class="stat-icon orange">💰</div>
         <div class="stat-value">$48.5k</div>
-        <div class="stat-label">Fees Collected</div>
+        <div class="stat-label">{{ t('dashboard.feesCollected') }}</div>
         <div class="stat-change up">↑ 18% this term</div>
       </div>
     </div>
@@ -41,8 +47,8 @@
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Recent Activity</span>
-          <span style="font-size:12px;color:var(--accent);cursor:pointer;">View all</span>
+          <span class="card-title">{{ t('dashboard.recentActivity') }}</span>
+          <span style="font-size:12px;color:var(--accent);cursor:pointer;">{{ t('dashboard.viewAll') }}</span>
         </div>
         <div class="card-body">
           <div class="timeline">
@@ -87,8 +93,8 @@
 
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Attendance Overview</span>
-          <span style="font-size:12px;color:var(--text3);">This Week</span>
+          <span class="card-title">{{ t('dashboard.attendanceOverview') }}</span>
+          <span style="font-size:12px;color:var(--text3);">{{ t('dashboard.thisWeek') }}</span>
         </div>
         <div class="card-body">
           <div class="donut-wrap" style="margin-bottom:20px;">
@@ -106,7 +112,7 @@
               <div class="legend-item"><div class="legend-dot" style="background:var(--warning)"></div>Late <span class="legend-val" style="color:var(--warning)">2%</span></div>
             </div>
           </div>
-          <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">Daily Trend</div>
+              <div style="font-size:12px;color:var(--text3);margin-bottom:8px;">{{ t('dashboard.dailyTrend') }}</div>
           <div class="mini-bars">
             <div class="mini-bar" style="height:78%"></div>
             <div class="mini-bar" style="height:92%"></div>
@@ -126,8 +132,8 @@
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Top Performers</span>
-          <span style="font-size:12px;color:var(--accent);cursor:pointer;">View all</span>
+          <span class="card-title">{{ t('dashboard.topPerformers') }}</span>
+          <span style="font-size:12px;color:var(--accent);cursor:pointer;">{{ t('dashboard.viewAll') }}</span>
         </div>
         <div class="card-body" style="padding:0">
           <table>
@@ -144,13 +150,13 @@
 
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Fee Collection</span>
-          <span style="font-size:12px;color:var(--text3)">This Semester</span>
+          <span class="card-title">{{ t('dashboard.feeCollection') }}</span>
+          <span style="font-size:12px;color:var(--text3)">{{ t('dashboard.thisSemester') }}</span>
         </div>
         <div class="card-body">
           <div style="margin-bottom:16px;">
             <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-              <span style="font-size:13px">Collected</span>
+              <span style="font-size:13px">{{ t('dashboard.collected') }}</span>
               <span style="font-weight:700;color:var(--accent3)">$48,500 / $65,000</span>
             </div>
             <div class="progress"><div class="progress-fill" style="width:74.6%;background:var(--accent3)"></div></div>
@@ -160,7 +166,7 @@
           <div class="fee-item"><div><div class="fee-name">Library Fee</div><div class="fee-due">200 students paid</div></div><div class="fee-amount" style="color:var(--accent3)">$6,000</div></div>
           <div class="fee-item"><div><div class="fee-name">Sports Fee</div><div class="fee-due">76 students paid</div></div><div class="fee-amount" style="color:var(--warning)">$4,300</div></div>
           <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:13px;color:var(--text3)">Outstanding</span>
+            <span style="font-size:13px;color:var(--text3)">{{ t('dashboard.outstanding') }}</span>
             <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--red)">$16,500</span>
           </div>
         </div>

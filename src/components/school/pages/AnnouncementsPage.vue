@@ -1,13 +1,16 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import ControlTabs from '../ui/ControlTabs.vue'
 
-const tabs = [
-  { value: 'all', label: 'All', icon: '✨', count: 3, description: 'Everything' },
-  { value: 'students', label: 'Students', icon: '🎓', count: 1, description: 'Student-facing' },
-  { value: 'teachers', label: 'Teachers', icon: '👨‍🏫', count: 1, description: 'Staff updates' },
-]
+const { t } = useI18n()
+
+const tabs = computed(() => [
+  { value: 'all', label: t('common.all'), icon: '✨', count: 3, description: 'Everything' },
+  { value: 'students', label: t('shell.students'), icon: '🎓', count: 1, description: 'Student-facing' },
+  { value: 'teachers', label: t('shell.teachers'), icon: '👨‍🏫', count: 1, description: 'Staff updates' },
+])
 
 const activeTab = ref('all')
 
@@ -54,17 +57,17 @@ const visibleAnnouncements = computed(() => {
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Announcements</div>
-        <div class="page-sub">School-wide communications</div>
+        <div class="page-title">{{ t('announcements.title') }}</div>
+        <div class="page-sub">{{ t('announcements.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ New Announcement</button>
+      <button class="btn btn-primary" type="button">+ {{ t('announcements.newAnnouncement') }}</button>
     </div>
 
     <div class="grid-2" style="align-items:start">
       <div>
         <div class="card">
           <div class="card-header">
-            <span class="card-title">All Announcements</span>
+            <span class="card-title">{{ t('announcements.allAnnouncements') }}</span>
             <ControlTabs v-model="activeTab" :compact="true" :items="tabs" />
           </div>
           <div class="card-body">
@@ -81,16 +84,16 @@ const visibleAnnouncements = computed(() => {
       </div>
 
       <div class="card">
-        <div class="card-header"><span class="card-title">Create Announcement</span></div>
+        <div class="card-header"><span class="card-title">{{ t('announcements.createAnnouncement') }}</span></div>
         <div class="card-body">
-          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">Title *</label><input class="form-input" placeholder="Announcement title..." /></div>
-          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">Target Audience</label><select class="form-input"><option>Everyone</option><option>All Students</option><option>All Teachers</option><option>All Parents</option><option>Specific Class</option></select></div>
-          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">Message *</label><textarea class="form-input" rows="5" placeholder="Write your announcement here..."></textarea></div>
+          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.titleLabel') }}</label><input class="form-input" placeholder="Announcement title..." /></div>
+          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.audience') }}</label><select class="form-input"><option>Everyone</option><option>All Students</option><option>All Teachers</option><option>All Parents</option><option>Specific Class</option></select></div>
+          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.message') }}</label><textarea class="form-input" rows="5" placeholder="Write your announcement here..."></textarea></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <div class="form-group" style="flex:1;margin:0"><label class="form-label">Publish Date</label><input class="form-input" type="datetime-local" /></div>
-            <div class="form-group" style="flex:1;margin:0"><label class="form-label">Expires</label><input class="form-input" type="datetime-local" /></div>
+            <div class="form-group" style="flex:1;margin:0"><label class="form-label">{{ t('announcements.publishDate') }}</label><input class="form-input" type="datetime-local" /></div>
+            <div class="form-group" style="flex:1;margin:0"><label class="form-label">{{ t('announcements.expires') }}</label><input class="form-input" type="datetime-local" /></div>
           </div>
-          <div class="form-actions"><button class="btn btn-ghost" type="button">Save Draft</button><button class="btn btn-primary" type="button">📢 Publish</button></div>
+          <div class="form-actions"><button class="btn btn-ghost" type="button">{{ t('announcements.saveDraft') }}</button><button class="btn btn-primary" type="button">📢 {{ t('announcements.publish') }}</button></div>
         </div>
       </div>
     </div>

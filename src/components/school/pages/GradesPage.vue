@@ -1,24 +1,30 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Grade Management</div>
-        <div class="page-sub">Enter and manage student grades</div>
+        <div class="page-title">{{ t('grades.title') }}</div>
+        <div class="page-sub">{{ t('grades.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">📊 Generate Reports</button>
+      <button class="btn btn-primary" type="button">📊 {{ t('grades.generateReports') }}</button>
     </div>
 
     <div class="filter-bar">
       <select class="filter-input"><option>Grade 12A</option><option>Grade 12B</option><option>Grade 11A</option></select>
       <select class="filter-input"><option>Mathematics</option><option>English</option><option>Science</option></select>
       <select class="filter-input"><option>Semester 1 - 2024</option><option>Semester 2 - 2024</option></select>
-      <button class="btn btn-primary" type="button">Apply</button>
+      <button class="btn btn-primary" type="button">{{ t('grades.apply') }}</button>
     </div>
 
     <div class="card">
       <div class="card-header">
-        <span class="card-title">Grade 12A - Mathematics - Semester 1</span>
-        <button class="btn btn-ghost" style="font-size:12px;" type="button">💾 Save Grades</button>
+        <span class="card-title">Grade 12A - Mathematics - {{ t('grades.semester') }}</span>
+        <button class="btn btn-ghost" style="font-size:12px;" type="button">💾 {{ t('grades.saveGrades') }}</button>
       </div>
       <div class="table-wrap">
         <table>
@@ -34,7 +40,7 @@
 
     <div style="margin-top:24px;">
       <div class="page-header" style="margin-bottom:16px;">
-        <div class="page-title" style="font-size:16px;">Report Card Preview</div>
+        <div class="page-title" style="font-size:16px;">{{ t('grades.preview') }}</div>
       </div>
       <div class="report-card">
         <div class="report-header">

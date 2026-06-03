@@ -1,14 +1,17 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import ControlTabs from '../ui/ControlTabs.vue'
+
+const { t } = useI18n()
 
 const tabs = [
   {
     value: 'school-info',
-    label: 'School Info',
+    label: computed(() => t('settings.schoolInfo')),
     icon: '🏫',
-    description: 'Brand and contact details',
+    description: computed(() => 'Brand and contact details'),
   },
   {
     value: 'academic-year',
@@ -40,11 +43,11 @@ const activeTab = ref('school-info')
 
 const panelTitle = computed(() => {
   const titles = {
-    'school-info': 'School Information',
-    'academic-year': 'Academic Calendar',
-    'fee-structure': 'Fee Structure',
-    roles: 'Roles & Permissions',
-    notifications: 'Notifications',
+    'school-info': t('settings.schoolInfo'),
+    'academic-year': t('settings.academicYear'),
+    'fee-structure': t('settings.feeStructure'),
+    roles: t('settings.roles'),
+    notifications: t('settings.notifications'),
   }
 
   return titles[activeTab.value]
@@ -55,10 +58,10 @@ const panelTitle = computed(() => {
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Settings</div>
-        <div class="page-sub">Configure school system</div>
+        <div class="page-title">{{ t('settings.title') }}</div>
+        <div class="page-sub">{{ t('settings.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">💾 Save Changes</button>
+      <button class="btn btn-primary" type="button">💾 {{ t('settings.saveChanges') }}</button>
     </div>
 
     <ControlTabs v-model="activeTab" :items="tabs" />
@@ -66,7 +69,7 @@ const panelTitle = computed(() => {
     <div class="card" style="margin-top:18px;">
       <div class="card-header">
         <span class="card-title">{{ panelTitle }}</span>
-        <span style="font-size:12px;color:var(--text3);">Core configuration</span>
+        <span style="font-size:12px;color:var(--text3);">{{ t('settings.coreConfiguration') }}</span>
       </div>
       <div class="card-body">
         <template v-if="activeTab === 'school-info'">
@@ -75,7 +78,7 @@ const panelTitle = computed(() => {
             <div>
               <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;">EduCore School</div>
               <div style="font-size:12px;color:var(--text3);margin-top:4px;">Phnom Penh, Cambodia</div>
-              <button class="btn btn-ghost" style="margin-top:8px;font-size:12px;" type="button">Change Logo</button>
+              <button class="btn btn-ghost" style="margin-top:8px;font-size:12px;" type="button">{{ t('settings.changeLogo') }}</button>
             </div>
           </div>
           <div class="form-grid">

@@ -1,13 +1,19 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Class Schedule</div>
-        <div class="page-sub">Weekly timetable</div>
+        <div class="page-title">{{ t('schedule.title') }}</div>
+        <div class="page-sub">{{ t('schedule.subtitle') }}</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <select class="filter-input"><option>Grade 12A</option><option>Grade 12B</option><option>Grade 11A</option></select>
-        <button class="btn btn-ghost" type="button">🖨 Print</button>
+        <button class="btn btn-ghost" type="button">🖨 {{ t('schedule.print') }}</button>
       </div>
     </div>
     <div class="card">

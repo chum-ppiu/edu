@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DataTable from '../ui/DataTable.vue'
+
+const { t } = useI18n()
 
 const classes = ref([
   { id: 1, name: 'Grade 12A', teacher: 'Mr. Dara', teacherAvatar: 'DR', avatarStyle: 'background:linear-gradient(135deg,#4f8ef7,#7c5cfc)', students: 32, capacity: 35, subjects: 6, status: 'Active' , progress: 91},
@@ -10,12 +13,12 @@ const classes = ref([
 ])
 
 const columns = [
-  { key: 'name', label: 'Class' },
-  { key: 'teacher', label: 'Teacher' },
-  { key: 'students', label: 'Students' },
-  { key: 'capacity', label: 'Capacity' },
-  { key: 'subjects', label: 'Subjects' },
-  { key: 'status', label: 'Status' },
+  { key: 'name', label: t('classes.title') },
+  { key: 'teacher', label: t('classes.teacher') },
+  { key: 'students', label: t('classes.students') },
+  { key: 'capacity', label: t('classes.capacity') },
+  { key: 'subjects', label: t('classes.subjects') },
+  { key: 'status', label: t('classes.status') },
 ]
 
 function handleView(row) { console.log('view class', row) }
@@ -26,16 +29,16 @@ function handleEdit(row) { console.log('edit class', row) }
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Classes</div>
-        <div class="page-sub">Manage all classes and enrollments</div>
+        <div class="page-title">{{ t('classes.title') }}</div>
+        <div class="page-sub">{{ t('classes.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ Create Class</button>
+      <button class="btn btn-primary" type="button">+ {{ t('classes.create') }}</button>
     </div>
 
     <div class="card">
       <DataTable
-        title="Classes"
-        subtitle="Class roster and capacity overview"
+        :title="t('classes.title')"
+        :subtitle="t('classes.subtitle')"
         :rows="classes"
         :columns="columns"
         :page-size="8"

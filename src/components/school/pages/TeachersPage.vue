@@ -1,4 +1,8 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const teachers = [
   { initials: 'DR', name: 'Mr. Dara Ros', subject: 'Mathematics · Grade 10, 11, 12', color: 'linear-gradient(135deg,#4f8ef7,#7c5cfc)', status: 'Active', classes: 3, students: 92, rating: 4.8 },
   { initials: 'SP', name: 'Ms. Sreypich Pok', subject: 'English · Grade 10, 11', color: 'linear-gradient(135deg,#00d4aa,#4f8ef7)', status: 'Active', classes: 2, students: 64, rating: 4.9 },
@@ -10,10 +14,10 @@ const teachers = [
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Teachers</div>
-        <div class="page-sub">Manage teaching staff</div>
+        <div class="page-title">{{ t('teachers.title') }}</div>
+        <div class="page-sub">{{ t('teachers.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ Add Teacher</button>
+      <button class="btn btn-primary" type="button">+ {{ t('teachers.addTeacher') }}</button>
     </div>
 
     <div class="grid-3">
@@ -25,13 +29,13 @@ const teachers = [
           <span class="badge badge-green" v-if="teacher.status === 'Active'">Active</span>
           <span class="badge badge-yellow" v-else>On Leave</span>
           <div class="quick-row" style="margin-top:14px;">
-            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.classes }}</div><div class="quick-stat-lbl">Classes</div></div>
-            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.students }}</div><div class="quick-stat-lbl">Students</div></div>
-            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.rating }}</div><div class="quick-stat-lbl">Rating</div></div>
+            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.classes }}</div><div class="quick-stat-lbl">{{ t('teachers.classes') }}</div></div>
+            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.students }}</div><div class="quick-stat-lbl">{{ t('teachers.students') }}</div></div>
+            <div class="quick-stat"><div class="quick-stat-val">{{ teacher.rating }}</div><div class="quick-stat-lbl">{{ t('teachers.rating') }}</div></div>
           </div>
           <div style="display:flex;gap:6px;margin-top:14px;">
-            <button class="btn btn-ghost" style="flex:1;font-size:12px;" type="button">View</button>
-            <button class="btn btn-primary" style="flex:1;font-size:12px;" type="button">Edit</button>
+            <button class="btn btn-ghost" style="flex:1;font-size:12px;" type="button">{{ t('teachers.view') }}</button>
+            <button class="btn btn-primary" style="flex:1;font-size:12px;" type="button">{{ t('teachers.edit') }}</button>
           </div>
         </div>
       </div>

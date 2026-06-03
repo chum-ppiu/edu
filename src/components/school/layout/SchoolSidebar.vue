@@ -1,4 +1,8 @@
 <script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 defineProps({
   sections: { type: Array, required: true },
   activePage: { type: String, required: true },
@@ -14,7 +18,7 @@ defineEmits(['navigate'])
         <div class="logo-icon">🎓</div>
         <div>
           <div class="logo-text">EduCore</div>
-          <div class="logo-sub">SCHOOL MANAGEMENT</div>
+          <div class="logo-sub">{{ t('shell.brandSub') }}</div>
         </div>
       </div>
     </div>

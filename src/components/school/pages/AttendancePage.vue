@@ -1,16 +1,22 @@
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Attendance</div>
-        <div class="page-sub">Track daily student attendance</div>
+        <div class="page-title">{{ t('attendance.title') }}</div>
+        <div class="page-sub">{{ t('attendance.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">✅ Mark Attendance</button>
+      <button class="btn btn-primary" type="button">✅ {{ t('attendance.markAttendance') }}</button>
     </div>
 
     <div class="grid-2">
       <div class="card">
-        <div class="card-header"><span class="card-title">Today's Attendance</span><span style="font-size:12px;color:var(--text3)">Mon, Jan 15 - Grade 12A</span></div>
+        <div class="card-header"><span class="card-title">{{ t('attendance.today') }}</span><span style="font-size:12px;color:var(--text3)">Mon, Jan 15 - Grade 12A</span></div>
         <div class="card-body" style="padding:0">
           <table>
             <thead><tr><th>Student</th><th>Status</th><th>Time</th><th>Note</th></tr></thead>
@@ -26,7 +32,7 @@
       </div>
 
       <div class="card">
-        <div class="card-header"><span class="card-title">Monthly Calendar - Sokha Kim</span></div>
+        <div class="card-header"><span class="card-title">{{ t('attendance.calendar') }} - Sokha Kim</span></div>
         <div class="card-body">
           <div style="display:flex;gap:6px;margin-bottom:12px;font-size:11px;color:var(--text3);flex-wrap:wrap;">
             <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:rgba(0,212,170,.2);display:inline-block;"></span>Present</span>
@@ -40,10 +46,10 @@
             <div class="att-day att-present">15</div><div class="att-day att-present">16</div><div class="att-day att-present">17</div><div class="att-day att-present">18</div><div class="att-day att-late">19</div><div class="att-day att-empty">20</div><div class="att-day att-empty">21</div>
           </div>
           <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
-            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--accent3)">18</div><div class="quick-stat-lbl">Present</div></div>
-            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--red)">1</div><div class="quick-stat-lbl">Absent</div></div>
-            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--warning)">2</div><div class="quick-stat-lbl">Late</div></div>
-            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--accent3)">90%</div><div class="quick-stat-lbl">Rate</div></div>
+            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--accent3)">18</div><div class="quick-stat-lbl">{{ t('attendance.present') }}</div></div>
+            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--red)">1</div><div class="quick-stat-lbl">{{ t('attendance.absent') }}</div></div>
+            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--warning)">2</div><div class="quick-stat-lbl">{{ t('attendance.late') }}</div></div>
+            <div class="quick-stat"><div class="quick-stat-val" style="color:var(--accent3)">90%</div><div class="quick-stat-lbl">{{ t('attendance.rate') }}</div></div>
           </div>
         </div>
       </div>

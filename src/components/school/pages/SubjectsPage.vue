@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DataTable from '../ui/DataTable.vue'
+
+const { t } = useI18n()
 
 const subjects = ref([
   { id: 1, subject: 'Mathematics', code: 'MATH101', department: 'Science', creditHours: 4, teachers: 2, classes: 4 },
@@ -10,12 +13,12 @@ const subjects = ref([
 ])
 
 const columns = [
-  { key: 'subject', label: 'Subject' },
-  { key: 'code', label: 'Code' },
-  { key: 'department', label: 'Department' },
-  { key: 'creditHours', label: 'Credit Hours' },
-  { key: 'teachers', label: 'Teachers' },
-  { key: 'classes', label: 'Classes' },
+  { key: 'subject', label: t('subjects.subject') },
+  { key: 'code', label: t('subjects.code') },
+  { key: 'department', label: t('subjects.department') },
+  { key: 'creditHours', label: t('subjects.creditHours') },
+  { key: 'teachers', label: t('subjects.teachers') },
+  { key: 'classes', label: t('subjects.classes') },
 ]
 
 function handleEdit(row) { console.log('edit subject', row) }
@@ -26,16 +29,16 @@ function handleDelete(row) { console.log('delete subject', row) }
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Subjects</div>
-        <div class="page-sub">Manage school subjects and curriculum</div>
+        <div class="page-title">{{ t('subjects.title') }}</div>
+        <div class="page-sub">{{ t('subjects.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ Add Subject</button>
+      <button class="btn btn-primary" type="button">+ {{ t('subjects.add') }}</button>
     </div>
 
     <div class="card">
       <DataTable
-        title="Subjects"
-        subtitle="Manage curriculum and assigned classes"
+        :title="t('subjects.listTitle')"
+        :subtitle="t('subjects.listSubtitle')"
         :rows="subjects"
         :columns="columns"
         :page-size="8"

@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DataTable from '../ui/DataTable.vue'
+
+const { t } = useI18n()
 
 const payments = ref([
   { id: 1, student: 'Sokha Kim', feeType: 'Tuition Fee', amount: 450, paid: 450, method: 'Bank', date: 'Jan 12, 2024', status: 'Paid', statusClass: 'badge-green', avatar: 'SK', avatarStyle: 'background:linear-gradient(135deg,#4f8ef7,#7c5cfc)' },
@@ -9,17 +12,17 @@ const payments = ref([
 ])
 
 const columns = [
-  { key: 'student', label: 'Student' },
-  { key: 'feeType', label: 'Fee Type' },
-  { key: 'amount', label: 'Amount' },
-  { key: 'paid', label: 'Paid' },
-  { key: 'method', label: 'Method' },
-  { key: 'date', label: 'Date' },
-  { key: 'status', label: 'Status' },
+  { key: 'student', label: t('payments.student') },
+  { key: 'feeType', label: t('payments.feeType') },
+  { key: 'amount', label: t('payments.amount') },
+  { key: 'paid', label: t('payments.paid') },
+  { key: 'method', label: t('payments.method') },
+  { key: 'date', label: t('payments.date') },
+  { key: 'status', label: t('payments.status') },
 ]
 
 const filters = [
-  { key: 'status', label: 'Status', options: [ { label: 'Paid', value: 'Paid' }, { label: 'Pending', value: 'Pending' }, { label: 'Partial', value: 'Partial' }, { label: 'Overdue', value: 'Overdue' } ] }
+  { key: 'status', label: t('payments.status'), options: [ { label: 'Paid', value: 'Paid' }, { label: 'Pending', value: 'Pending' }, { label: 'Partial', value: 'Partial' }, { label: 'Overdue', value: 'Overdue' } ] }
 ]
 
 function handleReceipt(row) {
@@ -32,23 +35,23 @@ function handleReceipt(row) {
   <div class="page active">
     <div class="page-header">
       <div>
-        <div class="page-title">Payments</div>
-        <div class="page-sub">Fee collection and payment tracking</div>
+        <div class="page-title">{{ t('payments.title') }}</div>
+        <div class="page-sub">{{ t('payments.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ Record Payment</button>
+      <button class="btn btn-primary" type="button">+ {{ t('payments.record') }}</button>
     </div>
 
     <div class="stats-grid">
-      <div class="stat-card green"><div class="stat-icon green">✅</div><div class="stat-value">$48.5k</div><div class="stat-label">Collected This Term</div><div class="stat-change up">↑ 18%</div></div>
-      <div class="stat-card red"><div class="stat-icon orange">⏰</div><div class="stat-value">$16.5k</div><div class="stat-label">Outstanding</div><div class="stat-change down">48 students</div></div>
-      <div class="stat-card blue"><div class="stat-icon blue">📋</div><div class="stat-value">248</div><div class="stat-label">Invoices Issued</div></div>
-      <div class="stat-card purple"><div class="stat-icon purple">🎓</div><div class="stat-value">12</div><div class="stat-label">Scholarships</div></div>
+      <div class="stat-card green"><div class="stat-icon green">✅</div><div class="stat-value">$48.5k</div><div class="stat-label">{{ t('payments.collectedThisTerm') }}</div><div class="stat-change up">↑ 18%</div></div>
+      <div class="stat-card red"><div class="stat-icon orange">⏰</div><div class="stat-value">$16.5k</div><div class="stat-label">{{ t('payments.outstanding') }}</div><div class="stat-change down">48 students</div></div>
+      <div class="stat-card blue"><div class="stat-icon blue">📋</div><div class="stat-value">248</div><div class="stat-label">{{ t('payments.invoicesIssued') }}</div></div>
+      <div class="stat-card purple"><div class="stat-icon purple">🎓</div><div class="stat-value">12</div><div class="stat-label">{{ t('payments.scholarships') }}</div></div>
     </div>
 
     <div class="card">
       <DataTable
-        title="Recent Payments"
-        subtitle="Fee collection and payment records"
+        :title="t('payments.recentTitle')"
+        :subtitle="t('payments.recentSubtitle')"
         :rows="payments"
         :columns="columns"
         :filters="filters"

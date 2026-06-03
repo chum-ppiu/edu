@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SchoolSidebar from './SchoolSidebar.vue'
 import SchoolTopbar from './SchoolTopbar.vue'
@@ -33,51 +34,69 @@ const pageComponents = {
   settings: SettingsPage,
 }
 
-const pageTitles = {
-  dashboard: 'Dashboard',
-  students: 'Students',
-  'add-student': 'Add Student',
-  teachers: 'Teachers',
-  classes: 'Classes',
-  grades: 'Grades',
-  attendance: 'Attendance',
-  payments: 'Payments',
-  announcements: 'Announcements',
-  schedule: 'Schedule',
-  reports: 'Reports',
-  subjects: 'Subjects',
-  settings: 'Settings',
-}
+// const pageTitles = {
+//   dashboard: 'Dashboard',
+//   students: 'Students',
+//   'add-student': 'Add Student',
+//   teachers: 'Teachers',
+//   classes: 'Classes',
+//   grades: 'Grades',
+//   attendance: 'Attendance',
+//   payments: 'Payments',
+//   announcements: 'Announcements',
+//   schedule: 'Schedule',
+//   reports: 'Reports',
+//   subjects: 'Subjects',
+//   settings: 'Settings',
+// }
 
-const navSections = [
-  { label: 'Overview', items: [{ id: 'dashboard', icon: '⊞', label: 'Dashboard' }] },
+const { t } = useI18n()
+
+const navSections = computed(() => [
+  { label: t('shell.overview'), items: [{ id: 'dashboard', icon: '⊞', label: t('shell.dashboard') }] },
   {
-    label: 'Academic',
+    label: t('shell.academic'),
     items: [
-      { id: 'students', icon: '👨‍🎓', label: 'Students', badge: '248' },
-      { id: 'teachers', icon: '👨‍🏫', label: 'Teachers' },
-      { id: 'classes', icon: '🏫', label: 'Classes' },
-      { id: 'subjects', icon: '📚', label: 'Subjects' },
+      { id: 'students', icon: '👨‍🎓', label: t('shell.students'), badge: '248' },
+      { id: 'teachers', icon: '👨‍🏫', label: t('shell.teachers') },
+      { id: 'classes', icon: '🏫', label: t('shell.classes') },
+      { id: 'subjects', icon: '📚', label: t('shell.subjects') },
     ],
   },
   {
-    label: 'Management',
+    label: t('shell.management'),
     items: [
-      { id: 'grades', icon: '📊', label: 'Grades' },
-      { id: 'attendance', icon: '📅', label: 'Attendance', badge: '5' },
-      { id: 'payments', icon: '💰', label: 'Payments' },
-      { id: 'announcements', icon: '📢', label: 'Announcements' },
+      { id: 'grades', icon: '📊', label: t('shell.grades') },
+      { id: 'attendance', icon: '📅', label: t('shell.attendance'), badge: '5' },
+      { id: 'payments', icon: '💰', label: t('shell.payments') },
+      { id: 'announcements', icon: '📢', label: t('shell.announcements') },
     ],
   },
   {
-    label: 'System',
+    label: t('shell.system'),
     items: [
-      { id: 'schedule', icon: '🗓️', label: 'Schedule' },
-      { id: 'reports', icon: '📈', label: 'Reports' },
-      { id: 'settings', icon: '⚙️', label: 'Settings' },
+      { id: 'schedule', icon: '🗓️', label: t('shell.schedule') },
+      { id: 'reports', icon: '📈', label: t('shell.reports') },
+      { id: 'settings', icon: '⚙️', label: t('shell.settings') },
     ],
   },
-]
+])
+
+const pageTitles = computed(() => ({
+  dashboard: t('shell.dashboard'),
+  students: t('shell.students'),
+  'add-student': t('shell.addStudent'),
+  teachers: t('shell.teachers'),
+  classes: t('shell.classes'),
+  grades: t('shell.grades'),
+  attendance: t('shell.attendance'),
+  payments: t('shell.payments'),
+  announcements: t('shell.announcements'),
+  schedule: t('shell.schedule'),
+  reports: t('shell.reports'),
+  subjects: t('shell.subjects'),
+  settings: t('shell.settings'),
+}))
 
 const activePage = ref('dashboard')
 const currentComponent = computed(() => pageComponents[activePage.value] ?? DashboardPage)
