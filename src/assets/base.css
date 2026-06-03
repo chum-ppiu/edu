@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+:root {
+  --bg: #07111f;
+  --bg-2: #0b1728;
+  --bg-3: #101c31;
+  --panel: rgba(11, 23, 40, 0.88);
+  --panel-strong: #131f35;
+  --border: rgba(141, 169, 220, 0.16);
+  --border-strong: rgba(141, 169, 220, 0.28);
+  --text: #edf2ff;
+  --text-2: #a8b6d5;
+  --text-3: #6f81a8;
+  --accent: #6d93ff;
+  --accent-2: #8d68ff;
+  --accent-3: #19d4b3;
+  --accent-4: #ff9d5c;
+  --danger: #ff6b74;
+  --warning: #ffd166;
+  --shadow: 0 24px 60px rgba(3, 8, 18, 0.35);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top left, rgba(109, 147, 255, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(141, 104, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, #050b14 0%, #08111d 100%);
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(109, 147, 255, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(141, 104, 255, 0.16), transparent 24%),
+    linear-gradient(180deg, #050b14 0%, #08111d 100%);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Syne', 'DM Sans', sans-serif;
+  font-weight: 700;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
