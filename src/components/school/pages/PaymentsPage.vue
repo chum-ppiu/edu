@@ -1,3 +1,33 @@
+<script setup>
+import { ref } from 'vue'
+import DataTable from '../ui/DataTable.vue'
+
+const payments = ref([
+  { id: 1, student: 'Sokha Kim', feeType: 'Tuition Fee', amount: 450, paid: 450, method: 'Bank', date: 'Jan 12, 2024', status: 'Paid', statusClass: 'badge-green', avatar: 'SK', avatarStyle: 'background:linear-gradient(135deg,#4f8ef7,#7c5cfc)' },
+  { id: 2, student: 'Ratha Chan', feeType: 'Tuition Fee', amount: 450, paid: 225, method: 'Cash', date: 'Jan 10, 2024', status: 'Partial', statusClass: 'badge-yellow', avatar: 'RC', avatarStyle: 'background:linear-gradient(135deg,#f7934f,#f75f5f)' },
+  { id: 3, student: 'Borey Sok', feeType: 'Library Fee', amount: 30, paid: 0, method: '—', date: 'Due Jan 15', status: 'Overdue', statusClass: 'badge-red', avatar: 'BS', avatarStyle: 'background:linear-gradient(135deg,#7c5cfc,#f75f5f)' },
+])
+
+const columns = [
+  { key: 'student', label: 'Student' },
+  { key: 'feeType', label: 'Fee Type' },
+  { key: 'amount', label: 'Amount' },
+  { key: 'paid', label: 'Paid' },
+  { key: 'method', label: 'Method' },
+  { key: 'date', label: 'Date' },
+  { key: 'status', label: 'Status' },
+]
+
+const filters = [
+  { key: 'status', label: 'Status', options: [ { label: 'Paid', value: 'Paid' }, { label: 'Pending', value: 'Pending' }, { label: 'Partial', value: 'Partial' }, { label: 'Overdue', value: 'Overdue' } ] }
+]
+
+function handleReceipt(row) {
+  // placeholder: hook into modal or download flow
+  console.log('open receipt for', row)
+}
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
@@ -16,23 +46,36 @@
     </div>
 
     <div class="card">
-      <div class="card-header">
-        <span class="card-title">Recent Payments</span>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <input class="filter-input" placeholder="Search student..." style="font-size:12px;padding:5px 10px;" />
-          <select class="filter-input" style="font-size:12px;padding:5px 10px;"><option>All Status</option><option>Paid</option><option>Pending</option><option>Overdue</option></select>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Student</th><th>Fee Type</th><th>Amount</th><th>Paid</th><th>Method</th><th>Date</th><th>Status</th><th>Receipt</th></tr></thead>
-          <tbody>
-            <tr><td><div class="cell-user"><div class="avatar avatar-sm" style="background:linear-gradient(135deg,#4f8ef7,#7c5cfc)">SK</div><span class="td-main">Sokha Kim</span></div></td><td>Tuition Fee</td><td>$450</td><td style="color:var(--accent3);font-weight:700;">$450</td><td><span class="badge badge-blue">Bank</span></td><td style="font-size:12px;color:var(--text3)">Jan 12, 2024</td><td><span class="badge badge-green">Paid</span></td><td><div class="action-btn">🧾</div></td></tr>
-            <tr><td><div class="cell-user"><div class="avatar avatar-sm" style="background:linear-gradient(135deg,#f7934f,#f75f5f)">RC</div><span class="td-main">Ratha Chan</span></div></td><td>Tuition Fee</td><td>$450</td><td style="color:var(--warning);font-weight:700;">$225</td><td><span class="badge badge-gray">Cash</span></td><td style="font-size:12px;color:var(--text3)">Jan 10, 2024</td><td><span class="badge badge-yellow">Partial</span></td><td><div class="action-btn">🧾</div></td></tr>
-            <tr><td><div class="cell-user"><div class="avatar avatar-sm" style="background:linear-gradient(135deg,#7c5cfc,#f75f5f)">BS</div><span class="td-main">Borey Sok</span></div></td><td>Library Fee</td><td>$30</td><td style="color:var(--red);font-weight:700;">$0</td><td>—</td><td style="font-size:12px;color:var(--text3)">Due Jan 15</td><td><span class="badge badge-red">Overdue</span></td><td><div class="action-btn">🧾</div></td></tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        title="Recent Payments"
+        subtitle="Fee collection and payment records"
+        :rows="payments"
+        :columns="columns"
+        :filters="filters"
+        :page-size="6"
+        :search-keys="['student','feeType','method','date','status']"
+        :show-actions="false"
+      >
+        <template #cell-student="{ row }">
+          <div class="cell-user"><div class="avatar avatar-sm" :style="row.avatarStyle">{{ row.avatar }}</div><span class="td-main">{{ row.student }}</span></div>
+        </template>
+
+        <template #cell-amount="{ row }">
+          ${{ row.amount }}
+        </template>
+
+        <template #cell-paid="{ row }">
+          <span :style="{ color: row.paid >= row.amount ? 'var(--accent3)' : 'var(--warning)', fontWeight: 700 }">${{ row.paid }}</span>
+        </template>
+
+        <template #cell-status="{ row }">
+          <span class="badge" :class="row.statusClass">{{ row.status }}</span>
+        </template>
+
+        <template #actions="{ row }">
+          <button class="action-btn" type="button" @click="handleReceipt(row)">🧾</button>
+        </template>
+      </DataTable>
     </div>
   </div>
 </template>

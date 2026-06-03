@@ -1,3 +1,27 @@
+<script setup>
+import { ref } from 'vue'
+import DataTable from '../ui/DataTable.vue'
+
+const subjects = ref([
+  { id: 1, subject: 'Mathematics', code: 'MATH101', department: 'Science', creditHours: 4, teachers: 2, classes: 4 },
+  { id: 2, subject: 'English Language', code: 'ENG101', department: 'Arts', creditHours: 3, teachers: 2, classes: 4 },
+  { id: 3, subject: 'General Science', code: 'SCI101', department: 'Science', creditHours: 4, teachers: 1, classes: 3 },
+  { id: 4, subject: 'History', code: 'HIS101', department: 'Arts', creditHours: 3, teachers: 1, classes: 4 },
+])
+
+const columns = [
+  { key: 'subject', label: 'Subject' },
+  { key: 'code', label: 'Code' },
+  { key: 'department', label: 'Department' },
+  { key: 'creditHours', label: 'Credit Hours' },
+  { key: 'teachers', label: 'Teachers' },
+  { key: 'classes', label: 'Classes' },
+]
+
+function handleEdit(row) { console.log('edit subject', row) }
+function handleDelete(row) { console.log('delete subject', row) }
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
@@ -7,18 +31,29 @@
       </div>
       <button class="btn btn-primary" type="button">+ Add Subject</button>
     </div>
+
     <div class="card">
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Subject</th><th>Code</th><th>Department</th><th>Credit Hours</th><th>Teachers</th><th>Classes</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr><td class="td-main">Mathematics</td><td style="font-family:monospace;color:var(--text3)">MATH101</td><td><span class="badge badge-blue">Science</span></td><td>4</td><td>2</td><td>4</td><td><div class="actions"><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td></tr>
-            <tr><td class="td-main">English Language</td><td style="font-family:monospace;color:var(--text3)">ENG101</td><td><span class="badge badge-purple">Arts</span></td><td>3</td><td>2</td><td>4</td><td><div class="actions"><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td></tr>
-            <tr><td class="td-main">General Science</td><td style="font-family:monospace;color:var(--text3)">SCI101</td><td><span class="badge badge-blue">Science</span></td><td>4</td><td>1</td><td>3</td><td><div class="actions"><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td></tr>
-            <tr><td class="td-main">History</td><td style="font-family:monospace;color:var(--text3)">HIS101</td><td><span class="badge badge-purple">Arts</span></td><td>3</td><td>1</td><td>4</td><td><div class="actions"><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td></tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable
+        title="Subjects"
+        subtitle="Manage curriculum and assigned classes"
+        :rows="subjects"
+        :columns="columns"
+        :page-size="8"
+        :search-keys="['subject','code','department']"
+      >
+        <template #cell-code="{ row }">
+          <span style="font-family:monospace;color:var(--text3)">{{ row.code }}</span>
+        </template>
+
+        <template #cell-department="{ row }">
+          <span class="badge" :class="row.department === 'Science' ? 'badge-blue' : 'badge-purple'">{{ row.department }}</span>
+        </template>
+
+        <template #actions="{ row }">
+          <button class="action-btn" type="button" @click="handleEdit(row)">✏️</button>
+          <button class="action-btn danger" type="button" @click="handleDelete(row)">🗑</button>
+        </template>
+      </DataTable>
     </div>
   </div>
 </template>

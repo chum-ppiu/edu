@@ -18,14 +18,14 @@ defineEmits(['navigate'])
           <div class="card-header"><span class="card-title">Personal Information</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">First Name *</label><input class="form-input" placeholder="Sokha" /></div>
-              <div class="form-group"><label class="form-label">Last Name *</label><input class="form-input" placeholder="Kim" /></div>
-              <div class="form-group"><label class="form-label">Date of Birth</label><input class="form-input" type="date" /></div>
-              <div class="form-group"><label class="form-label">Gender</label><select class="form-input"><option>Male</option><option>Female</option><option>Other</option></select></div>
-              <div class="form-group full"><label class="form-label">Email *</label><input class="form-input" placeholder="sokha@school.edu" type="email" /></div>
-              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="+855 12 345 678" /></div>
-              <div class="form-group"><label class="form-label">Student Code</label><input class="form-input" placeholder="Auto-generated" disabled style="opacity:.5" /></div>
-              <div class="form-group full"><label class="form-label">Address</label><textarea class="form-input" rows="2" placeholder="Phnom Penh, Cambodia"></textarea></div>
+              <div class="form-group"><label class="form-label">First Name *</label><input class="filter-input" placeholder="Sokha" /></div>
+              <div class="form-group"><label class="form-label">Last Name *</label><input class="filter-input" placeholder="Kim" /></div>
+              <div class="form-group"><label class="form-label">Date of Birth</label><input class="filter-input" type="date" /></div>
+              <div class="form-group"><label class="form-label">Gender</label><select class="filter-input"><option>Male</option><option>Female</option><option>Other</option></select></div>
+              <div class="form-group full"><label class="form-label">Email *</label><input class="filter-input" placeholder="sokha@school.edu" type="email" /></div>
+              <div class="form-group"><label class="form-label">Phone</label><input class="filter-input" placeholder="+855 12 345 678" /></div>
+              <div class="form-group"><label class="form-label">Student Code</label><input class="filter-input" placeholder="Auto-generated" disabled style="opacity:.5" /></div>
+              <div class="form-group full"><label class="form-label">Address</label><textarea class="filter-input" rows="2" placeholder="Phnom Penh, Cambodia"></textarea></div>
             </div>
           </div>
         </div>
@@ -34,10 +34,10 @@ defineEmits(['navigate'])
           <div class="card-header"><span class="card-title">Parent/Guardian</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">Parent Name</label><input class="form-input" placeholder="Kim Sokha" /></div>
-              <div class="form-group"><label class="form-label">Relationship</label><select class="form-input"><option>Father</option><option>Mother</option><option>Guardian</option></select></div>
-              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="+855 12 000 000" /></div>
-              <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="parent@email.com" /></div>
+              <div class="form-group"><label class="form-label">Parent Name</label><input class="filter-input" placeholder="Kim Sokha" /></div>
+              <div class="form-group"><label class="form-label">Relationship</label><select class="filter-input"><option>Father</option><option>Mother</option><option>Guardian</option></select></div>
+              <div class="form-group"><label class="form-label">Phone</label><input class="filter-input" placeholder="+855 12 000 000" /></div>
+              <div class="form-group"><label class="form-label">Email</label><input class="filter-input" placeholder="parent@email.com" /></div>
             </div>
           </div>
         </div>
@@ -48,11 +48,11 @@ defineEmits(['navigate'])
           <div class="card-header"><span class="card-title">Academic Information</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">Class *</label><select class="form-input"><option>Grade 10A</option><option>Grade 10B</option><option>Grade 11A</option><option>Grade 12A</option></select></div>
-              <div class="form-group"><label class="form-label">Department</label><select class="form-input"><option>Science</option><option>Arts</option><option>Commerce</option></select></div>
-              <div class="form-group"><label class="form-label">Academic Year</label><select class="form-input"><option>2024-2025</option><option>2023-2024</option></select></div>
-              <div class="form-group"><label class="form-label">Enrollment Date</label><input class="form-input" type="date" /></div>
-              <div class="form-group"><label class="form-label">Status</label><select class="form-input"><option>Active</option><option>Inactive</option></select></div>
+              <div class="form-group"><label class="form-label">Class *</label><select class="filter-input"><option>Grade 10A</option><option>Grade 10B</option><option>Grade 11A</option><option>Grade 12A</option></select></div>
+              <div class="form-group"><label class="form-label">Department</label><select class="filter-input"><option>Science</option><option>Arts</option><option>Commerce</option></select></div>
+              <div class="form-group"><label class="form-label">Academic Year</label><select class="filter-input"><option>2024-2025</option><option>2023-2024</option></select></div>
+              <div class="form-group"><label class="form-label">Enrollment Date</label><input class="filter-input" type="date" /></div>
+              <div class="form-group"><label class="form-label">Status</label><select class="filter-input"><option>Active</option><option>Inactive</option></select></div>
             </div>
           </div>
         </div>

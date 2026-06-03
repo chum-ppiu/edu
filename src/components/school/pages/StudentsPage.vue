@@ -1,5 +1,186 @@
 <script setup>
-defineEmits(['navigate'])
+import { computed, ref } from 'vue'
+
+import DataTable from '../ui/DataTable.vue'
+import ModalDialog from '../ui/ModalDialog.vue'
+
+const emit = defineEmits(['navigate'])
+
+const students = ref([
+  {
+    id: 1,
+    name: 'Sokha Kim',
+    email: 'sokha@school.edu',
+    code: 'STU-001',
+    className: 'Grade 12A',
+    phone: '+855 12 345 678',
+    gpa: 4.0,
+    status: 'Active',
+    statusClass: 'badge-green',
+    avatar: 'SK',
+    avatarStyle: 'background:linear-gradient(135deg,#4f8ef7,#7c5cfc)',
+  },
+  {
+    id: 2,
+    name: 'Phally Vann',
+    email: 'phally@school.edu',
+    code: 'STU-002',
+    className: 'Grade 12A',
+    phone: '+855 17 234 567',
+    gpa: 3.9,
+    status: 'Active',
+    statusClass: 'badge-green',
+    avatar: 'PV',
+    avatarStyle: 'background:linear-gradient(135deg,#00d4aa,#4f8ef7)',
+  },
+  {
+    id: 3,
+    name: 'Ratha Chan',
+    email: 'ratha@school.edu',
+    code: 'STU-003',
+    className: 'Grade 11B',
+    phone: '+855 96 345 678',
+    gpa: 3.8,
+    status: 'Active',
+    statusClass: 'badge-green',
+    avatar: 'RC',
+    avatarStyle: 'background:linear-gradient(135deg,#f7934f,#f75f5f)',
+  },
+  {
+    id: 4,
+    name: 'Borey Sok',
+    email: 'borey@school.edu',
+    code: 'STU-004',
+    className: 'Grade 12B',
+    phone: '+855 77 456 789',
+    gpa: 3.7,
+    status: 'Inactive',
+    statusClass: 'badge-yellow',
+    avatar: 'BS',
+    avatarStyle: 'background:linear-gradient(135deg,#7c5cfc,#f75f5f)',
+  },
+  {
+    id: 5,
+    name: 'Lida Noun',
+    email: 'lida@school.edu',
+    code: 'STU-005',
+    className: 'Grade 10A',
+    phone: '+855 89 567 890',
+    gpa: 3.5,
+    status: 'Active',
+    statusClass: 'badge-green',
+    avatar: 'LN',
+    avatarStyle: 'background:linear-gradient(135deg,#f7c948,#f7934f)',
+  },
+])
+
+const selectedStudent = ref(students.value[0] ?? null)
+const modalState = ref({
+  open: false,
+  mode: 'details',
+  position: 'right',
+  title: '',
+  content: '',
+  cancelLabel: 'Close',
+  saveLabel: 'Save',
+  student: null,
+})
+
+const columns = [
+  { key: 'student', label: 'Student' },
+  { key: 'code', label: 'Code' },
+  { key: 'className', label: 'Class' },
+  { key: 'phone', label: 'Phone' },
+  { key: 'gpa', label: 'GPA' },
+  { key: 'status', label: 'Status' },
+]
+
+const filters = [
+  {
+    key: 'className',
+    label: 'Class',
+    options: [
+      { label: 'Grade 10A', value: 'Grade 10A' },
+      { label: 'Grade 10B', value: 'Grade 10B' },
+      { label: 'Grade 11A', value: 'Grade 11A' },
+      { label: 'Grade 11B', value: 'Grade 11B' },
+      { label: 'Grade 12A', value: 'Grade 12A' },
+      { label: 'Grade 12B', value: 'Grade 12B' },
+    ],
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    options: [
+      { label: 'Active', value: 'Active' },
+      { label: 'Inactive', value: 'Inactive' },
+      { label: 'Graduated', value: 'Graduated' },
+    ],
+  },
+]
+
+const studentCountLabel = computed(() => `${students.value.length} students enrolled`)
+
+function handleAction(action, row) {
+  if (action === 'view') {
+    selectedStudent.value = row
+    modalState.value = {
+      open: true,
+      mode: 'details',
+      position: 'right',
+      title: 'Student Details',
+      content: '',
+      cancelLabel: 'Close',
+      saveLabel: 'Edit Student',
+      student: row,
+    }
+    return
+  }
+
+  if (action === 'edit') {
+    selectedStudent.value = row
+    emit('navigate', 'add-student')
+    return
+  }
+
+  if (action === 'delete') {
+    modalState.value = {
+      open: true,
+      mode: 'delete',
+      position: 'center',
+      title: 'Delete student?',
+      content: `Are you sure you want to delete ${row.name}? This action cannot be undone.`,
+      cancelLabel: 'Cancel',
+      saveLabel: 'Delete',
+      student: row,
+    }
+  }
+}
+
+function closeModal() {
+  modalState.value.open = false
+}
+
+function handleModalSave() {
+  if (!modalState.value.student) {
+    closeModal()
+    return
+  }
+
+  if (modalState.value.mode === 'delete') {
+    students.value = students.value.filter((student) => student.id !== modalState.value.student.id)
+
+    if (selectedStudent.value?.id === modalState.value.student.id) {
+      selectedStudent.value = students.value[0] ?? null
+    }
+
+    closeModal()
+    return
+  }
+
+  emit('navigate', 'add-student')
+  closeModal()
+}
 </script>
 
 <template>
@@ -16,81 +197,114 @@ defineEmits(['navigate'])
       </div>
     </div>
 
-    <div class="card">
+    <div v-if="selectedStudent" class="card" style="margin-bottom:16px;">
       <div class="card-header">
-        <div class="filter-bar" style="margin:0;flex:1;">
-          <input class="filter-input" placeholder="🔍 Search student..." style="flex:1;max-width:280px;" />
-          <select class="filter-input"><option>All Classes</option><option>Grade 10A</option><option>Grade 10B</option><option>Grade 11A</option><option>Grade 12A</option></select>
-          <select class="filter-input"><option>All Status</option><option>Active</option><option>Inactive</option><option>Graduated</option></select>
-        </div>
+        <span class="card-title">Selected Student</span>
+        <span class="badge badge-blue">{{ selectedStudent.status }}</span>
       </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th><input type="checkbox" style="accent-color:var(--accent)" /></th><th>Student</th><th>Code</th><th>Class</th><th>Phone</th><th>GPA</th><th>Status</th><th>Actions</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><input type="checkbox" style="accent-color:var(--accent)" /></td>
-              <td><div class="cell-user"><div class="avatar" style="background:linear-gradient(135deg,#4f8ef7,#7c5cfc)">SK</div><div><div class="td-main">Sokha Kim</div><div style="font-size:11px;color:var(--text3)">sokha@school.edu</div></div></div></td>
-              <td style="font-family:monospace;color:var(--text3)">STU-001</td>
-              <td>Grade 12A</td>
-              <td>+855 12 345 678</td>
-              <td><span style="color:var(--accent3);font-weight:700;">4.0</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-              <td><div class="actions"><div class="action-btn">👁</div><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" style="accent-color:var(--accent)" /></td>
-              <td><div class="cell-user"><div class="avatar" style="background:linear-gradient(135deg,#00d4aa,#4f8ef7)">PV</div><div><div class="td-main">Phally Vann</div><div style="font-size:11px;color:var(--text3)">phally@school.edu</div></div></div></td>
-              <td style="font-family:monospace;color:var(--text3)">STU-002</td>
-              <td>Grade 12A</td>
-              <td>+855 17 234 567</td>
-              <td><span style="color:var(--accent3);font-weight:700;">3.9</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-              <td><div class="actions"><div class="action-btn">👁</div><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" style="accent-color:var(--accent)" /></td>
-              <td><div class="cell-user"><div class="avatar" style="background:linear-gradient(135deg,#f7934f,#f75f5f)">RC</div><div><div class="td-main">Ratha Chan</div><div style="font-size:11px;color:var(--text3)">ratha@school.edu</div></div></div></td>
-              <td style="font-family:monospace;color:var(--text3)">STU-003</td>
-              <td>Grade 11B</td>
-              <td>+855 96 345 678</td>
-              <td><span style="color:var(--warning);font-weight:700;">3.8</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-              <td><div class="actions"><div class="action-btn">👁</div><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" style="accent-color:var(--accent)" /></td>
-              <td><div class="cell-user"><div class="avatar" style="background:linear-gradient(135deg,#7c5cfc,#f75f5f)">BS</div><div><div class="td-main">Borey Sok</div><div style="font-size:11px;color:var(--text3)">borey@school.edu</div></div></div></td>
-              <td style="font-family:monospace;color:var(--text3)">STU-004</td>
-              <td>Grade 12B</td>
-              <td>+855 77 456 789</td>
-              <td><span style="color:var(--warning);font-weight:700;">3.7</span></td>
-              <td><span class="badge badge-yellow">Inactive</span></td>
-              <td><div class="actions"><div class="action-btn">👁</div><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" style="accent-color:var(--accent)" /></td>
-              <td><div class="cell-user"><div class="avatar" style="background:linear-gradient(135deg,#f7c948,#f7934f)">LN</div><div><div class="td-main">Lida Noun</div><div style="font-size:11px;color:var(--text3)">lida@school.edu</div></div></div></td>
-              <td style="font-family:monospace;color:var(--text3)">STU-005</td>
-              <td>Grade 10A</td>
-              <td>+855 89 567 890</td>
-              <td><span style="color:var(--text2);font-weight:700;">3.5</span></td>
-              <td><span class="badge badge-green">Active</span></td>
-              <td><div class="actions"><div class="action-btn">👁</div><div class="action-btn">✏️</div><div class="action-btn danger">🗑</div></div></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:12px;color:var(--text3)">Showing 1-5 of 248 students</span>
-        <div style="display:flex;gap:4px;">
-          <div class="action-btn">‹</div>
-          <div class="action-btn" style="background:var(--accent);color:white;border-color:var(--accent);">1</div>
-          <div class="action-btn">2</div>
-          <div class="action-btn">3</div>
-          <div class="action-btn">›</div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;">
+          <div class="cell-user">
+            <div class="avatar" :style="selectedStudent.avatarStyle">{{ selectedStudent.avatar }}</div>
+            <div>
+              <div class="td-main">{{ selectedStudent.name }}</div>
+              <div style="font-size:11px;color:var(--text3)">{{ selectedStudent.email }}</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <span class="badge badge-gray">{{ selectedStudent.code }}</span>
+            <span class="badge badge-blue">{{ selectedStudent.className }}</span>
+            <span class="badge badge-green">GPA {{ selectedStudent.gpa }}</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <DataTable
+      :columns="columns"
+      :filters="filters"
+      :page-size="4"
+      :rows="students"
+      :search-keys="['name', 'email', 'code', 'className', 'phone', 'gpa', 'status']"
+      row-key="id"
+      search-placeholder="Search student by name, email, code, class, phone, GPA, or status..."
+      title="Student List"
+      subtitle="Search, filter, and manage enrolled students"
+      @view="handleAction('view', $event)"
+      @edit="handleAction('edit', $event)"
+      @delete="handleAction('delete', $event)"
+    >
+      <template #cell-student="{ row }">
+        <div class="cell-user">
+          <div class="avatar" :style="row.avatarStyle">{{ row.avatar }}</div>
+          <div>
+            <div class="td-main">{{ row.name }}</div>
+            <div style="font-size:11px;color:var(--text3)">{{ row.email }}</div>
+          </div>
+        </div>
+      </template>
+
+      <template #cell-code="{ row }">
+        <span style="font-family:monospace;color:var(--text3)">{{ row.code }}</span>
+      </template>
+
+      <template #cell-gpa="{ row }">
+        <span :style="{ color: row.gpa >= 3.8 ? 'var(--accent3)' : row.gpa >= 3.6 ? 'var(--warning)' : 'var(--text2)', fontWeight: 700 }">
+          {{ row.gpa.toFixed(1) }}
+        </span>
+      </template>
+
+      <template #cell-status="{ row }">
+        <span class="badge" :class="row.statusClass">{{ row.status }}</span>
+      </template>
+    </DataTable>
+
+    <ModalDialog
+      v-model="modalState.open"
+      :cancel-label="modalState.cancelLabel"
+      :content="modalState.content"
+      :position="modalState.position"
+      :save-label="modalState.saveLabel"
+      :title="modalState.title"
+      @save="handleModalSave"
+      @cancel="closeModal"
+    >
+      <template v-if="modalState.mode === 'details' && modalState.student" #default>
+        <div style="display:grid;gap:16px;">
+          <div class="cell-user">
+            <div class="avatar" :style="modalState.student.avatarStyle">{{ modalState.student.avatar }}</div>
+            <div>
+              <div class="td-main">{{ modalState.student.name }}</div>
+              <div style="font-size:11px;color:var(--text3)">{{ modalState.student.email }}</div>
+            </div>
+          </div>
+
+          <div style="display:grid;gap:10px;grid-template-columns:repeat(2,minmax(0,1fr));">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--bg3);">
+              <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Code</div>
+              <div style="margin-top:4px;font-weight:700;">{{ modalState.student.code }}</div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--bg3);">
+              <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Class</div>
+              <div style="margin-top:4px;font-weight:700;">{{ modalState.student.className }}</div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--bg3);">
+              <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Phone</div>
+              <div style="margin-top:4px;font-weight:700;">{{ modalState.student.phone }}</div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:14px;background:var(--bg3);">
+              <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">GPA</div>
+              <div style="margin-top:4px;font-weight:700;">{{ modalState.student.gpa.toFixed(1) }}</div>
+            </div>
+          </div>
+
+          <div>
+            <span class="badge" :class="modalState.student.statusClass">{{ modalState.student.status }}</span>
+          </div>
+        </div>
+      </template>
+    </ModalDialog>
+
+    <div style="margin-top:12px;font-size:12px;color:var(--text3)">{{ studentCountLabel }}</div>
   </div>
 </template>

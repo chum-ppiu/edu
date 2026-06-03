@@ -655,7 +655,7 @@ tbody td {
 }
 
 select.filter-input option {
-  background: var(--bg3);
+  background: var(--bg);
 }
 
 .progress {

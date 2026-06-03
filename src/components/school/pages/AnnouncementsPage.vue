@@ -1,3 +1,55 @@
+<script setup>
+import { computed, ref } from 'vue'
+
+import ControlTabs from '../ui/ControlTabs.vue'
+
+const tabs = [
+  { value: 'all', label: 'All', icon: '✨', count: 3, description: 'Everything' },
+  { value: 'students', label: 'Students', icon: '🎓', count: 1, description: 'Student-facing' },
+  { value: 'teachers', label: 'Teachers', icon: '👨‍🏫', count: 1, description: 'Staff updates' },
+]
+
+const activeTab = ref('all')
+
+const announcements = [
+  {
+    id: 1,
+    title: '📚 Final Exam Schedule - Semester 1',
+    status: 'Active',
+    statusClass: 'badge-green',
+    meta: ['👤 Admin', '📅 Jan 15, 2024', '🎯 All Students'],
+    body: 'Final examinations for Semester 1 will begin on February 5th. Please check your individual schedules and prepare accordingly.',
+    audience: 'students',
+  },
+  {
+    id: 2,
+    title: '🎉 School Sports Day 2024',
+    status: 'Upcoming',
+    statusClass: 'badge-blue',
+    meta: ['👤 Admin', '📅 Jan 12, 2024', '🎯 Everyone'],
+    body: 'Annual sports day will be held on January 28th. All students are required to participate. Teams will be announced next week.',
+    audience: 'all',
+  },
+  {
+    id: 3,
+    title: '💰 Fee Payment Reminder',
+    status: 'Urgent',
+    statusClass: 'badge-yellow',
+    meta: ['👤 Finance', '📅 Jan 10, 2024', '🎯 Parents'],
+    body: 'Reminder: Semester 1 tuition fees are due by January 15th. Please ensure timely payment to avoid late charges.',
+    audience: 'teachers',
+  },
+]
+
+const visibleAnnouncements = computed(() => {
+  if (activeTab.value === 'all') {
+    return announcements
+  }
+
+  return announcements.filter((announcement) => announcement.audience === activeTab.value)
+})
+</script>
+
 <template>
   <div class="page active">
     <div class="page-header">
@@ -13,36 +65,16 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">All Announcements</span>
-            <div class="tabs" style="margin:0">
-              <div class="tab active" style="padding:4px 10px;font-size:12px;">All</div>
-              <div class="tab" style="padding:4px 10px;font-size:12px;">Students</div>
-              <div class="tab" style="padding:4px 10px;font-size:12px;">Teachers</div>
-            </div>
+            <ControlTabs v-model="activeTab" :compact="true" :items="tabs" />
           </div>
           <div class="card-body">
-            <div class="ann-item">
+            <div v-for="announcement in visibleAnnouncements" :key="announcement.id" class="ann-item">
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:12px;flex-wrap:wrap;">
-                <div class="ann-title">📚 Final Exam Schedule - Semester 1</div>
-                <span class="badge badge-green">Active</span>
+                <div class="ann-title">{{ announcement.title }}</div>
+                <span class="badge" :class="announcement.statusClass">{{ announcement.status }}</span>
               </div>
-              <div class="ann-meta"><span>👤 Admin</span><span>📅 Jan 15, 2024</span><span>🎯 All Students</span></div>
-              <div class="ann-body">Final examinations for Semester 1 will begin on February 5th. Please check your individual schedules and prepare accordingly.</div>
-            </div>
-            <div class="ann-item">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:12px;flex-wrap:wrap;">
-                <div class="ann-title">🎉 School Sports Day 2024</div>
-                <span class="badge badge-blue">Upcoming</span>
-              </div>
-              <div class="ann-meta"><span>👤 Admin</span><span>📅 Jan 12, 2024</span><span>🎯 Everyone</span></div>
-              <div class="ann-body">Annual sports day will be held on January 28th. All students are required to participate. Teams will be announced next week.</div>
-            </div>
-            <div class="ann-item">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:12px;flex-wrap:wrap;">
-                <div class="ann-title">💰 Fee Payment Reminder</div>
-                <span class="badge badge-yellow">Urgent</span>
-              </div>
-              <div class="ann-meta"><span>👤 Finance</span><span>📅 Jan 10, 2024</span><span>🎯 Parents</span></div>
-              <div class="ann-body">Reminder: Semester 1 tuition fees are due by January 15th. Please ensure timely payment to avoid late charges.</div>
+              <div class="ann-meta"><span v-for="item in announcement.meta" :key="item">{{ item }}</span></div>
+              <div class="ann-body">{{ announcement.body }}</div>
             </div>
           </div>
         </div>
