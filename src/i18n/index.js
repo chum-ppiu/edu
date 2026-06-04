@@ -41,6 +41,7 @@ const messages = {
       schedule: 'Schedule',
       reports: 'Reports',
       settings: 'Settings',
+      calendar: 'Calendar',
       addStudent: 'Add Student',
     },
     topbar: {
@@ -278,6 +279,7 @@ const messages = {
       schedule: 'កាលវិភាគ',
       reports: 'របាយការណ៍',
       settings: 'ការកំណត់',
+      calendar: 'ប្រតិទិន',
       addStudent: 'បន្ថែមសិស្ស',
     },
     topbar: {

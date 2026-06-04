@@ -17,6 +17,7 @@ import SchedulePage from '../pages/SchedulePage.vue'
 import ReportsPage from '../pages/ReportsPage.vue'
 import SubjectsPage from '../pages/SubjectsPage.vue'
 import SettingsPage from '../pages/SettingsPage.vue'
+import Calendar from '../ui/Calendar.vue'
 
 const pageComponents = {
   dashboard: DashboardPage,
@@ -32,6 +33,7 @@ const pageComponents = {
   reports: ReportsPage,
   subjects: SubjectsPage,
   settings: SettingsPage,
+  calendar: Calendar,
 }
 
 // const pageTitles = {
@@ -78,6 +80,7 @@ const navSections = computed(() => [
       { id: 'schedule', icon: '🗓️', label: t('shell.schedule') },
       { id: 'reports', icon: '📈', label: t('shell.reports') },
       { id: 'settings', icon: '⚙️', label: t('shell.settings') },
+      { id: 'calendar', icon: '📆', label: t('shell.calendar') },
     ],
   },
 ])
@@ -96,6 +99,7 @@ const pageTitles = computed(() => ({
   reports: t('shell.reports'),
   subjects: t('shell.subjects'),
   settings: t('shell.settings'),
+  calendar: t('shell.calendar'),
 }))
 
 const activePage = ref('dashboard')
