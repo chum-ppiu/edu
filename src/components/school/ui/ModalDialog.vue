@@ -129,7 +129,7 @@ onBeforeUnmount(() => {
   inset: 0;
   z-index: 1000;
   background: rgba(5, 8, 16, 0.68);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(4px);
   display: flex;
   padding: 20px;
   animation: modalFadeIn 0.18s ease;

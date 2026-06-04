@@ -21,7 +21,8 @@
             <button class="btn-reset-header" v-if="filterClass || filterTeacher" @click="resetFilters">✕ Reset</button>
           </div>
 
-          <button class="btn-new-event" @click="openNewEventModal">+ New Event</button>
+          <!-- <button class="btn-new-event" @click="openNewEventModal"></button> -->
+          <button class="btn btn-primary btn-new-event" type="button" @click="openNewEventModal">+ New Event</button>
         </header>
 
         <div class="cal-scroll">
@@ -164,7 +165,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn-cancel" @click="showModal = false">Cancel</button>
-            <button class="btn-save" @click="saveEvent">Save Event</button>
+            <button class="btn-save btn btn-primary" type="button" @click="saveEvent">Save Event</button>
           </div>
         </div>
       </div>
@@ -210,7 +211,7 @@ const newEvent = reactive({
 })
 
 const events = ref([
-  { id:1, title:'Physics class',      fullTitle:'Physics Class (Advanced)',      description:'Wave mechanics & optics',      className:'Physics',            teacher:'Mr. Johnson', room:'Lab 2',    dayOffset:0, startHour:8,  startMin:0,  endHour:9,  endMin:0,  startTime:'08:00 AM', endTime:'09:00 AM', icon:'⚛️', colorClass:'chip-orange' },
+  { id:1, title:'Physics class',      fullTitle:'Physics Class (Advanced)',      description:'Wave mechanics & optics',      className:'Physics',            teacher:'Mr. Johnson', room:'Lab 2',    dayOffset:5, startHour:7,  startMin:0,  endHour:9,  endMin:30,  startTime:'08:00 AM', endTime:'09:00 AM', icon:'⚛️', colorClass:'chip-orange' },
   { id:2, title:'Art class',           fullTitle:'Art & Design Studio',             description:'Watercolor techniques',        className:'Art',                teacher:'Ms. Smith',   room:'Studio A', dayOffset:2, startHour:9,  startMin:0,  endHour:10, endMin:30, startTime:'09:00 AM', endTime:'10:30 AM', icon:'🎨', colorClass:'chip-pink'   },
   { id:3, title:'Homecoming',          fullTitle:'Homecoming for Graduates (MCG)',  description:'Meeting with Starview Academy', className:'Mathematics',        teacher:'Dr. Lee',     room:'Hall B',   dayOffset:0, startHour:10, startMin:0,  endHour:11, endMin:30, startTime:'10:00 AM', endTime:'11:30 AM', icon:'🎓', colorClass:'chip-red'    },
   { id:4, title:'Physical Education', fullTitle:'Physical Education',              description:'Football & fitness drills',     className:'Physical Education', teacher:'Mr. Brown',   room:'Gym',      dayOffset:1, startHour:10, startMin:30, endHour:12, endMin:0,  startTime:'10:30 AM', endTime:'12:00 PM', icon:'🏃', colorClass:'chip-teal'   },
@@ -384,31 +385,6 @@ const saveEvent = () => {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap');
 
-:root {
-  --bg: #07111f;
-  --bg-2: #0b1728;
-  --bg-3: #101c31;
-  --panel: rgba(11, 23, 40, 0.88);
-  --panel-strong: #131f35;
-  --border: rgba(141, 169, 220, 0.16);
-  --border-strong: rgba(141, 169, 220, 0.28);
-  --text: #edf2ff;
-  --text-2: #a8b6d5;
-  --text-3: #6f81a8;
-  --accent: #6d93ff;
-  --accent-2: #8d68ff;
-  --accent-3: #19d4b3;
-  --accent-4: #ff9d5c;
-  --danger: #ff6b74;
-  --warning: #ffd166;
-  --shadow: 0 24px 60px rgba(3, 8, 18, 0.35);
-  --radius-xl: 24px;
-  --radius-lg: 18px;
-  --radius-md: 14px;
-  --radius-sm: 10px;
-  color-scheme: dark;
-}
-
 *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
 
 .app-shell {
@@ -519,12 +495,8 @@ const saveEvent = () => {
 .btn-reset-header:hover { background: rgba(255, 107, 116, 0.2); }
 
 .btn-new-event {
-  background: var(--accent); color: var(--bg); border: none; border-radius: var(--radius-md);
   padding: 10px 18px; font-size: 13px; font-weight: 700;
-  cursor: pointer; white-space: nowrap; font-family: 'DM Sans', sans-serif;
-  box-shadow: 0 4px 14px rgba(109, 147, 255, 0.3); transition: all 0.2s; flex-shrink: 0;
 }
-.btn-new-event:hover { background: #8fb0ff; transform: translateY(-1px); }
 
 /* ── MAIN CALENDAR GRID ── */
 .cal-scroll { flex: 1; overflow-y: auto; border-radius: var(--radius-xl); box-shadow: var(--shadow); }
@@ -640,12 +612,8 @@ const saveEvent = () => {
 }
 .btn-cancel:hover { background: var(--bg-2); color: var(--text); }
 .btn-save {
-  background: var(--accent); color: var(--bg); border: none; border-radius: var(--radius-md);
   padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  box-shadow: 0 4px 12px rgba(109, 147, 255, 0.2); transition: background 0.15s;
 }
-.btn-save:hover { background: #8fb0ff; }
 
 /* ── RESPONSIVE ANIMATIONS ── */
 .popup-enter-active, .popup-leave-active { transition: opacity 0.2s, transform 0.2s; }
