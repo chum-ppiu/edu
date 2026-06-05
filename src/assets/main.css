@@ -404,15 +404,16 @@ body,
 }
 
 .stat-card.purple::before {
-  background: var(--accent2);
+  
+  background: var(--accent-2);
 }
 
 .stat-card.green::before {
-  background: var(--accent3);
+  background: var(--accent-3);
 }
 
 .stat-card.orange::before {
-  background: var(--accent4);
+  background: var(--accent-4);
 }
 
 .stat-card.red::before {

@@ -103,6 +103,7 @@ defineEmits(['navigate', 'close'])
   letter-spacing: 0.08em;
   color: var(--text-3);
   padding: 18px 12px 6px 12px;
+  border-top: 1px solid var(--border);
 }
 
 .nav-item {
@@ -115,7 +116,7 @@ defineEmits(['navigate', 'close'])
   font-size: 0.92rem;
   font-weight: 500;
   cursor: pointer;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   transition: all 0.2s ease;
 }
 
