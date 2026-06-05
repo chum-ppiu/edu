@@ -383,13 +383,12 @@ const saveEvent = () => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap');
 
 *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
 
 .app-shell {
   min-height: 100vh;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--font-family-main);
   background: var(--bg); 
   color: var(--text);
   position: relative;
@@ -440,7 +439,7 @@ const saveEvent = () => {
 }
 
 .mini-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.mini-month-label { font-size: 14px; font-weight: 700; color: var(--text); font-family: 'Syne', sans-serif; }
+.mini-month-label { font-size: 14px; font-weight: 700; color: var(--text); font-family: var(--font-family-main) }
 .mini-nav {
   background: var(--bg-3); border: 1px solid var(--border); color: var(--text-2);
   width: 26px; height: 26px; border-radius: var(--radius-sm); font-size: 14px;
@@ -469,7 +468,7 @@ const saveEvent = () => {
   background: var(--bg-2); border: 1px solid var(--border-strong);
   color: var(--text); border-radius: var(--radius-md); padding: 8px 0;
   font-size: 12px; font-weight: 700; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+  font-family: var(--font-family-main); transition: all 0.15s;
 }
 .btn-today:hover { background: var(--panel-strong); border-color: var(--accent); }
 
@@ -479,7 +478,7 @@ const saveEvent = () => {
 .filter-dropdown select {
   background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md);
   padding: 7px 28px 7px 11px; font-size: 13px;
-  font-family: 'DM Sans', sans-serif; color: var(--text); font-weight: 500;
+  font-family: var(--font-family-main); color: var(--text); font-weight: 500;
   cursor: pointer; appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a8b6d5'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 10px center;
@@ -489,7 +488,7 @@ const saveEvent = () => {
 .btn-reset-header {
   background: rgba(255, 107, 116, 0.1); border: 1px solid var(--danger); color: var(--danger);
   border-radius: var(--radius-md); padding: 7px 12px; font-size: 12px; font-weight: 700;
-  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; font-family: var(--font-family-main);
   transition: background 0.15s; white-space: nowrap; align-self: flex-end;
 }
 .btn-reset-header:hover { background: rgba(255, 107, 116, 0.2); }
@@ -571,7 +570,7 @@ const saveEvent = () => {
 .popup-actions { display: flex; gap: 4px; }
 .popup-body     { padding: 14px; }
 .popup-eyebrow  { font-size: 10px; color: var(--text-3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-.popup-title    { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.popup-title    { font-family: var(--font-family-main); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .popup-desc     { font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
 .popup-time-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
 .popup-time-chip { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 9px; font-size: 11px; font-weight: 600; color: var(--accent); }
@@ -584,14 +583,14 @@ const saveEvent = () => {
   width: 100%; background: var(--bg-3); border: 1px solid var(--border-strong);
   color: var(--text-2); border-radius: var(--radius-md); padding: 8px;
   font-size: 12px; font-weight: 700; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; transition: all 0.15s;
+  font-family: var(--font-family-main); transition: all 0.15s;
 }
 .btn-share:hover { background: var(--panel); color: var(--text); border-color: var(--accent); }
 
 .modal-overlay { position: fixed; inset: 0; background: rgba(3, 8, 18, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 200; }
 .modal         { background: var(--panel-strong); border-radius: var(--radius-xl); width: 460px; max-width: 95vw; box-shadow: var(--shadow); border: 1px solid var(--border-strong); overflow: hidden; }
 .modal-header  { padding: 18px 20px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-.modal-header h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--text); }
+.modal-header h3 { font-family: var(--font-family-main); font-size: 18px; font-weight: 800; color: var(--text); }
 .modal-header button { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-3); }
 .modal-header button:hover { color: var(--text); }
 .modal-body    { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
@@ -599,7 +598,7 @@ const saveEvent = () => {
 .form-group label { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; }
 .form-group input, .form-group select {
   border: 1px solid var(--border-strong); border-radius: var(--radius-md);
-  padding: 9px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+  padding: 9px 12px; font-size: 13px; font-family: var(--font-family-main);
   color: var(--text); background: var(--bg-2); transition: border-color 0.15s;
 }
 .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
@@ -608,7 +607,7 @@ const saveEvent = () => {
 .btn-cancel {
   background: var(--bg-3); border: 1px solid var(--border-strong); border-radius: var(--radius-md);
   padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; color: var(--text-2); transition: all 0.15s;
+  font-family: var(--font-family-main); color: var(--text-2); transition: all 0.15s;
 }
 .btn-cancel:hover { background: var(--bg-2); color: var(--text); }
 .btn-save {

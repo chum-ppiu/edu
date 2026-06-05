@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-
+import { watch } from 'vue'
 const STORAGE_KEY = 'educore-locale'
 
 const messages = {
@@ -504,4 +504,18 @@ export function getLocale() {
   return i18n.global.locale.value
 }
 
+const applyLocaleToDocument = (locale) => {
+  const htmlEl = document.documentElement;
+  htmlEl.setAttribute('lang', locale);
+  htmlEl.setAttribute('data-locale', locale);
+};
+
+applyLocaleToDocument(savedLocale);
+watch(
+  () => i18n.global.locale.value,
+  (newLocale) => {
+    if (!newLocale) return;
+    applyLocaleToDocument(newLocale);
+  }
+);
 export default i18n

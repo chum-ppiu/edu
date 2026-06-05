@@ -218,7 +218,7 @@ onBeforeUnmount(() => {
 }
 
 .modal-title {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 16px;
   font-weight: 700;
 }

@@ -103,7 +103,7 @@ const { t } = useI18n()
               <circle cx="50" cy="50" r="40" fill="none" stroke="var(--accent3)" stroke-width="16" stroke-dasharray="226 251" stroke-dashoffset="63" stroke-linecap="round" />
               <circle cx="50" cy="50" r="40" fill="none" stroke="var(--red)" stroke-width="16" stroke-dasharray="15 251" stroke-dashoffset="-163" stroke-linecap="round" />
               <circle cx="50" cy="50" r="40" fill="none" stroke="var(--warning)" stroke-width="16" stroke-dasharray="10 251" stroke-dashoffset="-178" stroke-linecap="round" />
-              <text x="50" y="47" text-anchor="middle" fill="white" font-size="14" font-family="Syne" font-weight="800">94%</text>
+              <text x="50" y="47" text-anchor="middle" fill="white" font-size="14" font-weight="800">94%</text>
               <text x="50" y="58" text-anchor="middle" fill="#8892b0" font-size="7">Present</text>
             </svg>
             <div class="donut-legend">
@@ -167,7 +167,7 @@ const { t } = useI18n()
           <div class="fee-item"><div><div class="fee-name">Sports Fee</div><div class="fee-due">76 students paid</div></div><div class="fee-amount" style="color:var(--warning)">$4,300</div></div>
           <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:13px;color:var(--text3)">{{ t('dashboard.outstanding') }}</span>
-            <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--red)">$16,500</span>
+            <span style="font-size:16px;font-weight:800;color:var(--red)">$16,500</span>
           </div>
         </div>
       </div>

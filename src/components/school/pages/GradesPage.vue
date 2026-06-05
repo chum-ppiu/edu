@@ -45,7 +45,7 @@ const { t } = useI18n()
       <div class="report-card">
         <div class="report-header">
           <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">SEMESTER 1 - 2024-2025</div>
-          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;">Sokha Kim</div>
+          <div style="font-size:18px;font-weight:800;">Sokha Kim</div>
           <div style="font-size:12px;color:var(--text3)">STU-001 - Grade 12A</div>
           <div class="gpa-circle"><div class="gpa-val">4.0</div><div class="gpa-lbl">GPA</div></div>
           <span class="badge badge-green">Excellent</span>

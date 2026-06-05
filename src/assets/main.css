@@ -1,4 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
 @import './base.css';
+
+:root {
+  --font-family-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html[data-locale='km'] {
+  --font-family-main: 'Kantumruy Pro', 'Noto Sans Khmer', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html[data-locale='en'] {
+  --font-family-main: 'Inter', 'Noto Sans', 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html,
+body,
+#app {
+  font-family: var(--font-family-main);
+}
 
 #app {
   min-height: 100vh;
@@ -54,7 +73,7 @@
 }
 
 .logo-text {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 18px;
   font-weight: 800;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -194,7 +213,7 @@
 }
 
 .topbar-title {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 16px;
   font-weight: 700;
   flex: 1;
@@ -424,7 +443,7 @@
 }
 
 .stat-value {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 28px;
   font-weight: 800;
 }
@@ -479,7 +498,7 @@
 }
 
 .card-title {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 14px;
   font-weight: 700;
 }
@@ -804,7 +823,7 @@ select.filter-input option {
 }
 
 .quick-stat-val {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 18px;
   font-weight: 800;
 }
@@ -924,7 +943,7 @@ select.filter-input option {
 }
 
 .fee-amount {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
   font-size: 15px;
   font-weight: 700;
 }
@@ -1002,7 +1021,7 @@ select.filter-input option {
   align-items: center;
   justify-content: center;
   margin: 12px auto;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--font-family-main);
 }
 
 .gpa-val {

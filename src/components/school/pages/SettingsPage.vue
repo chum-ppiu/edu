@@ -76,7 +76,7 @@ const panelTitle = computed(() => {
           <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap;">
             <div style="width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 18px 34px rgba(109,147,255,.18);">🎓</div>
             <div>
-              <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;">EduCore School</div>
+              <div style="font-size:16px;font-weight:700;">EduCore School</div>
               <div style="font-size:12px;color:var(--text3);margin-top:4px;">Phnom Penh, Cambodia</div>
               <button class="btn btn-ghost" style="margin-top:8px;font-size:12px;" type="button">{{ t('settings.changeLogo') }}</button>
             </div>
@@ -94,7 +94,7 @@ const panelTitle = computed(() => {
           <div class="grid-2" style="margin-bottom:0;align-items:start;">
             <div class="card" style="border-radius:20px;">
               <div class="card-body">
-                <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:8px;">Current Academic Year</div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:8px;">Current Academic Year</div>
                 <div style="color:var(--text3);font-size:13px;margin-bottom:14px;">Manage term dates and holiday windows.</div>
                 <div class="form-grid">
                   <div class="form-group"><label class="form-label">Year</label><input class="form-input" value="2024-2025" /></div>
@@ -106,7 +106,7 @@ const panelTitle = computed(() => {
             </div>
             <div class="card" style="border-radius:20px;">
               <div class="card-body">
-                <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:8px;">Term Structure</div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:8px;">Term Structure</div>
                 <div class="ann-item" style="padding-top:0;">
                   <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;">
                     <div>
@@ -143,7 +143,7 @@ const panelTitle = computed(() => {
           <div class="grid-2" style="align-items:start;">
             <div class="card" style="border-radius:20px;">
               <div class="card-body">
-                <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:8px;">Fee Categories</div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:8px;">Fee Categories</div>
                 <div class="fee-item" style="padding-top:0;">
                   <div><div class="fee-name">Tuition Fee</div><div class="fee-due">Primary school billing item</div></div>
                   <div class="fee-amount" style="color:var(--accent3)">$450</div>
@@ -160,7 +160,7 @@ const panelTitle = computed(() => {
             </div>
             <div class="card" style="border-radius:20px;">
               <div class="card-body">
-                <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:8px;">Payment Rules</div>
+                <div style="font-size:15px;font-weight:800;margin-bottom:8px;">Payment Rules</div>
                 <div style="display:flex;flex-direction:column;gap:12px;">
                   <div class="quick-stat" style="text-align:left;padding:14px;">
                     <div class="quick-stat-lbl" style="font-size:11px;text-transform:uppercase;letter-spacing:1px;">Late Fee</div>
