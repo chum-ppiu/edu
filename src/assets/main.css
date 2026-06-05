@@ -636,12 +636,22 @@ tbody td {
 .form-input {
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 9px 12px;
   color: var(--text);
   font-size: 13px;
   outline: none;
   transition: border-color 0.2s ease;
+}
+.not-allowed {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.filter-input:hover,
+.form-input:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 0 0 2px var(--shadow-strong);
 }
 
 .filter-input:focus,
@@ -651,12 +661,21 @@ tbody td {
 
 .filter-input::placeholder,
 .form-input::placeholder {
-  color: var(--text3);
+  color: var(--shadow-strong);
 }
 
 select.filter-input option {
   background: var(--bg);
 }
+
+.filter-dropdown { display: flex; flex-direction: column; gap: 3px; }
+.filter-dropdown select {
+  cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a8b6d5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  transition: border-color 0.15s;
+}
+.filter-dropdown select:focus { outline: none; border-color: var(--accent); }
 
 .progress {
   height: 6px;
@@ -865,6 +884,11 @@ select.filter-input option {
   font-size: 12px;
   font-weight: 600;
   color: var(--text2);
+}
+.form-label .star-danger {
+  color: var(--danger);
+  margin-left: 2px;
+  vertical-align: top;
 }
 
 .form-actions {

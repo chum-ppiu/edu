@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import SchoolSidebar from './SchoolSidebar.vue'
@@ -36,23 +36,11 @@ const pageComponents = {
   calendar: Calendar,
 }
 
-// const pageTitles = {
-//   dashboard: 'Dashboard',
-//   students: 'Students',
-//   'add-student': 'Add Student',
-//   teachers: 'Teachers',
-//   classes: 'Classes',
-//   grades: 'Grades',
-//   attendance: 'Attendance',
-//   payments: 'Payments',
-//   announcements: 'Announcements',
-//   schedule: 'Schedule',
-//   reports: 'Reports',
-//   subjects: 'Subjects',
-//   settings: 'Settings',
-// }
-
 const { t } = useI18n()
+
+const isSidebarOpen = ref(false)
+const toggleSidebar = () => { isSidebarOpen.value = !isSidebarOpen.value }
+const closeSidebar = () => { isSidebarOpen.value = false }
 
 const navSections = computed(() => [
   { label: t('shell.overview'), items: [{ id: 'dashboard', icon: '⊞', label: t('shell.dashboard') }] },
@@ -108,19 +96,84 @@ const currentComponent = computed(() => pageComponents[activePage.value] ?? Dash
 function showPage(pageId) {
   if (pageComponents[pageId]) {
     activePage.value = pageId
+    isSidebarOpen.value = false
   }
 }
+
+const handleResize = () => { if (window.innerWidth >= 1024) isSidebarOpen.value = false }
+onMounted(() => window.addEventListener('resize', handleResize))
+onUnmounted(() => window.removeEventListener('resize', handleResize))
 </script>
 
 <template>
   <div class="school-app">
-    <SchoolSidebar :sections="navSections" :active-page="activePage" @navigate="showPage" />
+    <Transition name="fade">
+      <div v-if="isSidebarOpen" class="sidebar-overlay" @click="closeSidebar"></div>
+    </Transition>
 
-    <main class="school-main">
-      <SchoolTopbar :title="pageTitles[activePage]" />
+    <SchoolSidebar 
+      :sections="navSections" 
+      :active-page="activePage" 
+      :is-open="isSidebarOpen"
+      @navigate="showPage" 
+      @close="closeSidebar"
+    />
+
+    <div class="school-main">
+      <SchoolTopbar :title="pageTitles[activePage]" @toggle-sidebar="toggleSidebar" />
+      
+      <!-- Only this area scrolls when code or component sizes expand -->
       <section class="content">
         <component :is="currentComponent" @navigate="showPage" />
       </section>
-    </main>
+    </div>
   </div>
 </template>
+
+<style>
+/* Locks full viewport and eliminates body bouncing */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; 
+}
+
+.school-app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.school-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto; /* Independent scroll zone */
+  padding: 24px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 8, 18, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+}
+
+@media (max-width: 768px) {
+  .content { padding: 16px; }
+}
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.25s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+</style>

@@ -11,31 +11,31 @@ const tabs = [
     value: 'school-info',
     label: computed(() => t('settings.schoolInfo')),
     icon: '🏫',
-    description: computed(() => 'Brand and contact details'),
+    // description: computed(() => 'Brand and contact details'),
   },
   {
     value: 'academic-year',
     label: 'Academic Year',
     icon: '📅',
-    description: 'Terms and calendar',
+    // description: 'Terms and calendar',
   },
   {
     value: 'fee-structure',
     label: 'Fee Structure',
     icon: '💰',
-    description: 'Tuition and billing rules',
+    // description: 'Tuition and billing rules',
   },
   {
     value: 'roles',
     label: 'Roles',
     icon: '👤',
-    description: 'Permissions and access',
+    // description: 'Permissions and access',
   },
   {
     value: 'notifications',
     label: 'Notifications',
     icon: '🔔',
-    description: 'Alerts and delivery channels',
+    // description: 'Alerts and delivery channels',
   },
 ]
 

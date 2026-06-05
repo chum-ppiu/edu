@@ -8,6 +8,8 @@ defineProps({
   title: { type: String, required: true },
 })
 
+defineEmits(['toggle-sidebar'])
+
 const { t, locale } = useI18n()
 
 const localeItems = computed(() => [
@@ -34,73 +36,181 @@ function setLocale(nextLocale) {
 
 <template>
   <header class="topbar">
-    <div class="topbar-title">{{ title }}</div>
-    <label class="topbar-search">
-      <span style="color:var(--text3)">🔍</span>
-      <input type="text" :placeholder="t('common.searchAnything')" />
-    </label>
-    <div class="topbar-language" role="group" :aria-label="t('language.switchToEnglish')">
-      <button
-        v-for="item in localeItems"
-        :key="item.value"
-        class="topbar-lang-btn"
-        :class="{ active: item.active }"
-        type="button"
-        :aria-pressed="item.active"
-        :title="item.value === 'en' ? t('language.switchToKhmer') : t('language.switchToEnglish')"
-        @click="setLocale(item.value)"
-      >
-        <span class="topbar-lang-flag">{{ item.flag }}</span>
-        <span class="topbar-lang-label">{{ item.label }}</span>
+    <div class="topbar-left">
+      <button class="hamburger-btn" @click="$emit('toggle-sidebar')" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
       </button>
+      <!-- <h1 class="topbar-title">{{ title }}</h1> -->
     </div>
-    <button class="topbar-btn" type="button" :aria-label="t('topbar.notifications')">
-      🔔
-      <span class="notif-dot"></span>
-    </button>
-    <button class="topbar-btn" type="button" :aria-label="t('topbar.help')">❓</button>
-    <div class="user-avatar" style="width:36px;height:36px;cursor:pointer;font-size:13px;">AD</div>
+
+    <!-- Right Side Content Elements -->
+    <div class="topbar-right">
+      <label class="topbar-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" :placeholder="t('common.searchAnything')" />
+      </label>
+
+      <div class="topbar-actions">
+        <div class="topbar-language" role="group">
+          <button
+            v-for="item in localeItems"
+            :key="item.value"
+            class="topbar-lang-btn"
+            :class="{ active: item.active }"
+            type="button"
+            @click="setLocale(item.value)"
+          >
+            <span class="topbar-lang-flag">{{ item.flag }}</span>
+            <span class="topbar-lang-label">{{ item.label }}</span>
+          </button>
+        </div>
+
+        <button class="topbar-btn" type="button">
+          🔔
+          <span class="notif-dot"></span>
+        </button>
+        
+        <button class="topbar-btn help-btn" type="button">❓</button>
+        
+        <div class="topbar-avatar">AD</div>
+      </div>
+    </div>
   </header>
 </template>
 
 <style scoped>
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 70px;
+  min-height: 70px;
+  flex-shrink: 0; /* Prevents topbar shrinking on small height screens */
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hamburger-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+}
+.hamburger-btn:hover { background: var(--bg-3); color: var(--text); }
+
+.topbar-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+/* Fixed spacing bug: Removed max-width block and updated alignment */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  justify-content: flex-end; /* Keeps items pushed tightly together to the right side */
+}
+
+.topbar-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 260px; /* Aligns smoothly with search input in image_c52243.png */
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  transition: all 0.2s;
+}
+.topbar-search:focus-within { border-color: var(--accent); background: var(--bg-3); }
+.search-icon { font-size: 0.9rem; color: var(--text-3); }
+.topbar-search input { width: 100%; padding: 8px 6px; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.88rem; }
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .topbar-language {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   padding: 4px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: rgba(16, 28, 49, 0.7);
+  background: var(--bg-2);
 }
 
 .topbar-lang-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 10px;
+  padding: 6px 12px;
   border: none;
   border-radius: 999px;
   background: transparent;
-  color: var(--text3);
+  color: var(--text-3);
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
+  transition: all 0.2s;
+}
+.topbar-lang-btn.active { background: var(--panel-strong); color: var(--text); }
+
+.topbar-btn {
+  position: relative;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.05rem;
+  transition: all 0.2s;
+}
+.topbar-btn:hover { background: var(--bg-3); border-color: var(--border-strong); }
+.notif-dot { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; }
+
+.topbar-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-2);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.topbar-lang-btn:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.04);
+@media (max-width: 1024px) {
+  .hamburger-btn { display: flex; }
 }
 
-.topbar-lang-btn.active {
-  background: linear-gradient(135deg, rgba(109, 147, 255, 0.18), rgba(141, 104, 255, 0.18));
-  color: var(--text);
-  box-shadow: inset 0 0 0 1px rgba(109, 147, 255, 0.16);
-}
-
-.topbar-lang-flag {
-  font-size: 14px;
+@media (max-width: 768px) {
+  .topbar { padding: 0 16px; }
+  .topbar-search, .topbar-language .topbar-lang-label, .help-btn { display: none; }
 }
 </style>

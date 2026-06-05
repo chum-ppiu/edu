@@ -7,9 +7,9 @@ import ControlTabs from '../ui/ControlTabs.vue'
 const { t } = useI18n()
 
 const tabs = computed(() => [
-  { value: 'all', label: t('common.all'), icon: '✨', count: 3, description: 'Everything' },
-  { value: 'students', label: t('shell.students'), icon: '🎓', count: 1, description: 'Student-facing' },
-  { value: 'teachers', label: t('shell.teachers'), icon: '👨‍🏫', count: 1, description: 'Staff updates' },
+  { value: 'all', label: t('common.all'), icon: '✨', count: 3, description: '' },
+  { value: 'students', label: t('shell.students'), icon: '🎓', count: 1, description: '' },
+  { value: 'teachers', label: t('shell.teachers'), icon: '👨‍🏫', count: 1, description: '' },
 ])
 
 const activeTab = ref('all')
@@ -63,7 +63,7 @@ const visibleAnnouncements = computed(() => {
       <button class="btn btn-primary" type="button">+ {{ t('announcements.newAnnouncement') }}</button>
     </div>
 
-    <div class="grid-2" style="align-items:start">
+    <div class="grid" style="align-items:start">
       <div>
         <div class="card">
           <div class="card-header">
@@ -87,7 +87,7 @@ const visibleAnnouncements = computed(() => {
         <div class="card-header"><span class="card-title">{{ t('announcements.createAnnouncement') }}</span></div>
         <div class="card-body">
           <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.titleLabel') }}</label><input class="form-input" placeholder="Announcement title..." /></div>
-          <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.audience') }}</label><select class="form-input"><option>Everyone</option><option>All Students</option><option>All Teachers</option><option>All Parents</option><option>Specific Class</option></select></div>
+          <div class="form-group filter-dropdown" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.audience') }}</label><select class="filter-input"><option>Everyone</option><option>All Students</option><option>All Teachers</option><option>All Parents</option><option>Specific Class</option></select></div>
           <div class="form-group" style="margin-bottom:14px;"><label class="form-label">{{ t('announcements.message') }}</label><textarea class="form-input" rows="5" placeholder="Write your announcement here..."></textarea></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
             <div class="form-group" style="flex:1;margin:0"><label class="form-label">{{ t('announcements.publishDate') }}</label><input class="form-input" type="datetime-local" /></div>

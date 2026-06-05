@@ -1,6 +1,6 @@
 <script setup>
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n'
-
 const emit = defineEmits(['navigate'])
 const { t } = useI18n()
 </script>
@@ -21,14 +21,14 @@ const { t } = useI18n()
           <div class="card-header"><span class="card-title">{{ t('addStudent.personal') }}</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">{{ t('addStudent.firstName') }}</label><input class="filter-input" placeholder="Sokha" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.lastName') }}</label><input class="filter-input" placeholder="Kim" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.dob') }}</label><input class="filter-input" type="date" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.gender') }}</label><select class="filter-input"><option>Male</option><option>Female</option><option>Other</option></select></div>
-              <div class="form-group full"><label class="form-label">{{ t('addStudent.email') }}</label><input class="filter-input" placeholder="sokha@school.edu" type="email" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.phone') }}</label><input class="filter-input" placeholder="+855 12 345 678" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.code') }}</label><input class="filter-input" placeholder="Auto-generated" disabled style="opacity:.5" /></div>
-              <div class="form-group full"><label class="form-label">{{ t('addStudent.address') }}</label><textarea class="filter-input" rows="2" placeholder="Phnom Penh, Cambodia"></textarea></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.firstName') }}<span class="star-danger">*</span></label><input class="filter-input" placeholder="Sokha" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.lastName') }}<span class="star-danger">*</span></label><input class="filter-input" placeholder="Kim" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.dob') }}</label><input class="filter-input" type="date" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.gender') }}</label><select class="filter-input"><option>Male</option><option>Female</option><option>Other</option></select></div>
+              <div class="form-group filter-dropdown full"><label class="form-label">{{ t('addStudent.email') }}<span class="star-danger">*</span></label><input class="filter-input" placeholder="sokha@school.edu" type="email" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.phone') }}</label><input class="filter-input" placeholder="+855 12 345 678" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.code') }}</label><input class="filter-input not-allowed" placeholder="Auto-generated" disabled style="opacity:.5" /></div>
+              <div class="form-group filter-dropdown full"><label class="form-label">{{ t('addStudent.address') }}</label><textarea class="filter-input" rows="2" placeholder="Phnom Penh, Cambodia"></textarea></div>
             </div>
           </div>
         </div>
@@ -37,10 +37,10 @@ const { t } = useI18n()
           <div class="card-header"><span class="card-title">{{ t('addStudent.parent') }}</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">{{ t('addStudent.parentName') }}</label><input class="filter-input" placeholder="Kim Sokha" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.relationship') }}</label><select class="filter-input"><option>Father</option><option>Mother</option><option>Guardian</option></select></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.phone') }}</label><input class="filter-input" placeholder="+855 12 000 000" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.email') }}</label><input class="filter-input" placeholder="parent@email.com" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.parentName') }}</label><input class="filter-input" placeholder="Kim Sokha" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.relationship') }}</label><select class="filter-input"><option>Father</option><option>Mother</option><option>Guardian</option></select></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.phone') }}<span class="star-danger">*</span></label><input class="filter-input" placeholder="+855 12 000 000" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.email') }}</label><input class="filter-input" placeholder="parent@email.com" /></div>
             </div>
           </div>
         </div>
@@ -51,11 +51,11 @@ const { t } = useI18n()
           <div class="card-header"><span class="card-title">{{ t('addStudent.academic') }}</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label class="form-label">{{ t('addStudent.class') }}</label><select class="filter-input"><option>Grade 10A</option><option>Grade 10B</option><option>Grade 11A</option><option>Grade 12A</option></select></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.department') }}</label><select class="filter-input"><option>Science</option><option>Arts</option><option>Commerce</option></select></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.academicYear') }}</label><select class="filter-input"><option>2024-2025</option><option>2023-2024</option></select></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.enrollmentDate') }}</label><input class="filter-input" type="date" /></div>
-              <div class="form-group"><label class="form-label">{{ t('addStudent.status') }}</label><select class="filter-input"><option>Active</option><option>Inactive</option></select></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.class') }}</label><select class="filter-input"><option>Grade 10A</option><option>Grade 10B</option><option>Grade 11A</option><option>Grade 12A</option></select></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.department') }}</label><select class="filter-input"><option>Science</option><option>Arts</option><option>Commerce</option></select></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.academicYear') }}</label><select class="filter-input"><option>2024-2025</option><option>2023-2024</option></select></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.enrollmentDate') }}</label><input class="filter-input" type="date" /></div>
+              <div class="form-group filter-dropdown"><label class="form-label">{{ t('addStudent.status') }}</label><select class="filter-input"><option>Active</option><option>Inactive</option></select></div>
             </div>
           </div>
         </div>
