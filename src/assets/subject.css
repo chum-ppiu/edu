@@ -1,0 +1,35 @@
+/* Warm Earth Tone: Perfect for maps, land studies, and geography */
+.ge     { background: #ffd1661f; color: var(--warning); border-color: #ffd1664d; }
+
+/* Deep Amber/Orange: Represents historical monuments, culture, and timelines */
+.hi       { background: #ff9d5c1f; color: var(--accent-4); border-color: #ff9d5c4d; } /* .chip-orange */
+
+/* Royal Blue/Indigo: For civic duty, law, ethics, and character building */
+.civics        { background: #6366f11f; color: var(--accent-5); border-color: #6366f14d; } /* .chip-indigo */
+
+/* Soft Emerald: Focused on practical, daily family living, sewing, and cooking sciences */
+.home-economics { background: #19d4b326; color: var(--accent-3); border-color: #19d4b366; } /* .chip-green */
+
+/* Clean Teal: Practical skills designed for local community development and vocational trades */
+.lifeskills    { background: #19d4b31f; color: var(--accent-3); border-color: #19d4b34d; } /* .chip-teal */
+
+/* Solid Red: High-importance national examination preparation classes (Bac II) */
+.exam-prep     { background: var(--danger); color: #fff; border-color: var(--danger); } /* .chip-red */
+
+/* Electric Blue: Ideal for tech, networking, computer lab classes, and IT systems */
+.ict           { background: #3b82f61f; color: var(--accent-1); border-color: #3b82f64d; } /* .chip-blue */
+
+/* Rich Purple: Creative arts, graphic design, musical theory, and drama modules */
+.arts          { background: #8d68ff1f; color: var(--accent-2); border-color: #8d68ff4d; } /* .chip-purple */
+
+/* Bright Pink: Business studies, basic economics, accounting, and entrepreneurship */
+.business      { background: #ff6b741f; color: var(--danger); border-color: #ff6b744d; } /* .chip-pink */
+
+/* Neutral Gray: Physical Education, active sports tracking, and wellness routines */
+.pe            { background: #6b72801f; color: var(--muted); border-color: #6b72804d; } /* .chip-gray */
+
+/* Crimson Red Accent: Specifically for Mandarin Chinese language courses */
+.chinese       { background: #ef44441f; color: #ef4444; border-color: #ef44444d; }
+
+/* Sky Blue Accent: For Global Perspectives or Research modules (popular in Cambridge systems) */
+.global        { background: #0ea5e91f; color: #0ea5e9; border-color: #0ea5e94d; }

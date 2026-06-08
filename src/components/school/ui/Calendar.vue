@@ -259,13 +259,204 @@ const newEvent = reactive({
 })
 
 const events = ref([
-  { id:1, title:'Physics class',      fullTitle:'Physics Class (Advanced)',      description:'Wave mechanics & optics',      className:'Physics',            teacher:'Mr. Johnson', room:'Lab 2',    dayOffset:0, startHour:8,  startMin:0,  endHour:9,  endMin:0,  startTime:'08:00 AM', endTime:'09:00 AM', icon:'⚛️', colorClass:'chip-orange' },
-  { id:2, title:'Art class',           fullTitle:'Art & Design Studio',             description:'Watercolor techniques',        className:'Art',                teacher:'Ms. Smith',   room:'Studio A', dayOffset:2, startHour:9,  startMin:0,  endHour:10, endMin:30, startTime:'09:00 AM', endTime:'10:30 AM', icon:'🎨', colorClass:'chip-pink'   },
-  { id:3, title:'Homecoming',          fullTitle:'Homecoming for Graduates (MCG)',  description:'Meeting with Starview Academy', className:'Mathematics',        teacher:'Dr. Lee',     room:'Hall B',   dayOffset:0, startHour:10, startMin:0,  endHour:11, endMin:30, startTime:'10:00 AM', endTime:'11:30 AM', icon:'🎓', colorClass:'chip-red'    },
-  { id:4, title:'Physical Education', fullTitle:'Physical Education',              description:'Football & fitness drills',     className:'Physical Education', teacher:'Mr. Brown',   room:'Gym',      dayOffset:1, startHour:10, startMin:30, endHour:12, endMin:0,  startTime:'10:30 AM', endTime:'12:00 PM', icon:'🏃', colorClass:'chip-teal'   },
-  { id:5, title:'Chemistry',           fullTitle:'Chemistry Lab',                   description:'Titration experiment',          className:'Chemistry',          teacher:'Mrs. Patel',  room:'Lab 1',    dayOffset:3, startHour:9,  startMin:0,  endHour:10, endMin:45, startTime:'09:00 AM', endTime:'10:45 AM', icon:'🧪', colorClass:'chip-yellow' },
-  { id:6, title:'Math class',          fullTitle:'Mathematics (Calculus)',          description:'Differentiation & integration', className:'Math',               teacher:'Dr. Lee',     room:'Room 204', dayOffset:4, startHour:8,  startMin:0,  endHour:9,  endMin:30, startTime:'08:00 AM', endTime:'09:30 AM', icon:'📐', colorClass:'chip-purple' },
-  { id:7, title:'Lunch break',          fullTitle:'Lunch Break',                     description:'Free period',                  className:'Lunch Break',        teacher:'',            room:'Cafeteria',dayOffset:2, startHour:12, startMin:0,  endHour:13, endMin:0,  startTime:'12:00 PM', endTime:'01:00 PM', icon:'🍱', colorClass:'chip-green'  },
+  {
+    id: 1,
+    title: 'Physics class',
+    fullTitle: 'Physics Class (Advanced)',
+    description: 'Wave mechanics & optics',
+    className: 'Physics',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 0,
+    startHour: 7,
+    startMin: 0,
+    endHour: 8,
+    endMin: 0,
+    startTime: '07:00 AM',
+    endTime: '08:00 AM',
+    icon: '⚛️',
+    colorClass: 'physics-color'
+  },
+  {
+    id: 2,
+    title: 'Exam Physics',
+    fullTitle: 'Physics Examination (Midterm)',
+    description: 'Mechanics and Thermodynamics exam',
+    className: 'Physics',
+    teacher: 'Mr. Johnson',
+    room: 'Exam Hall A',
+    dayOffset: 0,
+    startHour: 8,
+    startMin: 0,
+    endHour: 9,
+    endMin: 0,
+    startTime: '08:00 AM',
+    endTime: '09:30 AM',
+    icon: '📝',
+    colorClass: 'exam-color'
+  },
+  {
+    id: 3,
+    title: 'Meeting class',
+    fullTitle: 'Homecoming for Graduates (MCG)',
+    description: 'Meeting with Starview Academy',
+    className: 'Meeting',
+    teacher: 'Dr. Lee',
+    room: 'Hall B',
+    dayOffset: 0,
+    startHour: 9,
+    startMin: 0,
+    endHour: 10,
+    endMin: 0,
+    startTime: '09:00 AM',
+    endTime: '10:00 AM',
+    icon: '🎓',
+    colorClass: 'meeting-color'
+  },
+  {
+    id: 4,
+    title: 'Geography class',
+    fullTitle: 'Geography Class (Advanced)',
+    description: 'Tectonic plates and topography',
+    className: 'Geography',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 0,
+    startHour: 10,
+    startMin: 0,
+    endHour: 11,
+    endMin: 0,
+    startTime: '10:30 AM',
+    endTime: '12:00 PM',
+    icon: '🌍',
+    colorClass: 'geography-color'
+  },
+  {
+    id: 5,
+    title: 'Chemistry',
+    fullTitle: 'Chemistry Lab',
+    description: 'Titration experiment',
+    className: 'Chemistry',
+    teacher: 'Mrs. Patel',
+    room: 'Lab 1',
+    dayOffset: 0,
+    startHour: 11,
+    startMin: 0,
+    endHour: 12,
+    endMin: 0,
+    startTime: '09:00 AM',
+    endTime: '10:45 AM',
+    icon: '🧪',
+    colorClass: 'chemistry-color'
+  },
+  {
+    id: 6,
+    title: 'Math class',
+    fullTitle: 'Mathematics (Calculus)',
+    description: 'Differentiation & integration',
+    className: 'Math',
+    teacher: 'Dr. Lee',
+    room: 'Room 204',
+    dayOffset: 0,
+    startHour: 12,
+    startMin: 0,
+    endHour: 13,
+    endMin: 0,
+    startTime: '01:00 PM',
+    endTime: '02:00 PM',
+    icon: '📐',
+    colorClass: 'math-color'
+  },
+  {
+    id: 7,
+    title: 'Lunch break',
+    fullTitle: 'Lunch Break',
+    description: 'Free period',
+    className: 'Lunch Break',
+    teacher: '',
+    room: 'Cafeteria',
+    dayOffset: 0,
+    startHour: 13,
+    startMin: 0,
+    endHour: 14,
+    endMin: 0,
+    startTime: '12:00 PM',
+    endTime: '01:00 PM',
+    icon: '🍱',
+    colorClass: 'lunch-break-color'
+  },
+  {
+    id: 8,
+    title: 'History class',
+    fullTitle: 'History Class (Advanced)',
+    description: 'World War II alliances and impacts',
+    className: 'History',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 0,
+    startHour: 14,
+    startMin: 0,
+    endHour: 15,
+    endMin: 0,
+    startTime: '02:00 PM',
+    endTime: '03:00 PM',
+    icon: '📜',
+    colorClass: 'history-color'
+  },
+  {
+    id: 9,
+    title: 'Sports class',
+    fullTitle: 'Physical Education (Advanced)',
+    description: 'Team sports and fitness training',
+    className: 'Physical Education',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 1,
+    startHour: 7,
+    startMin: 0,
+    endHour: 8,
+    endMin: 0,
+    startTime: '03:00 PM',
+    endTime: '04:00 PM',
+    icon: '🏃',
+    colorClass: 'sport-color'
+  },
+  {
+    id: 10,
+    title: 'CV class',
+    fullTitle: 'Civics Class (Advanced)',
+    description: 'Citizenship and governance',
+    className: 'Civics',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 1,
+    startHour: 8,
+    startMin: 0,
+    endHour: 9,
+    endMin: 0,
+    startTime: '04:00 PM',
+    endTime: '05:00 PM',
+    icon: '🏛️',
+    colorClass: 'arts-color'
+  },
+  {
+    id: 11,
+    title: 'Biology class',
+    fullTitle: 'Biology Class (Advanced)',
+    description: 'Cell structure and function',
+    className: 'Biology',
+    teacher: 'Mr. Johnson',
+    room: 'Lab 2',
+    dayOffset: 1,
+    startHour: 9,
+    startMin: 0,
+    endHour: 10,
+    endMin: 0,
+    startTime: '04:00 PM',
+    endTime: '05:00 PM',
+    icon: '🧬',
+    colorClass: 'biology-color'
+  }
 ])
 
 const weekDays = computed(() => {
@@ -399,7 +590,7 @@ const saveEvent = () => {
   const dayIdx = weekDays.value.findIndex(d => d.iso === newEvent.dayIso)
   const [sh, sm] = newEvent.startTime.split(':').map(Number)
   const [eh, em] = newEvent.endTime.split(':').map(Number)
-  const colors = ['chip-orange', 'chip-pink', 'chip-teal', 'chip-purple', 'chip-yellow', 'chip-green']
+  const colors = ['physics-color', 'exam-color', 'geography-color', 'math-color', 'chemistry-color', 'chip-green', '']
   const fmt = (h, m) => {
     const s = h < 12 ? 'AM' : 'PM'
     const d = h > 12 ? h - 12 : h === 0 ? 12 : h
@@ -645,13 +836,18 @@ const saveEvent = () => {
 .event-title { font-size: 11px; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .event-time  { font-size: 9px; opacity: 0.85; font-weight: 600; margin-top: 1px; }
 
-.chip-orange { background: rgba(255, 157, 92, 0.12); color: var(--accent-4); border-color: rgba(255, 157, 92, 0.3); }
-.chip-pink   { background: rgba(255, 107, 116, 0.12); color: var(--danger); border-color: rgba(255, 107, 116, 0.3); }
-.chip-red    { background: var(--danger); color: #fff; border-color: var(--danger); }
-.chip-teal   { background: rgba(25, 212, 179, 0.12); color: var(--accent-3); border-color: rgba(25, 212, 179, 0.3); }
-.chip-yellow { background: rgba(255, 209, 102, 0.12); color: var(--warning); border-color: rgba(255, 209, 102, 0.3); }
-.chip-purple { background: rgba(141, 104, 255, 0.12); color: var(--accent-2); border-color: rgba(141, 104, 255, 0.3); }
-.chip-green  { background: rgba(25, 212, 179, 0.15); color: var(--accent-3); border-color: rgba(25, 212, 179, 0.4); }
+.physics-color { background: #ff9d5c1f; color: var(--accent-4); border-color: #ff9d5c4d; }
+.exam-color   { background: #ff6b741f; color: var(--danger); border-color: #ff6b744d; }
+.geography-color   { background: #19d4b31f; color: var(--accent-3); border-color: #19d4b34d; }
+.chemistry-color { background: #ffd1661f; color: var(--warning); border-color: #ffd1664d; }
+.math-color { background: #8d68ff1f; color: var(--accent-2); border-color: #8d68ff4d; }
+.meeting-color   { background: #3b82f61f; color: #3b83f6; border-color: #3b82f64d; }
+.sport-color            { background: #dab9001f; color: #dab900f1; border-color: #daba004d; }
+.lunch-break-color       { background: #ef44441f; color: #ef4444; border-color: #ef44444d; }
+.history-color        { background: #0ea5e91f; color: #0ea5e9; border-color: #0ea5e94d; }
+.arts-color        { background: #e001f01f; color: #e001f0; border-color: #e001f04d; }
+.biology-color        { background: #ee75051f; color: #ee7505; border-color: #ee75054d; }
+
 
 .sidebar-right { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
 .mini-cal-panel { background: var(--panel); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--border); }
