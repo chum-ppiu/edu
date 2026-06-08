@@ -255,7 +255,7 @@ const messages = {
       switchToKhmer: 'ប្តូរទៅខ្មែរ',
     },
     error: {
-      requiredField: 'សូមបញ្ជាក់ {field}', // Parameterized message template for Khmer
+      requiredField: 'សូមបញ្ចូល {field}', // Parameterized message template for Khmer
       invalidEmail: 'សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលត្រឹមត្រូវ',
     },
     common: {

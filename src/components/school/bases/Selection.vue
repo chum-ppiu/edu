@@ -13,7 +13,7 @@
 
     <button 
       type="button"
-      class="filter-input custom-select-trigger"
+      class="custom-select-trigger"
       :class="{ 'active': isOpen }"
       @click="toggleDropdown"
       aria-haspopup="listbox"
@@ -211,10 +211,10 @@ onUnmounted(() => {
   cursor: pointer;
   text-align: left;
   user-select: none;
-  background: var(--bg3, #1e293b);
+  background: var(--bg-2);
   border: 1px solid var(--border-strong, #334155);
-  border-radius: var(--radius-md, 6px);
-  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
   box-sizing: border-box;
 }
 

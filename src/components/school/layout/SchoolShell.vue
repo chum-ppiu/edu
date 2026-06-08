@@ -6,14 +6,13 @@ import SchoolSidebar from './SchoolSidebar.vue'
 import SchoolTopbar from './SchoolTopbar.vue'
 import DashboardPage from '../pages/DashboardPage.vue'
 import StudentsPage from '../pages/StudentsPage.vue'
-import AddStudentPage from '../pages/AddStudentPage.vue'
+import AddStudentPage from '../../forms/AddStudentPage.vue'
 import TeachersPage from '../pages/TeachersPage.vue'
 import ClassesPage from '../pages/ClassesPage.vue'
 import GradesPage from '../pages/GradesPage.vue'
 import AttendancePage from '../pages/AttendancePage.vue'
 import PaymentsPage from '../pages/PaymentsPage.vue'
 import AnnouncementsPage from '../pages/AnnouncementsPage.vue'
-import SchedulePage from '../pages/SchedulePage.vue'
 import ReportsPage from '../pages/ReportsPage.vue'
 import SubjectsPage from '../pages/SubjectsPage.vue'
 import SettingsPage from '../pages/SettingsPage.vue'
@@ -29,11 +28,10 @@ const pageComponents = {
   attendance: AttendancePage,
   payments: PaymentsPage,
   announcements: AnnouncementsPage,
-  schedule: SchedulePage,
+  schedule: Calendar,
   reports: ReportsPage,
   subjects: SubjectsPage,
-  settings: SettingsPage,
-  calendar: Calendar,
+  settings: SettingsPage
 }
 
 const { t } = useI18n()
@@ -68,7 +66,6 @@ const navSections = computed(() => [
       { id: 'schedule', icon: '🗓️', label: t('shell.schedule') },
       { id: 'reports', icon: '📈', label: t('shell.reports') },
       { id: 'settings', icon: '⚙️', label: t('shell.settings') },
-      { id: 'calendar', icon: '📆', label: t('shell.calendar') },
     ],
   },
 ])
@@ -87,7 +84,6 @@ const pageTitles = computed(() => ({
   reports: t('shell.reports'),
   subjects: t('shell.subjects'),
   settings: t('shell.settings'),
-  calendar: t('shell.calendar'),
 }))
 
 const activePage = ref('dashboard')

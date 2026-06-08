@@ -208,7 +208,7 @@ onUnmounted(() => {
   width: 100%;
   padding-right: 36px;
   cursor: pointer;
-  background-color: var(--bg-2, #f8fafc);
+  background-color: var(--bg-2);
   text-overflow: ellipsis;
 }
 

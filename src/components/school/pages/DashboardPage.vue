@@ -33,13 +33,13 @@ const clearError = (field) => {
 
 <template>
   <div class="page active">
-    <Selection
+    <!-- <Selection
       v-model="studentForm.gender" 
       :options="['Male', 'Female']"
       placeholder="Select Gender"
       @change="(data)=>console.log('Selection changed:', data)"
           
-    />
+    /> -->
     <!-- <CustomTimePicker 
       v-model="appointmentTime"
       @change="handleTimeChange"
@@ -218,13 +218,5 @@ const clearError = (field) => {
         </div>
       </div>
     </div>
-
-    <Selection
-      v-model="studentForm.gender" 
-      :options="['Male', 'Female']"
-      placeholder="Select Gender"
-      @change="(data)=>console.log('Selection changed:', data)"
-          
-    />
   </div>
 </template>
