@@ -178,8 +178,8 @@ watch(() => props.modelValue, (newVal) => {
 }, { immediate: true })
 
 const staticEventDays = ref([
-  new Date(today.getFullYear(), today.getMonth(), 12).toDateString(),
-  new Date(today.getFullYear(), today.getMonth(), 18).toDateString(),
+  // new Date(today.getFullYear(), today.getMonth(), 12).toDateString(),
+  // new Date(today.getFullYear(), today.getMonth(), 18).toDateString(),
 ])
 
 const currentMonth = computed(() => miniViewDate.value.getMonth())
