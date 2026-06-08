@@ -345,7 +345,7 @@ body,
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: white;
-  box-shadow: 0 10px 30px rgba(79, 142, 247, 0.28);
+  box-shadow: 0 10px 30px #4f8ef747;
 }
 
 .btn-primary:hover {

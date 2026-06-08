@@ -26,6 +26,7 @@ const messages = {
       view: 'View',
       edit: 'Edit',
       apply: 'Apply',
+      ok: 'OK',
     },
     shell: {
       brandSub: 'School Management',
@@ -265,6 +266,7 @@ const messages = {
       view: 'មើល',
       edit: 'កែប្រែ',
       apply: 'អនុវត្ត',
+      ok: 'យល់ព្រម',
     },
     shell: {
       brandSub: 'ប្រព័ន្ធគ្រប់គ្រងសាលា',

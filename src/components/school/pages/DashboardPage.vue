@@ -2,9 +2,12 @@
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import CustomDatePicker from '../ui/CustomDatePicker.vue'
+import TimePicker from '../ui/TimePicker.vue'
+TimePicker
 
 const { t } = useI18n()
 const selectedDateString = ref([])
+const appointmentTime = ref('09:00 am')
 
 const getDateSelected = (dateObj) => {
   console.log('dfdfd', selectedDateString.value);
@@ -16,6 +19,11 @@ const getDateSelected = (dateObj) => {
 
 <template>
   <div class="page active">
+    <div class="card-body">
+    <TimePicker v-model="appointmentTime"
+    @confirm="(time) => console.log('Selected Time:', time)"
+    />
+  </div>
     <CustomDatePicker
       v-model="selectedDateString"
       :format="'YYYY-MM-DD'"
