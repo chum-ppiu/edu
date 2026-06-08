@@ -1,8 +1,8 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
-import CustomDatePicker from '../ui/CustomDatePicker.vue'
-import CustomTimePicker from '../ui/CustomTimePicker.vue'
+import CustomDatePicker from '@/components/school/customs/CustomDatePicker.vue'
+import CustomTimePicker from '@/components/school/customs/CustomTimePicker.vue'
 
 const { t } = useI18n()
 const selectedDateString = ref([])
@@ -24,7 +24,7 @@ const getDateSelected = (dateObj) => {
 
 <template>
   <div class="page active">
-    <CustomTimePicker 
+    <!-- <CustomTimePicker 
       v-model="appointmentTime"
       @change="handleTimeChange"
     />
@@ -32,7 +32,7 @@ const getDateSelected = (dateObj) => {
       v-model="selectedDateString"
       :format="'YYYY-MM-DD'"
       selectionMode="single"
-      @update:modelValue="getDateSelected"
+      @update:modelValue="getDateSelected" -->
     />
     
     <div class="page-header">
@@ -201,11 +201,5 @@ const getDateSelected = (dateObj) => {
         </div>
       </div>
     </div>
-    <CustomDatePicker
-      v-model="selectedDateString"
-      :format="'YYYY-MM-DD'"
-      selectionMode="single"
-      @update:modelValue="getDateSelected"
-    />
   </div>
 </template>

@@ -159,8 +159,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CustomDatePicker from '@/components/school/ui/CustomDatePicker.vue';
-import FormGroup from '@/components/FormGroup.vue'; 
+import CustomDatePicker from '@/components/school/customs/CustomDatePicker.vue';
+import FormGroup from '@/components/school/bases/FormGroup.vue'; 
 import { useFormValidation } from '@/composables/useFormValidation'; 
 
 const emit = defineEmits(['navigate']);

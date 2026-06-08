@@ -182,8 +182,7 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
-// Import the custom sub-component directly
-import MiniCalendar from './MiniCalendar.vue'
+import MiniCalendar from '@/components/school/bases/MiniCalendar.vue'
 
 const CELL_HEIGHT = 68 
 const HEADER_ROW_HEIGHT = 56

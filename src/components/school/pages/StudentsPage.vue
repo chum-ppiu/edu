@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
 
-import DataTable from '../ui/DataTable.vue'
-import ModalDialog from '../ui/ModalDialog.vue'
+import DataTable from '@/components/school/bases/DataTable.vue'
+import ModalDialog from '@/components/school/bases/ModalDialog.vue'
 
 const emit = defineEmits(['navigate'])
 

@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-timepicker-container" ref="timepickerRef">
-    <div class="timepicker-input-wrapper">
+  <div class="custom-datepicker-container" ref="datepickerRef">
+    <div class="datepicker-input-wrapper">
       <input
         type="text"
         :class="inputClass"
@@ -9,8 +9,8 @@
         readonly
         @click="togglePopover"
       />
-      <span class="timepicker-icon-trigger" @click="togglePopover">
-        🕒
+      <span class="datepicker-icon-trigger" @click="togglePopover">
+        📅
       </span>
     </div>
 
@@ -18,16 +18,17 @@
       <transition name="popover-fade">
         <div 
           v-if="isOpen" 
-          class="timepicker-popover-overlay"
+          class="datepicker-popover-overlay"
           :class="{ 'is-teleported': appendToBody }"
           :style="popoverStyle"
           ref="popoverRef"
         >
-          <TimePicker
+          <MiniCalendar
             :model-value="modelValue"
-            @update:model-value="onTimeUpdate"
-            @cancel="isOpen = false"
-            @confirm="onTimeSelected"
+            :selection-mode="selectionMode"
+            :format="format"
+            @update:model-value="onDateUpdate"
+            @date-selected="onDateSelected"
           />
         </div>
       </transition>
@@ -37,16 +38,24 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
-import TimePicker from './TimePicker.vue'
+import MiniCalendar from '@/components/school/bases/MiniCalendar.vue'
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Array],
     default: ''
+  },
+  selectionMode: {
+    type: String,
+    default: 'single'
+  },
+  format: {
+    type: String,
+    default: 'YYYY-MM-DD'
   },
   placeholder: {
     type: String,
-    default: 'HH:mm AM/PM'
+    default: 'YYYY-MM-DD'
   },
   inputClass: {
     type: String,
@@ -61,37 +70,47 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change'])
 
 const isOpen = ref(false)
-const timepickerRef = ref(null)
+const datepickerRef = ref(null)
 const popoverRef = ref(null)
 
-// Coordinates layout tracking matrices state matching CustomDatePicker bounding parameters
-const coords = ref({ top: 0, left: 0, width: '310px' })
+// Dynamic coordinates positioning state
+const coords = ref({ top: 0, left: 0, width: '270px' })
 
 const displayValue = computed(() => {
-  return props.modelValue || ''
+  if (!props.modelValue) return ''
+  
+  if (Array.isArray(props.modelValue)) {
+    if (props.selectionMode === 'range') {
+      return props.modelValue.filter(Boolean).map(d => d.split(' ')[0]).join(' ~ ')
+    }
+    // Fixed typo here: changed props.map to props.modelValue.map
+    return props.modelValue.filter(Boolean).map(d => d.split(' ')[0]).join(', ')
+  }
+  
+  return props.modelValue.split(' ')[0]
 })
 
-// Flexible programmatic boundary adjustment loops
+// Calculate flexible layout screen placement
 const updatePopoverPosition = () => {
-  if (!timepickerRef.value) return
+  if (!datepickerRef.value) return
 
-  const rect = timepickerRef.value.getBoundingClientRect()
+  const rect = datepickerRef.value.getBoundingClientRect()
   const scrollY = window.scrollY
   const scrollX = window.scrollX
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
-  const popoverWidth = 310  // Exact matching width of .pro-timepicker
-  const popoverHeight = 390 // Approximate total pixel footprint height of full component
+  const popoverWidth = 270 
+  const popoverHeight = 310 
 
   let top = rect.bottom + (props.appendToBody ? scrollY : 0) + 6
   let left = rect.left + (props.appendToBody ? scrollX : 0)
 
-  // 1. Flip upwards if running out of bottom layout space
+  // 1. Flip upwards if running out of bottom room
   if (rect.bottom + popoverHeight > viewportHeight && rect.top - popoverHeight > 0) {
     top = rect.top + (props.appendToBody ? scrollY : 0) - popoverHeight - 6
   }
 
-  // 2. Shift leftward if extending past screen right-boundary lines
+  // 2. Adjust alignment leftward if pushed past the right edge of screen
   if (rect.left + popoverWidth > viewportWidth) {
     left = viewportWidth - popoverWidth - 16 + (props.appendToBody ? scrollX : 0)
   }
@@ -111,7 +130,7 @@ const togglePopover = async () => {
   }
 }
 
-// Global listener hooks keeping elements firmly synchronized during scroll operations
+// Track viewport changes to keep the panel pinned properly while open
 watch(isOpen, (value) => {
   if (value) {
     window.addEventListener('scroll', updatePopoverPosition, true)
@@ -140,18 +159,21 @@ const popoverStyle = computed(() => {
   }
 })
 
-const onTimeUpdate = (newValue) => {
+const onDateUpdate = (newValue) => {
   emit('update:modelValue', newValue)
+  emit('change', newValue)
 }
 
-const onTimeSelected = (data) => {
-  emit('update:modelValue', data.formatted)
-  emit('change', data.formatted)
-  isOpen.value = false // Auto dismiss on confirmation submission click execution
+const onDateSelected = () => {
+  if (props.selectionMode === 'single') {
+    isOpen.value = false
+  } else if (props.selectionMode === 'range' && Array.isArray(props.modelValue) && props.modelValue.length === 2) {
+    isOpen.value = false
+  }
 }
 
 const handleClickOutside = (event) => {
-  const clickedInput = timepickerRef.value && timepickerRef.value.contains(event.target)
+  const clickedInput = datepickerRef.value && datepickerRef.value.contains(event.target)
   const clickedPopover = popoverRef.value && popoverRef.value.contains(event.target)
 
   if (!clickedInput && !clickedPopover) {
@@ -171,26 +193,26 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.custom-timepicker-container {
+.custom-datepicker-container {
   position: relative;
   width: 100%;
   display: inline-block;
 }
 
-.timepicker-input-wrapper {
+.datepicker-input-wrapper {
   position: relative;
   width: 100%;
 }
 
-.timepicker-input-wrapper input {
+.datepicker-input-wrapper input {
   width: 100%;
   padding-right: 36px;
   cursor: pointer;
-  background-color: var(--bg-2);
+  background-color: var(--bg-2, #f8fafc);
   text-overflow: ellipsis;
 }
 
-.timepicker-icon-trigger {
+.datepicker-icon-trigger {
   position: absolute;
   right: 12px;
   top: 50%;
@@ -199,26 +221,28 @@ onUnmounted(() => {
   font-size: 14px;
   user-select: none;
   opacity: 0.6;
-  transition: opacity 0.15s ease-in-out;
+  transition: opacity 0.15s ease;
 }
 
-.timepicker-input-wrapper:hover .timepicker-icon-trigger {
+.datepicker-input-wrapper:hover .datepicker-icon-trigger {
   opacity: 1;
 }
 
-/* Base structural shadow container card matching datepicker patterns */
-.timepicker-popover-overlay {
-  background: var(--bg-2);
-  box-shadow: var(--shadow);
-  border-radius: var(--radius-xl);
+/* Floating overlay panel card */
+.datepicker-popover-overlay {
+  background: var(--panel, #ffffff);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-lg, 14px);
+  border: 1px solid var(--border, rgba(226, 232, 240, 0.8));
   overflow: hidden;
 }
 
-.timepicker-popover-overlay.is-teleported {
+/* Ensure the calendar container stays above screen layers when teleported to document body root level */
+.datepicker-popover-overlay.is-teleported {
   z-index: 99999;
 }
 
-/* Smooth micro interactions scale entry transition metrics */
+/* Micro Animations definitions */
 .popover-fade-enter-active {
   animation: slideInUp 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
