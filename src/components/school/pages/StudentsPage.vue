@@ -106,9 +106,6 @@ const filters = [
       { label: 'Grade 11B', value: 'Grade 11B' },
       { label: 'Grade 12A', value: 'Grade 12A' },
       { label: 'Grade 12B', value: 'Grade 12B' },
-      { label: 'Grade 11B', value: 'Grade 11B' },
-      { label: 'Grade 12A', value: 'Grade 12A' },
-      { label: 'Grade 12B', value: 'Grade 12B' },
     ],
   },
   {
