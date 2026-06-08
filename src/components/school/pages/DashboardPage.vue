@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import CustomDatePicker from '@/components/school/customs/CustomDatePicker.vue'
 import CustomTimePicker from '@/components/school/customs/CustomTimePicker.vue'
-
+import Selection from '@/components/school/bases/Selection.vue'
 const { t } = useI18n()
 const selectedDateString = ref([])
 // Synchronized state engine entry 
@@ -20,10 +20,26 @@ const getDateSelected = (dateObj) => {
   console.log('Native Date Object emitted:', dateObj)
 }
 
+const studentForm = ref({
+  gender: 'Male', // Can safely default to an option or start empty ''
+  grade: 'dd'
+});
+
+const clearError = (field) => {
+  console.log(`Clearing validation error context for: ${field}`);
+};
+
 </script>
 
 <template>
   <div class="page active">
+    <Selection
+      v-model="studentForm.gender" 
+      :options="['Male', 'Female']"
+      placeholder="Select Gender"
+      @change="(data)=>console.log('Selection changed:', data)"
+          
+    />
     <!-- <CustomTimePicker 
       v-model="appointmentTime"
       @change="handleTimeChange"
@@ -32,8 +48,9 @@ const getDateSelected = (dateObj) => {
       v-model="selectedDateString"
       :format="'YYYY-MM-DD'"
       selectionMode="single"
-      @update:modelValue="getDateSelected" -->
-    />
+      @update:modelValue="getDateSelected" 
+      />
+      -->
     
     <div class="page-header">
       <div>
@@ -201,5 +218,13 @@ const getDateSelected = (dateObj) => {
         </div>
       </div>
     </div>
+
+    <Selection
+      v-model="studentForm.gender" 
+      :options="['Male', 'Female']"
+      placeholder="Select Gender"
+      @change="(data)=>console.log('Selection changed:', data)"
+          
+    />
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import Selection from './Selection.vue' // Double-check this path matches your directory setup
 
 const props = defineProps({
   title: {
@@ -148,6 +149,19 @@ function setSearch(value) {
   resetPage()
 }
 
+// Intercepts the custom Selection emit to map string labels seamlessly back to their values
+function handleFilterSelection(filter, chosenLabel) {
+  if (chosenLabel === filter.allLabel || chosenLabel === `All ${filter.label}`) {
+    setFilter(filter.key, 'all')
+    return
+  }
+  
+  const foundOption = filter.options.find(opt => opt.label === chosenLabel)
+  if (foundOption) {
+    setFilter(filter.key, foundOption.value)
+  }
+}
+
 function setFilter(filterKey, value) {
   activeFilters.value = { ...activeFilters.value, [filterKey]: value }
   resetPage()
@@ -171,6 +185,21 @@ function emitAction(action, row) {
   emit(action, row)
 }
 
+// Maps static definitions to linear string arrays for Selection.vue consumption
+const getFilterOptionsList = (filter) => {
+  const defaultLabel = filter.allLabel || `All ${filter.label}`
+  return [defaultLabel, ...filter.options.map(opt => opt.label)]
+}
+
+const getCurrentFilterLabel = (filter) => {
+  const currentValue = activeFilters.value[filter.key] ?? 'all'
+  if (currentValue === 'all') {
+    return filter.allLabel || `All ${filter.label}`
+  }
+  const match = filter.options.find(opt => opt.value === currentValue)
+  return match ? match.label : (filter.allLabel || `All ${filter.label}`)
+}
+
 defineExpose({
   clearFilters,
 })
@@ -184,7 +213,7 @@ defineExpose({
         <div v-if="subtitle" style="font-size:12px;color:var(--text3);margin-top:4px;">{{ subtitle }}</div>
       </div>
 
-      <div class="filter-bar" style="margin:0;flex:1;justify-content:flex-end;">
+      <div class="filter-bar" style="margin:0;flex:1;justify-content:flex-end;align-items:center;">
         <input
           class="filter-input"
           :placeholder="searchPlaceholder"
@@ -192,16 +221,20 @@ defineExpose({
           style="flex:1;max-width:280px;"
           @input="setSearch($event.target.value)"
         />
-        <select
-          v-for="filter in filters"
+
+        <div 
+          v-for="filter in filters" 
           :key="filter.key"
-          class="filter-input"
-          :value="activeFilters[filter.key] ?? 'all'"
-          @change="setFilter(filter.key, $event.target.value)"
+          class="custom-table-filter-wrapper"
         >
-          <option value="all">{{ filter.allLabel || `All ${filter.label}` }}</option>
-          <option v-for="option in filter.options" :key="option.value" :value="option.value">{{ option.label }}</option>
-        </select>
+          <Selection
+            :modelValue="getCurrentFilterLabel(filter)"
+            :options="getFilterOptionsList(filter)"
+            :placeholder="filter.allLabel || `All ${filter.label}`"
+            :appendToBody="true"
+            @update:modelValue="handleFilterSelection(filter, $event)"
+          />
+        </div>
       </div>
     </div>
 
@@ -283,3 +316,24 @@ defineExpose({
     </div>
   </div>
 </template>
+
+<style scoped>
+/* ── NEW LAYOUT RULES FOR SELECTION MIGRATION ── */
+.custom-table-filter-wrapper {
+  min-width: 140px;
+  max-width: 220px;
+}
+
+:deep(.custom-select-trigger) {
+  border: 1px solid var(--border-strong, #334155);
+  border-radius: 6px;
+  padding: 6px 12px;
+  height: 34px; /* Matches standard UI filter layouts perfectly */
+  background: var(--bg3, #0f172a);
+}
+
+:deep(.selected-text),
+:deep(.placeholder-text) {
+  font-size: 13px;
+}
+</style>

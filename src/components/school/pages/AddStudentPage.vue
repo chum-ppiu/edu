@@ -24,10 +24,12 @@
               </FormGroup>
               
               <FormGroup :label="t('addStudent.gender')" required :error="renderError('gender')">
-                <select class="filter-input" v-model="studentForm.gender" @change="clearError('gender')">
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
+                <Selection 
+                  v-model="studentForm.gender" 
+                  :options="['Male', 'Female']" 
+                  :placeholder="t('addStudent.gender')"
+                  @change="clearError('gender')"
+                />
               </FormGroup>
               
               <FormGroup :label="t('addStudent.dob')" required :error="renderError('dateOfBirth')">
@@ -81,18 +83,21 @@
               </FormGroup>
               
               <FormGroup :label="t('addStudent.grade')" required :error="renderError('grade')">
-                <select class="filter-input" v-model="studentForm.grade" @change="clearError('grade')">
-                  <option value="Grade 10">Grade 10</option>
-                  <option value="Grade 11">Grade 11</option>
-                  <option value="Grade 12">Grade 12</option>
-                </select>
+                <Selection 
+                  v-model="studentForm.grade" 
+                  :options="['Grade 10', 'Grade 11', 'Grade 12']" 
+                  placeholder="Select Grade"
+                  @change="clearError('grade')"
+                />
               </FormGroup>
               
               <FormGroup :label="t('addStudent.class')" required :error="renderError('classGroup')">
-                <select class="filter-input" v-model="studentForm.classGroup" @change="clearError('classGroup')">
-                  <option value="Class A1">Class A1</option>
-                  <option value="Class B2">Class B2</option>
-                </select>
+                <Selection 
+                  v-model="studentForm.classGroup" 
+                  :options="['Class A1', 'Class B2']" 
+                  placeholder="Select Class"
+                  @change="clearError('classGroup')"
+                />
               </FormGroup>
               
               <FormGroup :label="t('addStudent.enrollmentDate')" required :error="renderError('enrollmentDate')">
@@ -106,10 +111,11 @@
               </FormGroup>
 
               <FormGroup :label="t('addStudent.status')">
-                <select class="filter-input" v-model="studentForm.status">
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
+                <Selection 
+                  v-model="studentForm.status" 
+                  :options="['Active', 'Inactive']" 
+                  placeholder="Select Status"
+                />
               </FormGroup>
             </div>
           </div>
@@ -160,6 +166,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import CustomDatePicker from '@/components/school/customs/CustomDatePicker.vue';
+import Selection from '@/components/school/bases/Selection.vue'; // Adjust path location appropriately
 import FormGroup from '@/components/school/bases/FormGroup.vue'; 
 import { useFormValidation } from '@/composables/useFormValidation'; 
 

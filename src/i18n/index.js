@@ -4,6 +4,10 @@ const STORAGE_KEY = 'educore-locale'
 
 const messages = {
   en: {
+    genderSelection: {
+      male: 'Male',
+      female: 'Female'
+    },
     language: {
       english: 'English',
       khmer: 'Khmer',

@@ -507,8 +507,5 @@ const jumpToToday = () => {
 .btn-today {
   margin-top: 10px;
   width: 100%;
-  padding: 6px;
-  font-size: 12px;
-  height: auto;
 }
 </style>

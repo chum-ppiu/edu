@@ -657,8 +657,8 @@ tbody td {
 .form-input {
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
   color: var(--text);
   font-size: 13px;
   outline: none;
