@@ -197,7 +197,7 @@ function handleModalSave() {
       </div>
     </div>
 
-    <div v-if="selectedStudent" class="card" style="margin-bottom:16px;">
+    <!-- <div v-if="selectedStudent" class="card" style="margin-bottom:16px;">
       <div class="card-header">
         <span class="card-title">Selected Student</span>
         <span class="badge badge-blue">{{ selectedStudent.status }}</span>
@@ -218,7 +218,7 @@ function handleModalSave() {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <DataTable
       :columns="columns"

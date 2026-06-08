@@ -686,7 +686,7 @@ tbody td {
 }
 
 select.filter-input option {
-  background: var(--bg);
+  background: var(--bg-2);
 }
 
 .filter-dropdown { display: flex; flex-direction: column; gap: 3px; }

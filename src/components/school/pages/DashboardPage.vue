@@ -1,11 +1,24 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import MiniCalendar from '../ui/MiniCalendar.vue'
+import { ref } from 'vue'
 
 const { t } = useI18n()
+const selectedDateString = ref('2026-06-10')
+
+const getDateSelected = (dateObj) => {
+  console.log('Native Date Object emitted:', dateObj)
+}
+
 </script>
 
 <template>
   <div class="page active">
+    <MiniCalendar
+      :model-value="selectedDateString"
+      :format="'YYYY-MM-DD HH:mm:ss'"
+      @update:modelValue="getDateSelected"
+    />
     <div class="page-header">
       <div>
         <div class="page-title">{{ t('dashboard.title') }}</div>
