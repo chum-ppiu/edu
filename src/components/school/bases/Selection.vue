@@ -47,7 +47,7 @@
               <span class="option-label">{{ option }}</span>
               
               <svg v-if="modelValue === option" class="check-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="10" viewBox="0 0 12 10" fill="none">
-                <path d="M1 5L4.5 8.5L11 1.5" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1 5L4.5 8.5L11 1.5" stroke="var(--accent, #4f8ef7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </li>
           </ul>
@@ -85,8 +85,7 @@ const isOpen = ref(false);
 const selectRef = ref(null);
 const popoverRef = ref(null);
 
-// Geometric boundary tracking metrics modeled after layout positioning strategies
-const coords = ref({ top: '0px', left: '0px', width: '100%' });
+const coords = ref({ top: '0px', left: '0px', minWidth: '100%' });
 
 const toggleDropdown = async () => {
   isOpen.value = !isOpen.value;
@@ -102,7 +101,6 @@ const selectOption = (value) => {
   isOpen.value = false;
 };
 
-// Dynamic viewport orientation positioning module
 const updatePopoverPosition = () => {
   if (!selectRef.value) return;
 
@@ -112,33 +110,33 @@ const updatePopoverPosition = () => {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
 
-  // Compute actual padding-adjusted element sizing values
-  const dropdownWidth = rect.width;
+  // Use the button width as base min-width fallback
+  const triggerWidth = rect.width;
   
-  // Calculate approximate height based on standard lists (6px padding + ~41px per row)
-  const dropdownHeight = 12 + (props.options.length * 41);
+  // Calculate approximate height (6px padding + ~38px per row item)
+  const dropdownHeight = 12 + (props.options.length * 38);
 
   let top = rect.bottom + (props.appendToBody ? scrollY : 0) + 6;
   let left = rect.left + (props.appendToBody ? scrollX : 0);
 
-  // 1. Structural flip upwards if space at bottom is insufficient
+  // Flip upward if space at the bottom of viewport is tight
   if (rect.bottom + dropdownHeight > viewportHeight && rect.top - dropdownHeight > 0) {
     top = rect.top + (props.appendToBody ? scrollY : 0) - dropdownHeight - 6;
   }
 
-  // 2. Safe alignment adjustments preventing right-hand screen overflow
-  if (rect.left + dropdownWidth > viewportWidth) {
-    left = viewportWidth - dropdownWidth - 16 + (props.appendToBody ? scrollX : 0);
+  // Prevent list clip-off on small viewports or layout margins
+  const safetyBufferWidth = Math.max(triggerWidth, 110); 
+  if (left + safetyBufferWidth > viewportWidth) {
+    left = viewportWidth - safetyBufferWidth - 16 + (props.appendToBody ? scrollX : 0);
   }
 
   coords.value = {
     top: `${top}px`,
     left: `${left}px`,
-    width: `${dropdownWidth}px`
+    minWidth: `${triggerWidth}px`
   };
 };
 
-// Global scroll and recalculation listener pipelines
 watch(isOpen, (value) => {
   if (value) {
     window.addEventListener('scroll', updatePopoverPosition, true);
@@ -155,7 +153,7 @@ const popoverStyle = computed(() => {
       position: 'absolute',
       top: coords.value.top,
       left: coords.value.left,
-      width: coords.value.width
+      minWidth: coords.value.minWidth
     };
   }
   return {
@@ -163,7 +161,7 @@ const popoverStyle = computed(() => {
     top: '100%',
     left: '0',
     marginTop: '6px',
-    width: '100%'
+    minWidth: '100%'
   };
 });
 
@@ -213,28 +211,30 @@ onUnmounted(() => {
   cursor: pointer;
   text-align: left;
   user-select: none;
-  background: var(--bg3);
+  background: var(--bg3, #1e293b);
+  border: 1px solid var(--border-strong, #334155);
+  border-radius: var(--radius-md, 6px);
+  padding: 8px 12px;
+  box-sizing: border-box;
 }
 
 .custom-select-trigger.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--shadow-strong);
-  transform: translateY(0);
+  border-color: var(--accent, #4f8ef7);
+  box-shadow: 0 0 0 2px rgba(79, 142, 247, 0.2);
 }
 
 .placeholder-text {
-  color: var(--text-3);
+  color: var(--text-3, #64748b);
 }
 
 .selected-text {
-  color: var(--text);
+  color: var(--text, #f8fafc);
   font-weight: 500;
 }
 
-/* Custom Scaled Dynamic Dropdown Pointer Arrow */
 .chevron-icon {
-  width: 14px;
-  height: 9px;
+  width: 10px;
+  height: 6px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23a8b6d5'/%3E%3C/svg%3E");
   background-size: contain;
   background-repeat: no-repeat;
@@ -243,7 +243,7 @@ onUnmounted(() => {
   display: inline-block;
   flex-shrink: 0;
   opacity: 0.8;
-  margin-left: 12px;
+  margin-left: 8px;
 }
 
 .chevron-icon.rotated {
@@ -252,9 +252,17 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-/* Floating Architectural Overlays */
+/* ── FLOATING OVERLAY PANEL ── */
+.custom-select-popover {
+  box-sizing: border-box;
+  /* Allows the menu to scale wider than tiny parent buttons automatically */
+  width: max-content !important; 
+  /* Sets an optimal proportional baseline width */
+  max-width: 280px; 
+}
+
 .custom-select-popover.is-teleported {
-  z-index: 99999;
+  z-index: 999999 !important;
 }
 
 .custom-select-options {
