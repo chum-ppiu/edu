@@ -1,14 +1,10 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import MiniCalendar from '../ui/MiniCalendar.vue'
 import { ref } from 'vue'
+import CustomDatePicker from '../ui/CustomDatePicker.vue'
 
 const { t } = useI18n()
-const selectedDateString = ref('')
-const defaultSelectedDate = [
-  '2026-06-15',
-  '2026-06-16',
-]
+const selectedDateString = ref([])
 
 const getDateSelected = (dateObj) => {
   console.log('dfdfd', selectedDateString.value);
@@ -20,12 +16,13 @@ const getDateSelected = (dateObj) => {
 
 <template>
   <div class="page active">
-    <MiniCalendar
+    <CustomDatePicker
       v-model="selectedDateString"
-      :format="'YYYY-MM-DD HH:mm:ss'"
-      :modelValue="defaultSelectedDate"
+      :format="'YYYY-MM-DD'"
+      selectionMode="single"
       @update:modelValue="getDateSelected"
     />
+    
     <div class="page-header">
       <div>
         <div class="page-title">{{ t('dashboard.title') }}</div>
@@ -192,5 +189,11 @@ const getDateSelected = (dateObj) => {
         </div>
       </div>
     </div>
+    <CustomDatePicker
+      v-model="selectedDateString"
+      :format="'YYYY-MM-DD'"
+      selectionMode="single"
+      @update:modelValue="getDateSelected"
+    />
   </div>
 </template>
