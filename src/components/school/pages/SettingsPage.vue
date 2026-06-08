@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import ControlTabs from '../ui/ControlTabs.vue'
+import ControlTabs from '@/components/school/bases/ControlTabs.vue'
 
 const { t } = useI18n()
 

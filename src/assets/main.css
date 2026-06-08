@@ -346,7 +346,7 @@ body,
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: white;
-  box-shadow: 0 10px 30px rgba(79, 142, 247, 0.28);
+  box-shadow: 0 10px 30px #4f8ef747;
 }
 
 .btn-primary:hover {
@@ -354,7 +354,7 @@ body,
 }
 
 .btn-ghost {
-  background: var(--bg3);
+  background: var(--bg-3);
   color: var(--text2);
   border: 1px solid var(--border);
 }
@@ -658,8 +658,8 @@ tbody td {
 .form-input {
   background: var(--bg3);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
   color: var(--text);
   font-size: 13px;
   outline: none;
@@ -687,7 +687,7 @@ tbody td {
 }
 
 select.filter-input option {
-  background: var(--bg);
+  background: var(--bg-2);
 }
 
 .filter-dropdown { display: flex; flex-direction: column; gap: 3px; }

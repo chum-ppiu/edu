@@ -94,31 +94,12 @@
       </div>
 
       <aside class="sidebar-right">
-        <div class="mini-cal-panel">
-          <div class="mini-cal-header">
-            <button class="mini-nav" @click="prevMiniMonth">‹</button>
-            <span class="mini-month-label">{{ miniMonthLabel }}</span>
-            <button class="mini-nav" @click="nextMiniMonth">›</button>
-          </div>
-          <div class="mini-cal-grid">
-            <span v-for="d in ['Mo','Tu','We','Th','Fr','Sa','Su']" :key="d" class="mini-dow">{{ d }}</span>
-            <span
-              v-for="cell in miniCalCells"
-              :key="cell.key"
-              class="mini-day"
-              :class="{
-                'mini-empty': !cell.day,
-                'mini-today': cell.isToday,
-                'mini-selected': cell.isInSelectedWeek,
-                'mini-has-event': cell.hasEvent,
-              }"
-              @click="cell.day && jumpToDate(cell.date)"
-            >
-              {{ cell.day || '' }}
-            </span>
-          </div>
-          <button class="btn-today" @click="jumpToToday">Jump to Today</button>
-        </div>
+        <MiniCalendar
+          :model-value="miniCalendarString"
+          format="YYYY-MM-DD HH:mm:ss"
+          @date-selected="jumpToDate"
+          @today-clicked="onMiniTodayClick"
+        />
       </aside>
 
     </div>
@@ -201,6 +182,7 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import MiniCalendar from '@/components/school/bases/MiniCalendar.vue'
 
 const CELL_HEIGHT = 68 
 const HEADER_ROW_HEIGHT = 56
@@ -221,7 +203,21 @@ const getMonday = (date) => {
 
 const today = new Date()
 const weekStart = ref(getMonday(today))
-const miniViewDate = ref(new Date(today.getFullYear(), today.getMonth(), 1))
+
+// Maintains highlight alignment on the active workspace day sequence
+const currentSelectedDay = ref(new Date(today))
+
+// Automatically translates active date reference instances into properly formatted target string strings
+const miniCalendarString = computed(() => {
+  const target = currentSelectedDay.value
+  const yyyy = target.getFullYear()
+  const mm = String(target.getMonth() + 1).padStart(2, '0')
+  const dd = String(target.getDate()).padStart(2, '0')
+  const hh = String(target.getHours()).padStart(2, '0')
+  const min = String(target.getMinutes()).padStart(2, '0')
+  const ss = String(target.getSeconds()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`
+})
 
 const filterClass = ref('')
 const filterTeacher = ref('')
@@ -480,7 +476,6 @@ const showNowIndicator = computed(() => {
   return currentHour >= startHour && currentHour <= endHour
 })
 
-// FIXED TIMING POSITION: Maps 100% cleanly over the dynamic cell blocks directly without shift anomalies
 const nowIndicatorTop = computed(() => {
   if (!showNowIndicator.value) return 0
   const currentHour = currentTime.value.getHours()
@@ -499,47 +494,17 @@ const filteredEvents = computed(() => {
   })
 })
 
-const miniMonthLabel = computed(() => {
-  return miniViewDate.value.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-})
-
-const miniCalCells = computed(() => {
-  const year = miniViewDate.value.getFullYear()
-  const month = miniViewDate.value.getMonth()
-  const firstDay = new Date(year, month, 1)
-  let startOffset = firstDay.getDay() - 1
-  if (startOffset < 0) startOffset = 6
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const cells = []
-  for (let i = 0; i < startOffset; i++) cells.push({ key: 'e' + i, day: null })
-  const selectedWeekIsos = new Set(weekDays.value.map(d => d.iso))
-  const eventIsos = new Set(filteredEvents.value.map(e => {
-    const d = new Date(weekStart.value)
-    d.setDate(d.getDate() + e.dayOffset)
-    return d.toISOString().split('T')[0]
-  }))
-  for (let d = 1; d <= daysInMonth; d++) {
-    const date = new Date(year, month, d)
-    const iso = date.toISOString().split('T')[0]
-    cells.push({ 
-      key: iso, day: d, date, 
-      isToday: date.toDateString() === today.toDateString(), 
-      isInSelectedWeek: selectedWeekIsos.has(iso), 
-      hasEvent: eventIsos.has(iso) 
-    })
-  }
-  return cells
-})
-
-const prevMiniMonth = () => { miniViewDate.value = new Date(miniViewDate.value.getFullYear(), miniViewDate.value.getMonth() - 1, 1) }
-const nextMiniMonth = () => { miniViewDate.value = new Date(miniViewDate.value.getFullYear(), miniViewDate.value.getMonth() + 1, 1) }
+// Handles selections fired from calendar dates grid updates cleanly
 const jumpToDate = (date) => { 
+  currentSelectedDay.value = date
   weekStart.value = getMonday(date)
   setTimeout(scrollToCurrentDay, 50)
 }
-const jumpToToday = () => {
-  weekStart.value = getMonday(today)
-  miniViewDate.value = new Date(today.getFullYear(), today.getMonth(), 1)
+
+// Separate callback hook capturing Today buttons explicitly
+const onMiniTodayClick = (date) => {
+  currentSelectedDay.value = date
+  weekStart.value = getMonday(date)
   setTimeout(scrollToCurrentDay, 50)
 }
 
@@ -645,7 +610,7 @@ const saveEvent = () => {
   background: var(--bg-2);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
-  overflow-y: hidden; /* ABSOLUTE NO VERTICAL SCROLL */
+  overflow-y: hidden;
   overflow-x: auto;
   position: relative;
 }
@@ -658,7 +623,7 @@ const saveEvent = () => {
   flex-direction: column;
   background: var(--bg-3);
   border-right: 2px solid var(--border-strong);
-  position: sticky; /* FREEZES Left Column when horizontal scrolling occurs */
+  position: sticky;
   left: 0;
   z-index: 20;
 }
@@ -705,7 +670,7 @@ const saveEvent = () => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden; /* LOCKED FIXED SCHEDULE Y-SCROLL */
+  overflow-y: hidden;
   overflow-x: visible;
 }
 
@@ -804,7 +769,6 @@ const saveEvent = () => {
 }
 .cell:hover { background: rgba(255, 255, 255, 0.01); }
 
-/* Day Off Columns Styling */
 .is-day-off .cell, .cell.day-off { 
   background: repeating-linear-gradient(135deg, var(--bg-2), var(--bg-2) 6px, var(--bg-3) 6px, var(--bg-3) 12px) !important; 
   cursor: default; 
@@ -850,19 +814,6 @@ const saveEvent = () => {
 
 
 .sidebar-right { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
-.mini-cal-panel { background: var(--panel); border-radius: var(--radius-lg); padding: 16px; border: 1px solid var(--border); }
-.mini-cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-.mini-month-label { font-size: 13px; font-weight: 700; color: var(--text); }
-.mini-nav { background: var(--bg-3); border: 1px solid var(--border); color: var(--text-2); width: 24px; height: 24px; border-radius: var(--radius-sm); cursor: pointer; }
-.mini-cal-grid  { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
-.mini-dow       { font-size: 9px; font-weight: 700; color: var(--text-3); padding: 2px 0; text-transform: uppercase; }
-.mini-day { font-size: 11px; color: var(--text-2); padding: 5px 2px; border-radius: var(--radius-sm); cursor: pointer; position: relative; }
-.mini-day:hover { background: var(--bg-3); color: var(--text); }
-.mini-day.mini-today { background: var(--accent); color: #fff; font-weight: 700; }
-.mini-day.mini-selected { background: rgba(109, 147, 255, 0.15); color: var(--accent); border: 1px solid rgba(109, 147, 255, 0.3); }
-.mini-day.mini-has-event::after { content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); width: 3px; height: 3px; border-radius: 50%; background: var(--accent-3); }
-.mini-empty { pointer-events: none; opacity: 0; }
-.btn-today { margin-top: 12px; width: 100%; background: var(--bg-2); border: 1px solid var(--border-strong); color: var(--text); border-radius: var(--radius-md); padding: 6px 0; font-size: 11px; font-weight: 700; cursor: pointer; }
 
 .header-filters { display: flex; align-items: center; gap: 8px; }
 .filter-dropdown select {
@@ -905,12 +856,9 @@ const saveEvent = () => {
 .modal-footer { padding: 12px 16px 16px; display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid var(--border); }
 .btn-cancel { background: var(--bg-3); border: 1px solid var(--border-strong); border-radius: var(--radius-md); padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-2); }
 
-
 @media (max-width: 768px) {
   .cal-header { flex-direction: column; align-items: stretch; gap: 10px; }
   .header-filters { justify-content: space-between; }
-  .mini-cal-panel { display: block; }
-  .btn-today { margin-top: 10px; }
   .event-popup { left: 12px; right: 12px; bottom: 12px; top: auto; transform: none; width: auto; }
 }
 
