@@ -31,9 +31,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  show: {
+    type: Boolean,
+    default: false
+  }
 })
 
-const emit = defineEmits(['update:modelValue', 'cancel', 'save'])
+const emit = defineEmits(['update:modelValue', 'cancel', 'save', 'close'])
 
 const overlayClass = computed(() => `modal-overlay modal-overlay-${props.position}`)
 const panelClass = computed(() => `modal-panel modal-panel-${props.position}`)
