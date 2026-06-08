@@ -353,7 +353,7 @@ body,
 }
 
 .btn-ghost {
-  background: var(--bg3);
+  background: var(--bg-3);
   color: var(--text2);
   border: 1px solid var(--border);
 }

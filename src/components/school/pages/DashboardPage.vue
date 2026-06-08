@@ -4,9 +4,15 @@ import MiniCalendar from '../ui/MiniCalendar.vue'
 import { ref } from 'vue'
 
 const { t } = useI18n()
-const selectedDateString = ref('2026-06-10')
+const selectedDateString = ref('')
+const defaultSelectedDate = [
+  '2026-06-15',
+  '2026-06-16',
+]
 
 const getDateSelected = (dateObj) => {
+  console.log('dfdfd', selectedDateString.value);
+  
   console.log('Native Date Object emitted:', dateObj)
 }
 
@@ -15,8 +21,9 @@ const getDateSelected = (dateObj) => {
 <template>
   <div class="page active">
     <MiniCalendar
-      :model-value="selectedDateString"
+      v-model="selectedDateString"
       :format="'YYYY-MM-DD HH:mm:ss'"
+      :modelValue="defaultSelectedDate"
       @update:modelValue="getDateSelected"
     />
     <div class="page-header">

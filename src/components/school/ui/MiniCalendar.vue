@@ -3,14 +3,14 @@
     <div class="mini-cal-header">
       <div class="mini-selectors-group">
         <div class="custom-select-wrapper filter-dropdown">
-          <select :value="currentMonth" @change="onMonthChange" class="filter-input header-select month-select">
+          <select :value="currentMonth" @change="onMonthChange" class="header-select month-select filter-input">
             <option v-for="(m, idx) in monthsLabels" :key="idx" :value="idx">
               {{ m }}
             </option>
           </select>
         </div>
         <div class="custom-select-wrapper filter-dropdown">
-          <select :value="currentYear" @change="onYearChange" class="filter-input header-select year-select">
+          <select :value="currentYear" @change="onYearChange" class="header-select year-select filter-input">
             <option v-for="y in yearOptions" :key="y" :value="y">
               {{ y }}
             </option>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="mini-cal-grid">
-      <span v-for="d in ['Mo','Tu','We','Th','Fr','Sa','Su']" :key="d" class="mini-dow">
+      <span v-for="d in localizedDaysOfWeek" :key="d" class="mini-dow">
         {{ d }}
       </span>
       <span
@@ -44,12 +44,15 @@
       </span>
     </div>
     
-    <button class="btn btn-primary btn-today" type="button" @click="jumpToToday">Today</button>
+    <button class="btn btn-primary btn-today" type="button" @click="jumpToToday">
+      {{ localizedTodayLabel }}
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: {
@@ -64,16 +67,44 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'date-selected', 'today-clicked'])
 
+// Initialize your i18n instance hook
+const { locale } = useI18n()
+
 const today = new Date()
 const activeDate = ref(new Date())
 const miniViewDate = ref(new Date(today.getFullYear(), today.getMonth(), 1))
 
-// Store tracked internal timestamp attributes
 const savedHour = ref(today.getHours())
 const savedMinute = ref(today.getMinutes())
 const savedSecond = ref(today.getSeconds())
 
-// Formats output strings perfectly to include requested seconds blocks
+// Dynamic localized labels for Months
+const monthsLabels = computed(() => {
+  if (locale.value === 'km') {
+    return [
+      'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
+      'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
+    ]
+  }
+  return [
+    'January', 'February', 'March', 'April', 'May', 'June', 
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+})
+
+// Dynamic localized labels for Days of Week abbreviation headers
+const localizedDaysOfWeek = computed(() => {
+  if (locale.value === 'km') {
+    return ['ច', 'អ', 'ព', 'ព្រ', 'សុ', 'ស', 'អា']
+  }
+  return ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+})
+
+// Dynamic text label for the "Today" button action footer
+const localizedTodayLabel = computed(() => {
+  return locale.value === 'km' ? 'ថ្ងៃនេះ' : 'Today'
+})
+
 const formatDateString = (date) => {
   const yyyy = date.getFullYear()
   const mm = String(date.getMonth() + 1).padStart(2, '0')
@@ -93,7 +124,6 @@ const formatDateString = (date) => {
   return `${yyyy}-${mm}-${dd}`
 }
 
-// Secure string token parsing strategy
 const parseStringToDate = (val) => {
   if (!val) {
     return { date: new Date(), hr: today.getHours(), min: today.getMinutes(), sec: today.getSeconds() }
@@ -123,7 +153,6 @@ const parseStringToDate = (val) => {
   return { date: targetDate, hr, min, sec }
 }
 
-// Watch inputs from parents
 watch(() => props.modelValue, (newVal) => {
   const { date, hr, min, sec } = parseStringToDate(newVal)
   activeDate.value = date
@@ -132,11 +161,6 @@ watch(() => props.modelValue, (newVal) => {
   savedSecond.value = sec
   miniViewDate.value = new Date(date.getFullYear(), date.getMonth(), 1)
 }, { immediate: true })
-
-const monthsLabels = [
-  'January', 'February', 'March', 'April', 'May', 'June', 
-  'July', 'August', 'September', 'October', 'November', 'December'
-]
 
 const staticEventDays = ref([
   new Date(today.getFullYear(), today.getMonth(), 12).toDateString(),
@@ -205,12 +229,9 @@ const onYearChange = (event) => {
 
 const handleDayClick = (date) => {
   activeDate.value = date
-  
-  // If user selected day, generate string with the time/seconds preserved or live
   const outString = formatDateString(date)
   emit('update:modelValue', outString)
   
-  // Create a combined custom object to send cleanly to @date-selected handler
   const combinedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), savedHour.value, savedMinute.value, savedSecond.value)
   emit('date-selected', combinedDate)
 }
@@ -232,8 +253,7 @@ const jumpToToday = () => {
 
 <style scoped>
 /* ── CALENDAR PANEL WRAPPER ── */
-.mini-cal-panel { 
-  width: 100%;
+.mini-cal-panel {
   max-width: 300px;
   margin: 0 auto;
   background: var(--panel, #ffffff); 
@@ -244,62 +264,87 @@ const jumpToToday = () => {
   box-sizing: border-box;
 }
 
-/* ── PRECISE HEADER LAYOUT ── */
+/* ── REFACTORED COMPACT HEADER LAYOUT ── */
 .mini-cal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
-  gap: 8px;
+  margin-bottom: 12px;
+  gap: 4px;
+  width: 100%;
 }
 
 .mini-selectors-group {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
 }
 
 .custom-select-wrapper {
   position: relative;
   display: inline-block;
+  min-width: 0;
 }
 
 .header-select {
-  padding: 5px 22px 5px 8px !important;
+  background: var(--bg-2, #f8fafc);
+  border: 1px solid var(--border-strong, #cbd5e1);
+  border-radius: 6px;
+  padding: 4px 16px 4px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text, #1e293b);
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  width: 100%;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2364748b'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
 }
 
-.month-select { width: 105px; }
-.year-select { width: 72px; font-weight: 500; }
-.btn-today { margin-top: 12px; width: 100%; }
-.mini-nav-group { display: flex; gap: 2px; }
+.month-select {
+  width: 88px;
+}
+
+.year-select {
+  width: 62px;
+}
+
+.mini-nav-group {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
 
 .mini-nav { 
   background: var(--bg-2, #f8fafc); 
   border: 1px solid var(--border-strong, #cbd5e1); 
   color: var(--text-2, #64748b); 
-  width: 30px; 
-  height: 30px; 
+  width: 26px; 
+  height: 26px; 
   border-radius: 6px; 
   cursor: pointer; 
-  font-size: 16px;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
 }
 
 .mini-nav:hover { 
   background: var(--border);
-  color: var(--text);
+  color: var(--text, #1e293b);
 }
-
-.mini-nav:active { transform: scale(0.92); }
 
 /* ── CALENDAR MATRIX GRID ── */
 .mini-cal-grid { 
   display: grid; 
   grid-template-columns: repeat(7, 1fr); 
-  gap: 4px; 
+  gap: 2px; 
   text-align: center; 
   width: 100%;
 }
@@ -308,7 +353,7 @@ const jumpToToday = () => {
   font-size: 10px; 
   font-weight: 700; 
   color: var(--text-3, #94a3b8); 
-  padding: 6px 0; 
+  padding: 4px 0; 
   text-transform: uppercase; 
   letter-spacing: 0.5px;
 }
@@ -319,7 +364,6 @@ const jumpToToday = () => {
   padding-top: 100%; 
   border-radius: 50%;
   background: transparent;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .day-number {
@@ -328,32 +372,25 @@ const jumpToToday = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px; 
+  font-size: 11px; 
   color: var(--text-2, #475569); 
   font-weight: 500;
-  z-index: 2;
   user-select: none;
 }
 
 .mini-day:not(.mini-empty) { cursor: pointer; }
 .mini-day:not(.mini-empty):hover { 
   background: var(--shadow-strong, rgba(0, 0, 0, 0.05));
-  transform: scale(1.06);
 }
-
 .mini-day:not(.mini-empty):hover .day-number {
   color: var(--text, #0f172a); 
   font-weight: 600;
 }
 
-.mini-day:not(.mini-empty):active { transform: scale(0.94); }
-
 .mini-day.mini-today { 
   background: var(--accent, #3b82f6); 
-  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.25);
 }
 .mini-day.mini-today .day-number { color: #ffffff !important; font-weight: 700; }
-.mini-day.mini-today:hover { background: var(--accent-hover, #2563eb); }
 
 .mini-day.mini-selected { 
   background: rgba(59, 130, 246, 0.08); 
@@ -364,14 +401,21 @@ const jumpToToday = () => {
 .mini-day.mini-has-event::after { 
   content: ''; 
   position: absolute; 
-  bottom: 14%; left: 50%; 
+  bottom: 12%; left: 50%; 
   transform: translateX(-50%); 
-  width: 3.5px; height: 3.5px; 
+  width: 3px; height: 3px; 
   border-radius: 50%; 
   background: var(--accent-3, #10b981); 
-  z-index: 3;
 }
 .mini-day.mini-today.mini-has-event::after { background: #ffffff; }
 
 .mini-day.mini-empty { pointer-events: none; visibility: hidden; }
+
+.btn-today {
+  margin-top: 10px;
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
+  height: auto;
+}
 </style>
