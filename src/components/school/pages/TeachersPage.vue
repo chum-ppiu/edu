@@ -29,7 +29,9 @@ const teachers = ref([
     // Visual metadata derived from core theme structures
     initials: "SD",
     bannerGradient: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)",
-    profileImage: "https://img.icons8.com/liquid-glass-color/1200/user-male-circle.jpg" // Placeholder for potential future profile image uploads
+    bannerImage: "https://t3.ftcdn.net/jpg/04/15/37/52/240_F_415375204_sdMq1exdH8iMsDsxz588J0BrbIWOSLJA.jpg",
+    profileImage: "https://img.icons8.com/liquid-glass-color/1200/user-male-circle.jpg",
+    ratings: 4.8
   }
 ])
 
@@ -65,9 +67,17 @@ const handleAddTeacherSubmit = (newTeacher) => {
       <div v-for="teacher in teachers" :key="teacher.ID" class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
         
         <div>
-          <div :style="{ background: teacher.bannerGradient }" style="height: 90px; width: 100%; position: relative; opacity: 0.85;">
+          <div 
+            :style="{ 
+              background: teacher.bannerImage ? `url(${teacher.bannerImage})` : teacher.bannerGradient,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }" 
+            style="height: 100px; width: 100%; position: relative; opacity: 0.85;"
+          >
             <div style="position: absolute; top: 12px; right: 12px;">
               <span :class="['badge', teacher.status === 'active' ? 'badge-green' : 'badge-yellow']" style="text-transform: uppercase; letter-spacing: 0.5px;">
+                <div class="dot" style="width: 10px; height: 10px; background: var(--accent-3); border-radius: 50%; margin-right: 5px;"></div>
                 {{ teacher.status }}
               </span>
             </div>
@@ -112,23 +122,23 @@ const handleAddTeacherSubmit = (newTeacher) => {
             </div>
             <div style="width: 1px; height: 20px; background: var(--border);"></div>
             <div style="flex: 1; text-align: center;">
-              <div style="font-family: var(--font-family-main); font-size: 16px; font-weight: 800; color: var(--text);">{{ teacher.grades.length }}</div>
-              <div style="font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">Grades</div>
+              <div style="font-family: var(--font-family-main); font-size: 16px; font-weight: 800; color: var(--text);">{{ teacher.ratings }} ⭐</div>
+              <div style="font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">{{ t('teachers.ratings') }}</div>
             </div>
           </div>
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; gap: 12px;">
           <div style="display: flex; gap: 8px;">
-            <a :href="'mailto:' + teacher.email" class="action-btn" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.email">✉</a>
-            <a :href="'tel:' + teacher.phone" class="action-btn" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.phone">📞</a>
+            <a :href="'mailto:' + teacher.email" class="btn btn-ghost" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.email">✉</a>
+            <a :href="'tel:' + teacher.phone" class="btn btn-ghost" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.phone">📞</a>
           </div>
 
           <div style="display: flex; gap: 6px; flex: 1; justify-content: flex-end;">
             <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11.5px;" type="button">
               {{ t('teachers.view') }}
             </button>
-            <button class="btn btn-primary" style="padding: 6px 14px; font-size: 11.5px; box-shadow: none;" type="button">
+            <button class="btn btn-primary" type="button">
               {{ t('teachers.edit') }}
             </button>
           </div>
@@ -145,7 +155,12 @@ const handleAddTeacherSubmit = (newTeacher) => {
   </div>
 </template>
 <style scoped>
-/* Container circle matching the overlapping design specifications */
+div.card:hover {
+  box-shadow: 0 0 5px 5px var(--shadow-strong);
+}
+.badge {
+  background: var(--bg-3);
+}
 .teacher-avatar-frame {
   width: 86px;
   height: 86px;
