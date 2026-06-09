@@ -15,8 +15,7 @@ defineProps({
     default: false
   }
 })
-
-const emit = defineEmits(['close', 'submit'])
+const emit = defineEmits(['submit', 'close'])
 
 // Configured arrays matching your system layout structure
 const gradeOptions = [
@@ -36,7 +35,7 @@ const form = ref({
   email: '',
   phone: '',
   subject: '',
-  grade: 'Grade 12A', // default baseline selected item
+  grade: '', // default baseline selected item
   status: 'Active',
   bio: ''
 })
@@ -72,16 +71,6 @@ const handleSave = () => {
     return;
   }
 
-
-  // Automatically compute initials from the name
-  const initials = form.value.fullName
-    .split(' ')
-    .filter(Boolean)
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-
   // Native gradient tokens matching the dashboard layout design system 
   const systemGradients = [
     'linear-gradient(135deg, #4f8ef7, #7c5cfc)',
@@ -90,13 +79,9 @@ const handleSave = () => {
   ]
   const assignedColor = systemGradients[Math.floor(Math.random() * systemGradients.length)]
 
-  // Formats text strings exactly like the parent view grid: "Mathematics · Grade 12A"
-  const structuredSubject = `${form.subject.trim()} · ${form.grade}`
-
   emit('submit', {
-    initials: initials || '??',
-    name: form.value.fullName,
-    subject: structuredSubject,
+    fullName: form.value.fullName.trim(),
+    subject: form.value.subject.trim(),
     color: assignedColor,
     status: form.value.status,
     classes: 0,
@@ -111,6 +96,9 @@ const handleSave = () => {
 }
 
 const handleClose = () => {
+  // 2. Emit the close event to the parent
+  emit('close')
+  
   // Clear standard layout inputs
   form.value.fullName = ''
   form.value.email = ''
@@ -119,14 +107,10 @@ const handleClose = () => {
   form.value.grade = 'Grade 12A'
   form.value.status = 'Active'
   form.value.bio = ''
-  
-  // Wipe field alert frames
-  errors.name = ''
-  errors.email = ''
-  errors.subject = ''
-  errors.grade = ''
-  
-  emit('close')
+  // Clear validation errors
+  clearError('fullName')
+  clearError('email')
+  clearError('phone')
 }
 </script>
 
@@ -134,17 +118,20 @@ const handleClose = () => {
   <ModalDialog 
     :model-value="isOpen" 
     :title="t('teachers.addTeacher') || 'Add New Teacher'"
+    :save-label="t('common.save')"
     @update:model-value="handleClose"
     @save="handleSave"
+    @cancel="handleClose"
   >
     <div class="teacher-form-layout">
       
       <FormGroup :label="t('addTeacher.fullName')" required :error="renderError('fullName')">
         <input 
-          v-model="form.name" 
+          v-model="form.fullName" 
           type="text" 
           class="filter-input input-field" 
           :placeholder="t('addTeacher.fullNamePlaceholder')"
+          @input="clearError('fullName')"
         />
       </FormGroup>
 
@@ -155,6 +142,7 @@ const handleClose = () => {
             type="email" 
             class="filter-input input-field" 
             :placeholder="t('addTeacher.emailPlaceholder')"
+            @input="clearError('email')"
           />
         </FormGroup>
 
@@ -164,6 +152,7 @@ const handleClose = () => {
             type="tel" 
             class="filter-input input-field" 
             :placeholder="t('addTeacher.phonePlaceholder')"
+            @input="clearError('phone')"
           />
         </FormGroup>
       </div>
@@ -183,6 +172,8 @@ const handleClose = () => {
             v-model="form.grade" 
             :options="gradeOptions"
             :placeholder="t('addTeacher.gradePlaceholder')"
+            :multiple="true"
+            :maxDisplay="2"
           />
         </FormGroup>
       </div>
@@ -222,35 +213,15 @@ const handleClose = () => {
   gap: 14px;
 }
 
-/* Style integration ensuring consistency with base.css theme vars */
-.input-field {
-  background: var(--bg-3, #101c31);
-  color: var(--text, #edf2ff);
-  border: 1px solid var(--border, rgba(141, 169, 220, 0.16));
-  border-radius: var(--radius-sm, 10px);
-  padding: 10px 14px;
-  width: 100%;
-  outline: none;
-}
-
-.input-field:focus {
-  border-color: var(--accent, #6d93ff);
-}
-
 .bio-textarea {
   font-family: inherit;
   resize: vertical;
   min-height: 72px;
-  background: var(--bg-3, #101c31);
+  background: var(--bg-2, #101c31);
   color: var(--text, #edf2ff);
-  border: 1px solid var(--border, rgba(141, 169, 220, 0.16));
   border-radius: var(--radius-sm, 10px);
   padding: 10px 14px;
   outline: none;
-}
-
-.bio-textarea:focus {
-  border-color: var(--accent, #6d93ff);
 }
 
 @media (max-width: 500px) {

@@ -21,6 +21,8 @@ const messages = {
     common: {
       actions: 'Actions',
       searchAnything: 'Search anything...',
+      selectOptions: 'Select options',
+      selected: '{count} options selected',
       all: 'All',
       cancel: 'Cancel',
       save: 'Save',
@@ -99,7 +101,7 @@ const messages = {
     teachers: {
       title: 'Teachers Directory',
       subtitle: 'Manage school academic staff profiles and assignments',
-      addTeacher: 'Add New Teacher',
+      addTeacher: 'Add Teacher',
       classes: 'Classes',
       students: 'Students',
       rating: 'Rating',
@@ -108,9 +110,9 @@ const messages = {
     },
     addTeacher: {
       fullName: 'Full Name',
-      fullNamePlaceholder: 'e.g. John Doe',
+      fullNamePlaceholder: 'e.g. Sok Dara',
       email: 'Email Address',
-      emailPlaceholder: "e.g. john.doe{'@'}school.edu",
+      emailPlaceholder: "e.g. sok.dara{'@'}school.edu",
       phone: 'Phone Number',
       phonePlaceholder: 'e.g. +855 12 345 678',
       subject: 'Subject',
@@ -279,6 +281,8 @@ const messages = {
     common: {
       actions: 'សកម្មភាព',
       searchAnything: 'ស្វែងរកអ្វីក៏បាន...',
+      selectOptions: 'ជ្រើសរើសជម្រើស',
+      selected: '{count} ជម្រើសបានជ្រើស',
       all: 'ទាំងអស់',
       cancel: 'បោះបង់',
       save: 'រក្សាទុក',
@@ -357,7 +361,7 @@ const messages = {
     teachers: {
       title: 'បញ្ជីឈ្មោះលោកគ្រូ-អ្នកគ្រូ',
       subtitle: 'គ្រប់គ្រងប្រវត្តរូបសង្ខេប និងការបែងចែកម៉ោងបង្រៀនរបស់បុគ្គលិកសិក្សា',
-      addTeacher: 'បន្ថែមគ្រូបង្រៀនថ្មី',
+      addTeacher: 'បន្ថែមគ្រូបង្រៀន',
       classes: 'ថ្នាក់បង្រៀន',
       students: 'សិស្សសរុប',
       rating: 'ការវាយតម្លៃ',
@@ -366,9 +370,9 @@ const messages = {
     },
     addTeacher: {
       fullName: 'ឈ្មោះពេញ',
-      fullNamePlaceholder: 'ឧ. ចន ដូ',
+      fullNamePlaceholder: 'ឧ. សុខ ដារ៉ា',
       email: 'អាសយដ្ឋានអ៊ីមែល',
-      emailPlaceholder: "ឧ. jon.doe{'@'}gmail.com",
+      emailPlaceholder: "ឧ. sok.dara{'@'}gmail.com",
       phone: 'លេខទូរស័ព្ទ',
       phonePlaceholder: 'ឧ. +855 12 345 678',
       subject: 'មុខវិជ្ជា',

@@ -48,14 +48,10 @@ const saveVariant = computed(() => {
     return 'danger'
   }
 
-  if (/(save|confirm|submit|done|yes|approve|accept)/.test(label)) {
-    return 'success'
-  }
-
   return 'primary'
 })
 
-const saveButtonClass = computed(() => `modal-save modal-save-${saveVariant.value}`)
+const saveButtonClass = computed(() => `btn btn-${saveVariant.value}`)
 
 function close() {
   emit('update:modelValue', false)
@@ -262,35 +258,7 @@ onBeforeUnmount(() => {
   border-top: 1px solid var(--border);
 }
 
-.modal-save {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
-  color: white;
-}
-
-.modal-save:hover {
-  transform: translateY(-1px);
-}
-
-.modal-save-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  box-shadow: 0 10px 30px rgba(109, 147, 255, 0.28);
-}
-
-.modal-save-success {
-  background: linear-gradient(135deg, var(--accent-3), #34e0bf);
-  box-shadow: 0 10px 30px rgba(25, 212, 179, 0.24);
-}
-
-.modal-save-danger {
+.btn-danger {
   background: linear-gradient(135deg, #f73b4b, #fc0519);
   box-shadow: 0 10px 30px rgba(184, 66, 75, 0.24);
 }

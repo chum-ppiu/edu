@@ -508,6 +508,7 @@ body,
 
 .card-body {
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .table-wrap {
@@ -1144,4 +1145,7 @@ select.filter-input option {
     flex-direction: column;
     align-items: flex-start;
   }
+  /* .card-body {
+    width: 300px;
+  } */
 }
