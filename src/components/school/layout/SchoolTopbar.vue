@@ -188,7 +188,7 @@ function setLocale(nextLocale) {
   font-size: 1.05rem;
   transition: all 0.2s;
 }
-.topbar-btn:hover { background: var(--bg-3); border-color: var(--border-strong); }
+.topbar-lang-btn:hover { background: var(--bg-3); border-color: var(--border-strong); }
 .notif-dot { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; }
 
 .topbar-avatar {

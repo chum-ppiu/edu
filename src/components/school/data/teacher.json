@@ -1,0 +1,38 @@
+[
+  {
+    "ID": 1,
+    "fullName": "Sok dara",
+    "email": "sok.dara@example.com",
+    "phone": "0123456789",
+    "subjects":[
+      {
+        "ID": 1,
+        "Name": "Mathematics"
+      },
+      {
+        "ID": 2,
+        "Name": "Physics"
+      },
+      {
+        "ID": 3,
+        "Name": "Chemistry"
+      }
+    ],
+    "grades":[
+      {
+        "gradeID": 1,
+        "gradeName": "Grade 10"
+      },
+      {
+        "gradeID": 2,
+        "gradeName": "Grade 11"
+      },
+      {
+        "gradeID": 3,
+        "gradeName": "Grade 12"
+      }
+    ],
+    "status": "active",
+    "bio": "Sok Dara is a dedicated teacher with over 10 years of experience in teaching mathematics and science subjects. He is passionate about helping students achieve their academic goals and fostering a love for learning."
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "ID": 1,
+    "name": "Grade 10",
+    "totalStudents": 30,
+    "subjects": [
+      {
+        "ID": 1,
+        "name": "Mathematics",
+        "code": "MATH101",
+        "credits": 3
+      }, 
+      {
+        "ID": 2,
+        "name": "Physics",
+        "code": "PHYS101",
+        "credits": 4
+      },
+      {
+        "ID": 3,
+        "name": "Chemistry",
+        "code": "CHEM101",
+        "credits": 4
+      }
+    ],
+    "status": "active"
+  }
+]

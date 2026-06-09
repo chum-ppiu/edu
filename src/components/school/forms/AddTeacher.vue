@@ -117,8 +117,9 @@ const handleClose = () => {
 <template>
   <ModalDialog 
     :model-value="isOpen" 
-    :title="t('teachers.addTeacher') || 'Add New Teacher'"
+    :title="t('addTeacher.title') || 'Add New Teacher'"
     :save-label="t('common.save')"
+    :cancel-label="t('common.cancel')"
     @update:model-value="handleClose"
     @save="handleSave"
     @cancel="handleClose"
