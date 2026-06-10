@@ -5,8 +5,8 @@ import { useFormValidation } from '@/composables/useFormValidation';
 import FormGroup from '@/components/school/bases/FormGroup.vue'
 import ModalDialog from '@/components/school/bases/ModalDialog.vue'
 import Selection from '@/components/school/bases/Selection.vue'
-
 const { errors, validateForm, clearError } = useFormValidation();
+
 const { t } = useI18n()
 
 defineProps({
@@ -27,17 +27,6 @@ const gradeOptions = [
   'Grade 12B'
 ]
 
-// 🌟 Added subject dropdown array options matching school curriculum definitions
-const subjectOptions = [
-  'Mathematics',
-  'Physics',
-  'Chemistry',
-  'Biology',
-  'English',
-  'History',
-  'Geography'
-]
-
 const statusOptions = ['Active', 'On Leave', 'Inactive']
 
 // Component Reactive Local Record state
@@ -45,11 +34,12 @@ const form = ref({
   fullName: '',
   email: '',
   phone: '',
-  subject: '', // Formatted to bind cleanly to the single Selection picker
-  grade: [],   // Set up as an array for the multiple selection picker
+  subject: '',
+  grade: '', // default baseline selected item
   status: 'Active',
   bio: ''
 })
+
 
 /**
  * Dynamically resolves internal meta objects into translated text layouts in real-time
@@ -60,86 +50,74 @@ const renderError = (fieldKey) => {
   if (!errorMeta) return '';
   
   if (errorMeta.errorType === 'requiredField') {
-    return t('error.requiredField', { field: t(errorMeta.fieldKey) })
+    return t('error.requiredField', { field: t(errorMeta.fieldKey) });
   }
   return '';
-}
+};
+
 
 const handleSave = () => {
-  const validationRules = [
+ // Pass the raw structural key links instead of pre-computed translated text
+  const rules = [
     { key: 'fullName', i18nKey: 'addTeacher.fullName' },
     { key: 'email', i18nKey: 'addTeacher.email' },
     { key: 'phone', i18nKey: 'addTeacher.phone' },
-    { key: 'subject', i18nKey: 'addTeacher.subject' }
   ];
 
-  const isValid = validateForm(form.value, validationRules);
+  const isValid = validateForm(form.value, rules);
 
   if (!isValid) {
-    console.warn("⚠️ Validation parameters failed. Submission aborted.");
+    console.warn('❌ Form validation failed.');
     return;
   }
 
-  const dynamicInitials = form.value.fullName.trim().split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-  
-  // High-visibility gradients to make sure backgrounds pop
-  const coreGradients = [
-    'linear-gradient(135deg, #6d93ff 0%, #8d68ff 100%)',
-    'linear-gradient(135deg, #00d4aa 0%, #4f8ef7 100%)',
-    'linear-gradient(135deg, #f7934f 0%, #f75f5f 100%)'
-  ];
-  const selectedGradient = coreGradients[Math.floor(Math.random() * coreGradients.length)];
-
-  // 🌟 FIX: Safely map the selected array strings into structured objects [{ ID, Name }]
-  const formattedSubjects = Array.isArray(form.value.subject)
-    ? form.value.subject.map((subName, index) => ({ ID: Date.now() + index, Name: subName }))
-    : form.value.subject 
-      ? [{ ID: Date.now(), Name: form.value.subject }] 
-      : [];
-
-  const formattedGrades = Array.isArray(form.value.grade) 
-    ? form.value.grade.map((g, index) => ({ gradeID: index + 1, gradeName: g }))
-    : form.value.grade ? [{ gradeID: 1, gradeName: form.value.grade }] : [];
+  // Native gradient tokens matching the dashboard layout design system 
+  const systemGradients = [
+    'linear-gradient(135deg, #4f8ef7, #7c5cfc)',
+    'linear-gradient(135deg, #00d4aa, #4f8ef7)',
+    'linear-gradient(135deg, #f7934f, #f75f5f)'
+  ]
+  const assignedColor = systemGradients[Math.floor(Math.random() * systemGradients.length)]
 
   emit('submit', {
     fullName: form.value.fullName.trim(),
-    email: form.value.email.trim(),
-    phone: form.value.phone.trim(),
-    subjects: formattedSubjects, // Now sends clean objects instead of raw arrays
-    grades: formattedGrades,
-    status: form.value.status.toLowerCase(),
-    bio: form.value.bio.trim(),
-    initials: dynamicInitials || "TR",
-    bannerGradient: selectedGradient,
-    bannerImage: "" // Leave empty so TeachersPage fallbacks back to your gradient cleanly!
-  });
+    subject: form.value.subject.trim(),
+    color: assignedColor,
+    status: form.value.status,
+    classes: 0,
+    students: 0,
+    rating: 5.0,
+    email: form.value.email,
+    phone: form.value.phone,
+    bio: form.value.bio
+  })
 
-  handleClose();
+  handleClose()
 }
-const handleClose = () => {
-  emit('close');
-  
-  // Wiping structural properties clean on close execution sequence
-  form.value.fullName = '';
-  form.value.email = '';
-  form.value.phone = '';
-  form.value.subject = '';
-  form.value.grade = [];
-  form.value.status = 'Active';
-  form.value.bio = '';
 
-  // Clean form state tracking layouts
-  clearError('fullName');
-  clearError('email');
-  clearError('phone');
-  clearError('subject');
+const handleClose = () => {
+  // 2. Emit the close event to the parent
+  emit('close')
+  
+  // Clear standard layout inputs
+  form.value.fullName = ''
+  form.value.email = ''
+  form.value.phone = ''
+  form.value.subject = ''
+  form.value.grade = 'Grade 12A'
+  form.value.status = 'Active'
+  form.value.bio = ''
+  // Clear validation errors
+  clearError('fullName')
+  clearError('email')
+  clearError('phone')
 }
 </script>
 
 <template>
   <ModalDialog 
     :model-value="isOpen" 
-    :title="t('addTeacher.title')"
+    :title="t('addTeacher.title') || 'Add New Teacher'"
     :save-label="t('common.save')"
     :cancel-label="t('common.cancel')"
     @update:model-value="handleClose"
@@ -172,7 +150,7 @@ const handleClose = () => {
         <FormGroup :label="t('addTeacher.phone')" required :error="renderError('phone')">
           <input 
             v-model="form.phone" 
-            type="text" 
+            type="tel" 
             class="filter-input input-field" 
             :placeholder="t('addTeacher.phonePlaceholder')"
             @input="clearError('phone')"
@@ -181,13 +159,12 @@ const handleClose = () => {
       </div>
 
       <div class="form-grid-split">
-        <FormGroup :label="t('addTeacher.subject')" required :error="renderError('subject')">
-          <Selection 
+        <FormGroup :label="t('addTeacher.subject')">
+          <input 
             v-model="form.subject" 
-            :options="subjectOptions"
-            :placeholder="t('addTeacher.subjectPlaceholder') || 'Select a subject'"
-            :multiple="true"
-            @update:modelValue="clearError('subject')"
+            type="text" 
+            class="filter-input input-field" 
+            :placeholder="t('addTeacher.subjectPlaceholder')"
           />
         </FormGroup>
 
@@ -241,20 +218,17 @@ const handleClose = () => {
   font-family: inherit;
   resize: vertical;
   min-height: 72px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  color: var(--text);
-  font-size: 13px;
+  background: var(--bg-2, #101c31);
+  color: var(--text, #edf2ff);
+  border-radius: var(--radius-sm, 10px);
+  padding: 10px 14px;
   outline: none;
 }
 
-.bio-textarea:focus {
-  border-color: var(--accent);
-}
-
-.input-field {
-  width: 100%;
+@media (max-width: 500px) {
+  .form-grid-split {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 </style>

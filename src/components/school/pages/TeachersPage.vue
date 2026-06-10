@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import AddTeacher from '@/components/school/forms/AddTeacher.vue'
 
@@ -17,7 +17,8 @@ const teachers = ref([
     subjects: [
       { ID: 1, Name: "Mathematics" },
       { ID: 2, Name: "Physics" },
-      { ID: 3, Name: "Chemistry" }
+      { ID: 3, Name: "Chemistry" },
+      { ID: 4, Name: "Biology" }
     ],
     grades: [
       { gradeID: 1, gradeName: "Grade 10" },
@@ -26,28 +27,46 @@ const teachers = ref([
     ],
     status: "active",
     bio: "Sok Dara is a dedicated teacher with over 10 years of experience in teaching mathematics and science subjects. He is passionate about helping students achieve their academic goals and fostering a love for learning.",
-    // Visual metadata derived from core theme structures
     initials: "SD",
     bannerGradient: "linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%)",
-    bannerImage: "https://t3.ftcdn.net/jpg/04/15/37/52/240_F_415375204_sdMq1exdH8iMsDsxz588J0BrbIWOSLJA.jpg",
-    profileImage: "https://img.icons8.com/liquid-glass-color/1200/user-male-circle.jpg",
-    ratings: 4.8
+    bannerImage: "https://t3.ftcdn.net/jpg/04/15/37/52/240_F_415375204_sdMq1exdH8iMsDsxz588J0BrbIWOSLJA.jpg"
+  },
+  {
+    ID: 2,
+    fullName: "Choun Sreypich",
+    email: "choun.sreypich@example.com",
+    phone: "0987654321",
+    subjects: [
+      { ID: 5, Name: "History" },
+      { ID: 6, Name: "Geography" }
+    ],
+    grades: [
+      { gradeID: 1, gradeName: "Grade 10" },
+      { gradeID: 2, gradeName: "Grade 11" }
+    ],
+    status: "on leave",
+    bio: "Choun Sreypich excels in creating immersive humanities and world history environments. She loves teaching historical context through creative narrative roleplay modules.",
+    initials: "CS",
+    bannerGradient: "linear-gradient(135deg, #00d4aa 0%, #4f8ef7 100%)",
+    bannerImage: "https://img.freepik.com/premium-photo/modern-classroom-with-empty-chairs-desks-generative-ai_220873-24701.jpg"
   }
 ])
 
-// Helper functions to cleanly join lists for view templates
-const formatSubjects = (subjects) => subjects.map(s => s.Name).join(' · ')
-const formatGrades = (grades) => grades.map(g => g.gradeName).join(', ')
-
-// Safely computes years of experience directly out of user bio context for metric display
-const parseExperience = (bio) => {
-  const match = bio.match(/(\d+)\s+years/)
-  return match ? `${match[1]}+ Yrs` : '10+ Yrs'
+const handleAddTeacherSubmit = (newTeacher) => {
+  teachers.value.push({
+    ID: teachers.value.length + 1,
+    ...newTeacher
+  })
 }
 
-const handleAddTeacherSubmit = (newTeacher) => {
-  console.log('✅ New teacher added:', newTeacher)
-  teachers.value.push(newTeacher)
+/**
+ * Returns clean color configuration strings depending on active status strings
+ */
+const getStatusThemeClass = (statusString) => {
+  const norm = String(statusString).toLowerCase().trim()
+  if (norm === 'active') return 'status-active'
+  if (norm === 'on leave') return 'status-onleave'
+  return 'status-inactive'
 }
 </script>
 
@@ -64,78 +83,65 @@ const handleAddTeacherSubmit = (newTeacher) => {
     </div>
 
     <div class="grid-3">
-      <div v-for="teacher in teachers" :key="teacher.ID" class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div v-for="teacher in teachers" :key="teacher.ID" class="card teacher-card">
         
-        <div>
-          <div 
-            :style="{ 
-              background: teacher.bannerImage ? `url(${teacher.bannerImage})` : teacher.bannerGradient,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }" 
-            style="height: 100px; width: 100%; position: relative; opacity: 0.85;"
-          >
-            <div style="position: absolute; top: 12px; right: 12px;">
-              <span :class="['badge', teacher.status === 'active' ? 'badge-green' : 'badge-yellow']" style="text-transform: uppercase; letter-spacing: 0.5px;">
-                <div class="dot" style="width: 10px; height: 10px; background: var(--accent-3); border-radius: 50%; margin-right: 5px;"></div>
-                {{ teacher.status }}
-              </span>
-            </div>
-          </div>
+        <div 
+          class="teacher-banner" 
+          :style="teacher.bannerImage 
+            ? { backgroundImage: `url(${teacher.bannerImage})` } 
+            : { background: teacher.bannerGradient || 'var(--bg-3)' }"
+        >
+          <div class="banner-gradient-cover"></div>
+          <span :class="['status-pill-badge', getStatusThemeClass(teacher.status)]">
+            <span class="status-indicator-dot"></span>
+            {{ teacher.status }}
+          </span>
+        </div>
 
-          <div style="padding: 0 20px; text-align: center; margin-top: -45px; position: relative; z-index: 2;">
-            <div class="teacher-avatar-frame">
-              <img 
-                v-if="teacher.profileImage" 
-                :src="teacher.profileImage" 
-                :alt="teacher.fullName"
-                class="teacher-avatar-img"
-              />
-              <span 
-                v-else 
-                class="teacher-avatar-fallback"
-                :style="{ background: teacher.bannerGradient }"
-              >
-                {{ teacher.initials }}
-              </span>
-            </div>
-            
-            <div style="font-weight: 800; font-size: 17px; margin-top: 12px; color: var(--text);">
-              {{ teacher.fullName }}
-            </div>
-            <div style="font-size: 12px; color: var(--accent); font-weight: 700; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px;">
-              {{ formatSubjects(teacher.subjects) }}
-            </div>
-            <div style="font-size: 11px; color: var(--text-3); margin-top: 2px;">
-              {{ formatGrades(teacher.grades) }}
-            </div>
-
-            <div style="font-size: 11.5px; color: var(--text-2); margin-top: 12px; font-style: italic; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding: 0 10px;">
-              "{{ teacher.bio }}"
-            </div>
-          </div>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(255, 255, 255, 0.01); margin-top: 20px; padding: 12px 10px;">
-            <div style="flex: 1; text-align: center;">
-              <div style="font-family: var(--font-family-main); font-size: 16px; font-weight: 800; color: var(--text);">3</div>
-              <div style="font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">{{ t('teachers.classes') }}</div>
-            </div>
-            <div style="width: 1px; height: 20px; background: var(--border);"></div>
-            <div style="flex: 1; text-align: center;">
-              <div style="font-family: var(--font-family-main); font-size: 16px; font-weight: 800; color: var(--text);">{{ teacher.ratings }} ⭐</div>
-              <div style="font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;">{{ t('teachers.ratings') }}</div>
-            </div>
+        <div class="teacher-avatar-frame">
+          <div class="teacher-avatar-fallback" :style="{ background: teacher.bannerGradient || 'var(--accent)' }">
+            {{ teacher.initials }}
           </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; gap: 12px;">
-          <div style="display: flex; gap: 8px;">
-            <a :href="'mailto:' + teacher.email" class="btn btn-ghost" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.email">✉</a>
-            <a :href="'tel:' + teacher.phone" class="btn btn-ghost" style="width: 32px; height: 32px; border-radius: 50%;" :title="teacher.phone">📞</a>
+        <div class="teacher-identity">
+          <div class="teacher-name">{{ teacher.fullName }}</div>
+          <div class="teacher-email">{{ teacher.email }}</div>
+        </div>
+
+        <div class="teacher-subjects">
+          <span 
+            v-for="(sub, index) in teacher.subjects.slice(0, 3)" 
+            :key="typeof sub === 'object' ? sub.ID : index" 
+            class="badge"
+          >
+            {{ typeof sub === 'object' ? sub.Name : sub }}
+          </span>
+          <span v-if="teacher.subjects.length > 3" class="badge ellipsis-badge">...</span>
+        </div>
+
+        <p class="teacher-bio-summary">
+          {{ teacher.bio }}
+        </p>
+
+        <div class="teacher-grades">
+          <div class="grade-label">Grades:</div>
+          <div class="grade-tags-row">
+            <span v-for="(g, index) in teacher.grades" :key="typeof g === 'object' ? g.gradeID : index" class="grade-tag">
+              {{ typeof g === 'object' ? g.gradeName : g }}
+            </span>
+          </div>
+        </div>
+
+        <hr class="card-divider" />
+
+        <div class="teacher-actions-footer">
+          <div class="contact-links">
+            <a :href="'tel:' + teacher.phone" class="btn btn-ghost" :title="teacher.phone">📞</a>
           </div>
 
           <div style="display: flex; gap: 6px; flex: 1; justify-content: flex-end;">
-            <button class="btn btn-ghost" style="padding: 6px 12px; font-size: 11.5px;" type="button">
+            <button class="btn btn-ghost" style="font-size: 10.5px;" type="button">
               {{ t('teachers.view') }}
             </button>
             <button class="btn btn-primary" type="button">
@@ -154,43 +160,199 @@ const handleAddTeacherSubmit = (newTeacher) => {
     />
   </div>
 </template>
+
 <style scoped>
 div.card:hover {
   box-shadow: 0 0 5px 5px var(--shadow-strong);
 }
+
+.teacher-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.teacher-banner {
+  position: relative;
+  height: 90px;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.banner-gradient-cover {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 100%);
+}
+
+.status-pill-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.status-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-active {
+  background: rgba(25, 212, 179, 0.15);
+  color: #19d4b3;
+  border: 1px solid rgba(25, 212, 179, 0.3);
+}
+.status-active .status-indicator-dot {
+  background-color: #19d4b3;
+}
+
+.status-onleave {
+  background: rgba(255, 157, 92, 0.15);
+  color: #ff9d5c;
+  border: 1px solid rgba(255, 157, 92, 0.3);
+}
+.status-onleave .status-indicator-dot {
+  background-color: #ff9d5c;
+}
+
+.status-inactive {
+  background: rgba(255, 107, 116, 0.15);
+  color: #ff6b74;
+  border: 1px solid rgba(255, 107, 116, 0.3);
+}
+.status-inactive .status-indicator-dot {
+  background-color: #ff6b74;
+}
+
+.teacher-avatar-frame {
+  width: 76px;
+  height: 76px;
+  margin: -38px auto 0 auto;
+  border-radius: 50%;
+  border: 4px solid var(--bg-2);
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.teacher-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+}
+
+.teacher-identity {
+  text-align: center;
+  padding: 12px 16px 4px 16px;
+}
+
+.teacher-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.teacher-email {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+
+.teacher-subjects {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  flex-wrap: wrap;
+}
+
 .badge {
   background: var(--bg-3);
-}
-.teacher-avatar-frame {
-  width: 86px;
-  height: 86px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: var(--bg-3);
-  border: 4px solid var(--bg-2);
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden; /* Ensures profile images clip cleanly into a circle */
+  color: var(--text-2);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  border: 1px solid var(--border);
 }
 
-/* Fluid responsive image formatting */
-.teacher-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.ellipsis-badge {
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
-/* Fallback text treatment using your custom text clipping mask rules */
-.teacher-avatar-fallback {
-  font-family: var(--font-family-main);
-  font-size: 26px;
-  font-weight: 800;
-  width: 100%;
-  height: 100%;
+.teacher-bio-summary {
+  font-size: 12.5px;
+  color: var(--text-2);
+  padding: 4px 16px;
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 38px;
+}
+
+.teacher-grades {
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.grade-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-3);
+}
+
+.grade-tags-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.grade-tag {
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(109, 147, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.card-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+.teacher-actions-footer {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.08);
 }
 </style>
