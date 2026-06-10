@@ -2,8 +2,11 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import DataTable from '@/components/school/bases/DataTable.vue'
+import AddClass from '@/components/school/forms/AddClass.vue'
 
 const { t } = useI18n()
+
+const isAddModalOpen = ref(false)
 
 const classes = ref([
   { id: 1, name: 'Grade 12A', teacher: 'Mr. Dara', teacherAvatar: 'DR', avatarStyle: 'background:linear-gradient(135deg,#4f8ef7,#7c5cfc)', students: 32, capacity: 35, subjects: 6, status: 'Active' , progress: 91},
@@ -23,6 +26,14 @@ const columns = [
 
 function handleView(row) { console.log('view class', row) }
 function handleEdit(row) { console.log('edit class', row) }
+
+const handleAddClassSubmit = (newClass) => {
+  console.log('✅ New class added:', newClass)
+  classes.value.push({
+    id: classes.value.length + 1,
+    ...newClass
+  })
+}
 </script>
 
 <template>
@@ -32,7 +43,9 @@ function handleEdit(row) { console.log('edit class', row) }
         <div class="page-title">{{ t('classes.title') }}</div>
         <div class="page-sub">{{ t('classes.subtitle') }}</div>
       </div>
-      <button class="btn btn-primary" type="button">+ {{ t('classes.create') }}</button>
+      <button class="btn btn-primary" type="button" @click="isAddModalOpen = true">
+        + {{ t('classes.create') }}
+      </button>
     </div>
 
     <div class="card">
@@ -45,15 +58,37 @@ function handleEdit(row) { console.log('edit class', row) }
         :search-keys="['name','teacher','status']"
       >
         <template #cell-teacher="{ row }">
-          <div class="cell-user"><div class="avatar avatar-sm" :style="row.avatarStyle">{{ row.teacherAvatar }}</div>{{ row.teacher }}</div>
+          <div class="cell-user">
+            <div class="avatar avatar-sm" :style="row.avatarStyle">{{ row.teacherAvatar }}</div>
+            {{ row.teacher }}
+          </div>
         </template>
 
         <template #cell-capacity="{ row }">
-          <div class="progress" style="width:120px"><div class="progress-fill" :style="{ width: row.progress + '%', background: row.progress > 85 ? 'var(--warning)' : 'var(--accent)' }"></div></div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 12px; min-width: 45px; display: inline-block;">
+              {{ row.students }} / {{ row.capacity }}
+            </span>
+            <div class="progress" style="width:120px">
+              <div 
+                class="progress-fill" 
+                :style="{ 
+                  width: (row.students / row.capacity * 100) + '%', 
+                  background: (row.students / row.capacity * 100) > 85 ? 'var(--warning)' : 'var(--accent)' 
+                }"
+              ></div>
+            </div>
+          </div>
         </template>
 
         <template #cell-subjects="{ row }">
           <span class="badge badge-blue">{{ row.subjects }} subjects</span>
+        </template>
+        
+        <template #cell-status="{ row }">
+          <span :class="['badge', row.status.toLowerCase() === 'active' ? 'badge-green' : 'badge-gray']">
+            {{ row.status }}
+          </span>
         </template>
 
         <template #actions="{ row }">
@@ -62,5 +97,11 @@ function handleEdit(row) { console.log('edit class', row) }
         </template>
       </DataTable>
     </div>
+
+    <AddClass 
+      :is-open="isAddModalOpen"
+      @submit="handleAddClassSubmit"
+      @close="isAddModalOpen = false"
+    />
   </div>
 </template>

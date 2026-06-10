@@ -47,7 +47,7 @@ const navSections = computed(() => [
     items: [
       { id: 'students', icon: '👨‍🎓', label: t('shell.students'), badge: '248' },
       { id: 'teachers', icon: '👨‍🏫', label: t('shell.teachers') },
-      { id: 'classes', icon: '🏫', label: t('shell.classes') },
+      { id: 'classes', icon: '📖', label: t('shell.classes') },
       { id: 'subjects', icon: '📚', label: t('shell.subjects') },
     ],
   },
