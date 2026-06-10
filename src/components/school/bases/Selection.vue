@@ -313,7 +313,7 @@ onUnmounted(() => {
 }
 
 .custom-select-options {
-  margin: 0;
+  min-width: 120px;
   padding: 6px;
   list-style: none;
   background: var(--panel);

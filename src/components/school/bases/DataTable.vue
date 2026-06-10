@@ -221,19 +221,20 @@ defineExpose({
           style="flex:1;max-width:280px;"
           @input="setSearch($event.target.value)"
         />
+        <div class="custom-table-filter-wrapper">
+          <div 
+            v-for="filter in filters" 
+            :key="filter.key"
+          >
+            <Selection
+              :modelValue="getCurrentFilterLabel(filter)"
+              :options="getFilterOptionsList(filter)"
+              :placeholder="filter.allLabel || `All ${filter.label}`"
+              :appendToBody="true"
+              @update:modelValue="handleFilterSelection(filter, $event)"
+            />
+          </div>
 
-        <div 
-          v-for="filter in filters" 
-          :key="filter.key"
-          class="custom-table-filter-wrapper"
-        >
-          <Selection
-            :modelValue="getCurrentFilterLabel(filter)"
-            :options="getFilterOptionsList(filter)"
-            :placeholder="filter.allLabel || `All ${filter.label}`"
-            :appendToBody="true"
-            @update:modelValue="handleFilterSelection(filter, $event)"
-          />
         </div>
       </div>
     </div>
@@ -319,10 +320,6 @@ defineExpose({
 
 <style scoped>
 /* ── NEW LAYOUT RULES FOR SELECTION MIGRATION ── */
-.custom-table-filter-wrapper {
-  min-width: 140px;
-  max-width: 220px;
-}
 
 :deep(.custom-select-trigger) {
   border: 1px solid var(--border-strong, #334155);
@@ -335,5 +332,14 @@ defineExpose({
 :deep(.selected-text),
 :deep(.placeholder-text) {
   font-size: 13px;
+}
+.filter-bar .custom-table-filter-wrapper {
+  display: flex;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  div.filter-bar {
+    width: 100%;
+  }
 }
 </style>

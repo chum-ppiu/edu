@@ -415,7 +415,7 @@ const messages = {
     classes: {
       title: 'ថ្នាក់រៀន',
       subtitle: 'គ្រប់គ្រងថ្នាក់ និងការចុះឈ្មោះ',
-      create: 'បង្កើតថ្នាក់',
+      create: 'បង្កើតថ្នាក់រៀន',
       teacher: 'គ្រូបង្រៀន',
       students: 'សិស្ស',
       capacity: 'ចំនួនកំណត់',

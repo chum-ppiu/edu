@@ -227,7 +227,7 @@ function handleModalSave() {
       :rows="students"
       :search-keys="['name', 'email', 'code', 'className', 'phone', 'gpa', 'status']"
       row-key="id"
-      search-placeholder="Search student by name, email, code, class, phone, GPA, or status..."
+      search-placeholder="Search students..."
       title="Student List"
       subtitle="Search, filter, and manage enrolled students"
       @view="handleAction('view', $event)"
